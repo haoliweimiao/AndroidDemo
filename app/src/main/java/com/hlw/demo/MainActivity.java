@@ -3,6 +3,7 @@ package com.hlw.demo;
 
 import android.view.View;
 
+import com.hlw.demo.activity.ViewListActivity;
 import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityMainBinding;
 
@@ -32,7 +33,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_view:
-
+                ViewListActivity.start(this);
                 break;
             default:
                 break;
