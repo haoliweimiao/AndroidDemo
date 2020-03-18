@@ -16,6 +16,8 @@ public class LoadingDialog extends BaseDialog<DialogLoadingBinding> {
 
     public static LoadingDialog newInstance() {
         LoadingDialog dialog = new LoadingDialog();
+        dialog.setHeightScale(0.40f);
+        dialog.setCancelable(true);
         return dialog;
     }
 

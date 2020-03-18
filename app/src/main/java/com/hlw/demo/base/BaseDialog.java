@@ -24,12 +24,29 @@ public abstract class BaseDialog<ViewDialog extends ViewDataBinding> extends Dia
 
     protected ViewDialog mBinding;
 
+    /**
+     * 是否可以点击外围取消
+     */
     protected boolean isCancelable = false;
 
     /**
      * 是否对用户可见
      */
     protected boolean isUserCanSee = false;
+
+
+    @Override
+    public void setCancelable(boolean cancelable) {
+        isCancelable = cancelable;
+    }
+
+    public void setWidthScale(float mWidthScale) {
+        this.mWidthScale = mWidthScale;
+    }
+
+    public void setHeightScale(float mHeightScale) {
+        this.mHeightScale = mHeightScale;
+    }
 
     @NonNull
     @Override
@@ -69,7 +86,7 @@ public abstract class BaseDialog<ViewDialog extends ViewDataBinding> extends Dia
     public void onStart() {
         super.onStart();
         Dialog dialog = getDialog();
-        if (dialog != null && dialog.getWindow() != null) {
+        if (dialog != null && dialog.getWindow() != null && getActivity() != null) {
             DisplayMetrics dm = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
             int width = (int) ((dm.widthPixels * mWidthScale * 100.f) / 100);
