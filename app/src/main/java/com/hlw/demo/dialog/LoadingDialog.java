@@ -4,20 +4,21 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
 import com.hlw.demo.R;
-import com.hlw.demo.base.BaseDialog;
+import com.hlw.demo.base.ZKBaseFragmentDialog;
 import com.hlw.demo.databinding.DialogLoadingBinding;
 
-public class LoadingDialog extends BaseDialog<DialogLoadingBinding> {
+public class LoadingDialog extends ZKBaseFragmentDialog<DialogLoadingBinding> {
 
     private ValueAnimator animator;
 
     public static LoadingDialog newInstance() {
         LoadingDialog dialog = new LoadingDialog();
-        dialog.setHeightScale(0.40f);
-        dialog.setCancelable(true);
+        Bundle bundle = new Bundle();
+        dialog.setArguments(bundle);
         return dialog;
     }
 
@@ -30,6 +31,10 @@ public class LoadingDialog extends BaseDialog<DialogLoadingBinding> {
     protected void initData() {
         animator = ValueAnimator.ofFloat(0, 360);
         animator.setTarget(mBinding.ivLoading);
+        //设置动画执行次数
+//        animator.setRepeatCount(ValueAnimator.INFINITE);
+        //设置动画执行模式
+//        animator.setRepeatMode(ValueAnimator.RESTART);
         animator.setDuration(1666);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -43,7 +48,10 @@ public class LoadingDialog extends BaseDialog<DialogLoadingBinding> {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 if (isUserCanSee) {
-                    animator.start();
+                    //部分机型不在post方法内部 animator.start(); 不会生效
+                    mBinding.ivLoading.post(() -> {
+                        animator.start();
+                    });
                 }
             }
         });
@@ -81,11 +89,13 @@ public class LoadingDialog extends BaseDialog<DialogLoadingBinding> {
     @Override
     protected void onUserVisibleChange(boolean isUserCanSee) {
         if (isUserCanSee) {
-            if (!animator.isRunning()) {
+            if (animator != null && !animator.isRunning()) {
                 animator.start();
             }
         } else {
-            animator.end();
+            if (animator != null) {
+                animator.end();
+            }
         }
     }
 }
