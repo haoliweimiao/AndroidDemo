@@ -136,9 +136,9 @@ public abstract class ZKBaseFragmentDialog<T extends ViewDataBinding> extends Di
 
         mBinding = DataBindingUtil.inflate(inflater, initLayout(), container, attachToParent());
 
-//        if (getArguments() == null) {
-//            return mBinding.getRoot();
-//        }
+        if (getArguments() == null) {
+            return mBinding.getRoot();
+        }
 
         initData();
 
