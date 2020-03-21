@@ -11,5 +11,11 @@
             android:text="loading dialog show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_loading_views_show"
+            android:text="loading views show"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </layout>

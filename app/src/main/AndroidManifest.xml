@@ -18,6 +18,7 @@
         </activity>
         <activity android:name=".activity.LoadingDialogShowActivity" />
         <activity android:name=".activity.ViewListActivity" />
+        <activity android:name=".activity.LoadingViewsActivity" />
     </application>
 
 </manifest>

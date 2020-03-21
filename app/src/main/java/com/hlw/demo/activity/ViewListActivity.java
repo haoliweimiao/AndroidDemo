@@ -33,6 +33,7 @@ public class ViewListActivity extends BaseActivity<ActivityViewListBinding> {
     @Override
     protected void initListener() {
         mBinding.btnDialogLoadingShow.setOnClickListener(this);
+        mBinding.btnLoadingViewsShow.setOnClickListener(this);
     }
 
     @Override
@@ -40,6 +41,9 @@ public class ViewListActivity extends BaseActivity<ActivityViewListBinding> {
         switch (v.getId()) {
             case R.id.btn_dialog_loading_show:
                 LoadingDialogShowActivity.start(this);
+                break;
+            case R.id.btn_loading_views_show:
+                LoadingViewsActivity.start(this);
                 break;
             default:
                 break;
