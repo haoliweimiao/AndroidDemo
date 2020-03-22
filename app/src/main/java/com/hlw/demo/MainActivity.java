@@ -7,6 +7,9 @@ import com.hlw.demo.activity.ViewListActivity;
 import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityMainBinding;
 
+/**
+ * @author hlw
+ */
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     @Override

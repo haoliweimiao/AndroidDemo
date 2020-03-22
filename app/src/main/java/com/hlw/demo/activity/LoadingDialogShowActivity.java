@@ -9,6 +9,10 @@ import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityLoadingDialogBinding;
 import com.hlw.demo.dialog.LoadingDialog;
 
+/**
+ * @author hlw
+ * @date 2020-03-22 16:22:21
+ */
 public class LoadingDialogShowActivity extends BaseActivity<ActivityLoadingDialogBinding> {
 
     public static void start(Context context) {

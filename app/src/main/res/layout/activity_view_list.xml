@@ -17,5 +17,11 @@
             android:text="loading views show"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btn_horizontal_view_demo"
+            android:text="horizontal view demo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </layout>

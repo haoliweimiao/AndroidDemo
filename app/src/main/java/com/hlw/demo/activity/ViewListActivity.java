@@ -8,6 +8,9 @@ import com.hlw.demo.R;
 import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityViewListBinding;
 
+/**
+ * @author hlw
+ */
 public class ViewListActivity extends BaseActivity<ActivityViewListBinding> {
 
     public static void start(Context context) {
@@ -34,6 +37,7 @@ public class ViewListActivity extends BaseActivity<ActivityViewListBinding> {
     protected void initListener() {
         mBinding.btnDialogLoadingShow.setOnClickListener(this);
         mBinding.btnLoadingViewsShow.setOnClickListener(this);
+        mBinding.btnHorizontalViewDemo.setOnClickListener(this);
     }
 
     @Override
@@ -44,6 +48,9 @@ public class ViewListActivity extends BaseActivity<ActivityViewListBinding> {
                 break;
             case R.id.btn_loading_views_show:
                 LoadingViewsActivity.start(this);
+                break;
+            case R.id.btn_horizontal_view_demo:
+                HorizontalDemoActivity.start(this);
                 break;
             default:
                 break;

@@ -1,7 +1,9 @@
 package com.hlw.demo.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -68,14 +70,16 @@ public class LoadingViewsActivity extends BaseActivity<ActivityLoadingViewsBindi
         GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
         mBinding.recycler.setLayoutManager(layoutManager);
         mBinding.recycler.setAdapter(new RecyclerView.Adapter<IndicatorHolder>() {
+
+            @NonNull
             @Override
-            public IndicatorHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            public IndicatorHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View itemView = getLayoutInflater().inflate(R.layout.item_indicator, parent, false);
                 return new IndicatorHolder(itemView);
             }
 
             @Override
-            public void onBindViewHolder(IndicatorHolder holder, final int position) {
+            public void onBindViewHolder(@NonNull IndicatorHolder holder, @SuppressLint("RecyclerView") final int position) {
                 holder.indicatorView.setIndicator(INDICATORS[position]);
                 holder.itemLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
