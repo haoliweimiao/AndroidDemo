@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -54,7 +53,7 @@ public class HorizontalView extends ViewGroup {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        mScroller = new Scroller(context);
+        mScroller = new Scroller(getContext());
         mTracker = VelocityTracker.obtain();
     }
 
@@ -109,8 +108,8 @@ public class HorizontalView extends ViewGroup {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         boolean intercept = false;
-        int x = (int) getX();
-        int y = (int) getY();
+        int x = (int) ev.getX();
+        int y = (int) ev.getY();
 
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -135,7 +134,6 @@ public class HorizontalView extends ViewGroup {
         mLastY = y;
         mLastInterceptX = x;
         mLastInterceptY = y;
-        Log.e("!!!!!", "intercept: " + intercept);
         return intercept;
     }
 
@@ -143,8 +141,8 @@ public class HorizontalView extends ViewGroup {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         mTracker.addMovement(ev);
-        int x = (int) getX();
-        int y = (int) getY();
+        int x = (int) ev.getX();
+        int y = (int) ev.getY();
 
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
