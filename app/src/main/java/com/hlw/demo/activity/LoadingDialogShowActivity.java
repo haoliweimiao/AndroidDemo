@@ -8,6 +8,7 @@ import com.hlw.demo.R;
 import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityLoadingDialogBinding;
 import com.hlw.demo.dialog.DownloadAskDialog;
+import com.hlw.demo.dialog.DownloadProcessDialog;
 import com.hlw.demo.dialog.LoadingDialogFragment;
 
 /**
@@ -41,6 +42,7 @@ public class LoadingDialogShowActivity extends BaseActivity<ActivityLoadingDialo
     protected void initListener() {
         mBinding.btnShowLoadingDialog.setOnClickListener(this);
         mBinding.btnShowDownloadAskDialog.setOnClickListener(this);
+        mBinding.btnShowDownloadProcessDialog.setOnClickListener(this);
     }
 
     @Override
@@ -54,6 +56,10 @@ public class LoadingDialogShowActivity extends BaseActivity<ActivityLoadingDialo
             case R.id.btn_show_loading_dialog: {
                 LoadingDialogFragment loadingDialog = LoadingDialogFragment.newInstance();
                 loadingDialog.show(getSupportFragmentManager(), loadingDialog.getShowTag());
+            }
+            case R.id.btn_show_download_process_dialog: {
+                DownloadProcessDialog dialog = new DownloadProcessDialog(this);
+                dialog.show();
             }
             break;
             default:

@@ -61,8 +61,8 @@ public abstract class BaseDialog<DialogView extends ViewDataBinding> extends Dia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(initLayout());
         mBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), initLayout(), null, false);
+        setContentView(mBinding.getRoot());
         if (getWindow() != null) {
             //软键盘不遮挡输入框
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
