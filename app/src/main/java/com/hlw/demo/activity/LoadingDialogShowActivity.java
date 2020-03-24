@@ -7,7 +7,8 @@ import android.view.View;
 import com.hlw.demo.R;
 import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityLoadingDialogBinding;
-import com.hlw.demo.dialog.LoadingDialog;
+import com.hlw.demo.dialog.DownloadAskDialog;
+import com.hlw.demo.dialog.LoadingDialogFragment;
 
 /**
  * @author hlw
@@ -20,8 +21,6 @@ public class LoadingDialogShowActivity extends BaseActivity<ActivityLoadingDialo
         context.startActivity(intent);
     }
 
-
-    private LoadingDialog loadingDialog;
 
     @Override
     protected int initLayout() {
@@ -40,24 +39,20 @@ public class LoadingDialogShowActivity extends BaseActivity<ActivityLoadingDialo
 
     @Override
     protected void initListener() {
-        mBinding.btnHidden.setOnClickListener(this);
-        mBinding.btnShow.setOnClickListener(this);
+        mBinding.btnShowLoadingDialog.setOnClickListener(this);
+        mBinding.btnShowDownloadAskDialog.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_hidden: {
-                if (loadingDialog == null) {
-                    break;
-                }
-                loadingDialog.dismiss();
+            case R.id.btn_show_download_ask_dialog: {
+                DownloadAskDialog dialog = new DownloadAskDialog(this);
+                dialog.show();
             }
             break;
-            case R.id.btn_show: {
-                if (loadingDialog == null) {
-                    loadingDialog = LoadingDialog.newInstance();
-                }
+            case R.id.btn_show_loading_dialog: {
+                LoadingDialogFragment loadingDialog = LoadingDialogFragment.newInstance();
                 loadingDialog.show(getSupportFragmentManager(), loadingDialog.getShowTag());
             }
             break;

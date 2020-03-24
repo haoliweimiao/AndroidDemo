@@ -23,7 +23,7 @@ import android.view.WindowManager;
  * DialogFragment弹窗基类
  * 默认宽度为屏幕宽度80%，不可点击外围隐藏dialog，无标题栏
  */
-public abstract class ZKBaseFragmentDialog<T extends ViewDataBinding> extends DialogFragment {
+public abstract class ZKBaseDialogFragment<T extends ViewDataBinding> extends DialogFragment {
 
     protected T mBinding;
 
@@ -36,6 +36,10 @@ public abstract class ZKBaseFragmentDialog<T extends ViewDataBinding> extends Di
      * dialog dismiss监听
      */
     protected ZKBaseFragmentDialogDismissLisenter mDialogDismissLisenter;
+    /**
+     * 是否对用户可见
+     */
+    protected boolean isUserCanSee = false;
 
     /**
      * 加载布局
@@ -56,12 +60,6 @@ public abstract class ZKBaseFragmentDialog<T extends ViewDataBinding> extends Di
      * 初始化监听器
      */
     protected abstract void initListener();
-
-    /**
-     * 是否对用户可见
-     */
-    protected boolean isUserCanSee = false;
-
 
     public void setButtonClickLisenter(ZKBaseFragmentDialogClickLisenter baseImpl) {
         this.baseImpl = baseImpl;
@@ -94,18 +92,32 @@ public abstract class ZKBaseFragmentDialog<T extends ViewDataBinding> extends Di
     }
 
     /**
+     * dialog 竖屏模式下默认占用的宽度比
+     */
+    protected float dialogPortWidthScale() {
+        return 0.80f;
+    }
+
+    /**
+     * dialog 横屏模式下默认占用的宽度比
+     */
+    protected float dialogLandWidthScale() {
+        return 0.45f;
+    }
+
+    /**
      * dialog默认宽度(占据屏幕宽度 竖屏80% 横屏65%)
      */
-    public float dialogWidthScale() {
-        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+    public float dialogWidthScale(@NonNull Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         if (wm != null) {
             wm.getDefaultDisplay().getMetrics(displayMetrics);
             float width = displayMetrics.widthPixels;
             float height = displayMetrics.heightPixels;
-            return width > height ? 0.32f : 0.80f;
+            return width > height ? dialogLandWidthScale() : dialogPortWidthScale();
         }
-        return 0.80f;
+        return dialogPortWidthScale();
     }
 
     @NonNull
@@ -153,10 +165,10 @@ public abstract class ZKBaseFragmentDialog<T extends ViewDataBinding> extends Di
     public void onStart() {
         super.onStart();
         Dialog dialog = getDialog();
-        if (dialog != null && dialog.getWindow() != null) {
+        if (dialog != null && dialog.getWindow() != null && getActivity() != null) {
             DisplayMetrics dm = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-            int width = (int) ((dm.widthPixels * dialogWidthScale() * 100.f) / 100);
+            int width = (int) ((dm.widthPixels * dialogWidthScale(getActivity()) * 100.f) / 100);
             dialog.getWindow().setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
     }

@@ -8,15 +8,15 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
 import com.hlw.demo.R;
-import com.hlw.demo.base.ZKBaseFragmentDialog;
+import com.hlw.demo.base.ZKBaseDialogFragment;
 import com.hlw.demo.databinding.DialogLoadingBinding;
 
-public class LoadingDialog extends ZKBaseFragmentDialog<DialogLoadingBinding> {
+public class LoadingDialogFragment extends ZKBaseDialogFragment<DialogLoadingBinding> {
 
     private ValueAnimator animator;
 
-    public static LoadingDialog newInstance() {
-        LoadingDialog dialog = new LoadingDialog();
+    public static LoadingDialogFragment newInstance() {
+        LoadingDialogFragment dialog = new LoadingDialogFragment();
         Bundle bundle = new Bundle();
         dialog.setArguments(bundle);
         return dialog;

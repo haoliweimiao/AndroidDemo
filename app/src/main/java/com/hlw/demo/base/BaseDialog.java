@@ -1,77 +1,78 @@
 package com.hlw.demo.base;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.DisplayMetrics;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
-public abstract class BaseDialog<ViewDialog extends ViewDataBinding> extends DialogFragment
-        implements DialogInterface.OnKeyListener {
+public abstract class BaseDialog<DialogView extends ViewDataBinding> extends Dialog {
 
-    protected float mWidthScale = 0.88f;
-    protected float mHeightScale = 0.32f;
+    protected DialogView mBinding;
 
-    protected ViewDialog mBinding;
+    public BaseDialog(@NonNull Context context) {
+        super(context);
+    }
+
+    public BaseDialog(@NonNull Context context, int themeResId) {
+        super(context, themeResId);
+    }
+
+    protected BaseDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
+        super(context, cancelable, cancelListener);
+    }
 
     /**
-     * 是否可以点击外围取消
+     * dialog 竖屏模式下默认占用的宽度比
      */
-    protected boolean isCancelable = false;
+    protected float dialogPortWidthScale() {
+        return 0.30f;
+    }
 
     /**
-     * 是否对用户可见
+     * dialog 横屏模式下默认占用的宽度比
      */
-    protected boolean isUserCanSee = false;
-
-
-    @Override
-    public void setCancelable(boolean cancelable) {
-        isCancelable = cancelable;
+    protected float dialogLandWidthScale() {
+        return 0.65f;
     }
 
-    public void setWidthScale(float mWidthScale) {
-        this.mWidthScale = mWidthScale;
-    }
-
-    public void setHeightScale(float mHeightScale) {
-        this.mHeightScale = mHeightScale;
-    }
-
-    @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = new Dialog(getActivity(), getTheme());
-        dialog.setCancelable(isCancelable);
-        dialog.setCanceledOnTouchOutside(isCancelable);
-        dialog.setOnKeyListener(this);
-        return dialog;
+    /**
+     * dialog默认宽度(占据屏幕宽度 竖屏80% 横屏65%)
+     */
+    public float dialogWidthScale(@NonNull Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        if (wm != null) {
+            wm.getDefaultDisplay().getMetrics(displayMetrics);
+            float width = displayMetrics.widthPixels;
+            float height = displayMetrics.heightPixels;
+            return width > height ? dialogLandWidthScale() : dialogPortWidthScale();
+        }
+        return dialogPortWidthScale();
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog);
-    }
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(initLayout());
+        mBinding = DataBindingUtil.inflate(LayoutInflater.from(getContext()), initLayout(), null, false);
+        if (getWindow() != null) {
+            //软键盘不遮挡输入框
+            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+            //设置为透明背景
+            getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater, initLayout(), container, false);
         initData();
         initView();
         initListener();
-        return mBinding.getRoot();
     }
 
     protected abstract int initLayout();
@@ -81,93 +82,4 @@ public abstract class BaseDialog<ViewDialog extends ViewDataBinding> extends Dia
     protected abstract void initView();
 
     protected abstract void initListener();
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Dialog dialog = getDialog();
-        if (dialog != null && dialog.getWindow() != null && getActivity() != null) {
-            DisplayMetrics dm = new DisplayMetrics();
-            getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-            int width = (int) ((dm.widthPixels * mWidthScale * 100.f) / 100);
-            int height = (int) ((dm.heightPixels * mHeightScale * 100.f) / 100);
-            dialog.getWindow().setLayout(width, height);
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (getUserVisibleHint()) {
-            isUserCanSee = true;
-            onUserVisibleChange(true);
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (getUserVisibleHint()) {
-            isUserCanSee = false;
-            onUserVisibleChange(false);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (getUserVisibleHint()) {
-            isUserCanSee = false;
-        }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    public void show(FragmentManager manager) {
-        show(manager, String.valueOf(System.currentTimeMillis()));
-    }
-
-    @Override
-    public void show(FragmentManager manager, String tag) {
-        try {
-            //在每个add事务前增加一个remove事务，防止连续的add
-            Fragment prev = manager.findFragmentByTag(tag);
-            if (prev != null) {
-                manager.beginTransaction().remove(prev).commitAllowingStateLoss();
-            }
-            super.show(manager, tag);
-        } catch (Exception e) {
-            //同一实例使用不同的tag会异常,这里捕获一下
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            dismissAllowingStateLoss();
-            return true;
-        } else {
-            //这里注意当不是返回键时需将事件扩散，否则无法处理其他点击事件
-            return false;
-        }
-    }
-
-    @Override
-    public void dismiss() {
-        //重写dismiss,防止出现以下异常
-        //java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
-        super.dismissAllowingStateLoss();
-    }
-
-    public String getShowTag() {
-        return getClass().getSimpleName();
-    }
-
-    protected void onUserVisibleChange(boolean isUserCanSee) {
-
-    }
 }
