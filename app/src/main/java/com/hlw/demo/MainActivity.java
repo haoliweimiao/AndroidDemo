@@ -1,11 +1,10 @@
 package com.hlw.demo;
 
 
-import android.content.res.AssetManager;
-import android.graphics.Typeface;
 import android.view.View;
 
 import com.hlw.demo.activity.ViewListActivity;
+import com.hlw.demo.activity.opengl.OpenGLListActivity;
 import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityMainBinding;
 
@@ -34,6 +33,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     @Override
     protected void initListener() {
         mBinding.btnView.setOnClickListener(this);
+        mBinding.btnOpenGl.setOnClickListener(this);
     }
 
     @Override
@@ -41,6 +41,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         switch (v.getId()) {
             case R.id.btn_view:
                 ViewListActivity.start(this);
+                break;
+            case R.id.btn_open_gl:
+                OpenGLListActivity.start(this);
                 break;
             default:
                 break;

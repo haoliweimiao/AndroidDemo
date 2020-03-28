@@ -14,6 +14,12 @@
             android:layout_height="wrap_content"
             android:text="view" />
 
+        <Button
+            android:id="@+id/btn_open_gl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="open gl" />
+
         <TextView
             android:id="@+id/tv_test"
             android:layout_width="wrap_content"

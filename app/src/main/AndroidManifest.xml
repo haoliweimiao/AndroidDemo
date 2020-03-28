@@ -20,6 +20,8 @@
         <activity android:name=".activity.ViewListActivity" />
         <activity android:name=".activity.LoadingViewsActivity" />
         <activity android:name=".activity.HorizontalDemoActivity" />
+        <activity android:name=".activity.opengl.OpenglDemoActivity" />
+        <activity android:name=".activity.opengl.OpenGLListActivity" />
     </application>
 
 </manifest>
