@@ -31,6 +31,7 @@ public class OpenGLListActivity extends BaseActivity<ActivityOpenglListBinding> 
     @Override
     protected void initListener() {
         mBinding.btnDemo1.setOnClickListener(this);
+        mBinding.btnAirHockey.setOnClickListener(this);
     }
 
     @Override
@@ -38,6 +39,9 @@ public class OpenGLListActivity extends BaseActivity<ActivityOpenglListBinding> 
         switch (v.getId()) {
             case R.id.btn_demo_1:
                 OpenglDemoActivity.start(this);
+                break;
+            case R.id.btn_air_hockey:
+                OpenglAirHockeyActivity.start(this);
                 break;
             default:
                 break;

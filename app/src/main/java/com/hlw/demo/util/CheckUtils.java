@@ -21,6 +21,8 @@ public class CheckUtils {
                 Build.FINGERPRINT.startsWith("unknown") ||
                 Build.MODEL.contains("google_sdk") ||
                 Build.MODEL.contains("Emulator") ||
+                //支持夜神模拟器
+                Build.MODEL.contains("SM-G955N") ||
                 Build.MODEL.contains("Android SDK built for x86");
     }
 }
