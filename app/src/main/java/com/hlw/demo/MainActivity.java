@@ -1,6 +1,8 @@
 package com.hlw.demo;
 
 
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.view.View;
 
 import com.hlw.demo.activity.ViewListActivity;
@@ -24,7 +26,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     @Override
     protected void initView() {
-
+//        AssetManager assetManager = getAssets();
+//        Typeface typeface = Typeface.createFromAsset(assetManager, "fonts/DIGITAL-Regular.ttf");
+//        mBinding.tvTest.setTypeface(typeface);
     }
 
     @Override
