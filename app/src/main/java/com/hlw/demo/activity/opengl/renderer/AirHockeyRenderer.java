@@ -3,8 +3,8 @@ package com.hlw.demo.activity.opengl.renderer;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
-import android.opengl.Matrix;
 
+import com.hlw.demo.activity.opengl.MatrixHelper;
 import com.hlw.demo.activity.opengl.ShaderHelper;
 import com.hlw.demo.util.AssetsUtil;
 
@@ -20,7 +20,10 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class AirHockeyRenderer implements GLSurfaceView.Renderer {
 
-    private static final int POSITION_COMPONENT_COUNT = 2;
+    /**
+     * 定点坐标数量 2->4 增加 Z W轴，绘制3D图像
+     */
+    private static final int POSITION_COMPONENT_COUNT = 4;
     private static final int BYTES_PER_FLOAT = 4;
 
     private final FloatBuffer vertexData;
@@ -43,6 +46,7 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     private static final String U_Matrix = "u_Matrix";
     private int uMatrixLocation;
     private final float[] projectionMatrix = new float[16];
+    private final float[] modelMatrix = new float[16];
 
     private float[] tableVerticesWithTriangles = {
             //Triangle 1
@@ -55,34 +59,43 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
 //            0.5f, -0.5f,
 //            0.5f, 0.5f,
 
+//            // Order of coordinates: X, Y, R, G, B
+//            0f, 0f, 1f, 1f, 1f,
+//            -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+//            0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+//            0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
+//            -0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
+//            -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+//
+//            // Line 1
+//            -0.5f, 0f, 1f, 0f, 0f,
+//            0.5f, 0f, 1f, 0f, 0f,
+//
+//            // Mallets
+//            0f, -0.4f, 0f, 0f, 1f,
+//            0f, 0.4f, 1f, 0f, 0f
+
             // Order of coordinates: X, Y, R, G, B
-            0f, 0f, 1f, 1f, 1f,
-            -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
-            0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
-            0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
-            -0.5f, 0.8f, 0.7f, 0.7f, 0.7f,
-            -0.5f, -0.8f, 0.7f, 0.7f, 0.7f,
+            0f, 0f, 0f, 1.5f, 1f, 1f, 1f,
+            -0.5f, -0.8f, 0f, 1f, 0.7f, 0.7f, 0.7f,
+            0.5f, -0.8f, 0f, 1f, 0.7f, 0.7f, 0.7f,
+            0.5f, 0.8f, 0f, 2f, 0.7f, 0.7f, 0.7f,
+            -0.5f, 0.8f, 0f, 2f, 0.7f, 0.7f, 0.7f,
+            -0.5f, -0.8f, 0f, 1f, 0.7f, 0.7f, 0.7f,
 
             // Line 1
-            -0.5f, 0f, 1f, 0f, 0f,
-            0.5f, 0f, 1f, 0f, 0f,
+            -0.5f, 0f, 0f, 1.5f, 1f, 0f, 0f,
+            0.5f, 0f, 0f, 1.5f, 1f, 0f, 0f,
 
             // Mallets
-            0f, -0.4f, 0f, 0f, 1f,
-            0f, 0.4f, 1f, 0f, 0f
+            0f, -0.4f, 0f, 1.25f, 0f, 0f, 1f,
+            0f, 0.4f, 0f, 1.75f, 1f, 0f, 0f
     };
 
     private Context mContext;
 
     public AirHockeyRenderer(Context context) {
         mContext = context;
-
-        float[] tableVertices = {
-                -0.5f, -0.5f,
-                -0.5f, 0.5f,
-                0.5f, 0.5f,
-                0.5f, -0.5f
-        };
 
         vertexData =
                 // allocateDirect 分配内存，一个float 32个字节，一个int 8个字节，*4
@@ -132,17 +145,25 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     public void onSurfaceChanged(GL10 gl10, int width, int height) {
         GLES20.glViewport(0, 0, width, height);
 
-        final float aspectRadio = width > height ?
-                (float) width / (float) height :
-                (float) height / (float) width;
+//        final float aspectRadio = width > height ?
+//                (float) width / (float) height :
+//                (float) height / (float) width;
+//
+//        if (width > height) {
+//            //Landscape
+//            Matrix.orthoM(projectionMatrix, 0, -aspectRadio, aspectRadio, -1f, 1f, -1f, 1f);
+//        } else {
+//            //Portrait or square
+//            Matrix.orthoM(projectionMatrix, 0, -1f, 1f, -aspectRadio, aspectRadio, -1f, 1f);
+//        }
 
-        if (width > height) {
-            //Landscape
-            Matrix.orthoM(projectionMatrix, 0, -aspectRadio, aspectRadio, -1f, 1f, -1f, 1f);
-        } else {
-            //Portrait or square
-            Matrix.orthoM(projectionMatrix, 0, -1f, 1f, -aspectRadio, aspectRadio, -1f, 1f);
-        }
+        MatrixHelper.perspectiveM(projectionMatrix, 45, (float) width / (float) height, 1f, 10f);
+        MatrixHelper.setIdentityM(modelMatrix, 0);
+        MatrixHelper.translateM(modelMatrix, 0, 0, 0, -3f);
+        MatrixHelper.rotateM(modelMatrix, 0, -60f, 1f, 0f, 0f);
+        final float[] temp = new float[16];
+        MatrixHelper.multiplyMM(temp, 0, projectionMatrix, 0, modelMatrix, 0);
+        System.arraycopy(temp, 0, projectionMatrix, 0, projectionMatrix.length);
     }
 
     @Override
