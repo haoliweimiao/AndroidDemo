@@ -36,6 +36,9 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     private static final int STRIDE = (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) * BYTES_PER_FLOAT;
     private int aColorLocation;
 
+    private static final String A_Size = "a_Size";
+    private int aSizeLocation;
+
     private float[] tableVerticesWithTriangles = {
             //Triangle 1
 //            -0.5f, -0.5f,
@@ -105,6 +108,7 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
 //        uColorLocation = GLES20.glGetUniformLocation(mProgram, U_COLOR);
         aColorLocation = GLES20.glGetAttribLocation(mProgram, A_COLOR);
         aPositionLocation = GLES20.glGetAttribLocation(mProgram, A_POSITION);
+        aSizeLocation = GLES20.glGetUniformLocation(mProgram, A_Size);
 
         vertexData.position(0);
 //        GLES20.glVertexAttribPointer(aPositionLocation, POSITION_COMPONENT_COUNT, GLES20.GL_FLOAT, false, 0, vertexData);
@@ -130,7 +134,7 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
         GLES20.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
         //绘制桌面
-//        GLES20.glUniform4f(uColorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
+        GLES20.glUniform1f(aSizeLocation, 10.0f);
 //        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, 6);
 
