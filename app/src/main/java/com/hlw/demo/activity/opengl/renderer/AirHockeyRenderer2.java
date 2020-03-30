@@ -1,10 +1,12 @@
 package com.hlw.demo.activity.opengl.renderer;
 
 import android.content.Context;
+import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
 import com.hlw.demo.R;
 import com.hlw.demo.activity.opengl.ColorShaderProgram;
+import com.hlw.demo.activity.opengl.MatrixHelper;
 import com.hlw.demo.activity.opengl.OpenGLMallet;
 import com.hlw.demo.activity.opengl.OpenGLTable;
 import com.hlw.demo.activity.opengl.ShaderHelper;
@@ -54,7 +56,15 @@ public class AirHockeyRenderer2 implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
+        GLES20.glViewport(0, 0, width, height);
 
+        MatrixHelper.perspectiveM(projectionMatrix, 45, (float) width / (float) height, 1f, 10f);
+        MatrixHelper.setIdentityM(modelMatrix, 0);
+        MatrixHelper.translateM(modelMatrix, 0, 0, 0, -3f);
+        MatrixHelper.rotateM(modelMatrix, 0, -60f, 1f, 0f, 0f);
+        final float[] temp = new float[16];
+        MatrixHelper.multiplyMM(temp, 0, projectionMatrix, 0, modelMatrix, 0);
+        System.arraycopy(temp, 0, projectionMatrix, 0, projectionMatrix.length);
     }
 
     @Override
