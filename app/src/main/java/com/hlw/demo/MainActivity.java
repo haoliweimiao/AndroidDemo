@@ -4,7 +4,7 @@ package com.hlw.demo;
 import android.view.View;
 
 import com.hlw.demo.activity.ViewListActivity;
-import com.hlw.demo.activity.opengl.OpenGLListActivity;
+import com.hlw.demo.activity.opengl.activity.OpenGLListActivity;
 import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityMainBinding;
 

@@ -22,8 +22,9 @@
         <activity android:name=".activity.LoadingViewsActivity" />
         <activity android:name=".activity.HorizontalDemoActivity" />
         <activity android:name=".activity.opengl.OpenglDemoActivity" />
-        <activity android:name=".activity.opengl.OpenGLListActivity" />
-        <activity android:name=".activity.opengl.OpenglAirHockeyActivity" />
+        <activity android:name=".activity.opengl.activity.OpenGLListActivity" />
+        <activity android:name=".activity.opengl.activity.OpenglAirHockeyActivity" />
+        <activity android:name=".activity.opengl.activity.OpenGLDrawDemoleActivity" />
     </application>
 
 </manifest>

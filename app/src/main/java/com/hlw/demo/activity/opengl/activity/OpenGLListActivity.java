@@ -1,10 +1,12 @@
-package com.hlw.demo.activity.opengl;
+package com.hlw.demo.activity.opengl.activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
 import com.hlw.demo.R;
+import com.hlw.demo.activity.opengl.OpenGLDrawType;
+import com.hlw.demo.activity.opengl.OpenglDemoActivity;
 import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityOpenglListBinding;
 
@@ -32,6 +34,7 @@ public class OpenGLListActivity extends BaseActivity<ActivityOpenglListBinding> 
     protected void initListener() {
         mBinding.btnDemo1.setOnClickListener(this);
         mBinding.btnAirHockey.setOnClickListener(this);
+        mBinding.btnDrawTriangle.setOnClickListener(this);
     }
 
     @Override
@@ -42,6 +45,9 @@ public class OpenGLListActivity extends BaseActivity<ActivityOpenglListBinding> 
                 break;
             case R.id.btn_air_hockey:
                 OpenglAirHockeyActivity.start(this);
+                break;
+            case R.id.btn_draw_triangle:
+                OpenGLDrawDemoleActivity.start(this, OpenGLDrawType.TRIANGLE.name());
                 break;
             default:
                 break;

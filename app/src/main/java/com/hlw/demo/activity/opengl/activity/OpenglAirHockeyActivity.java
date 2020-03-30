@@ -1,4 +1,4 @@
-package com.hlw.demo.activity.opengl;
+package com.hlw.demo.activity.opengl.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.opengl.GLSurfaceView;
 import android.widget.Toast;
 
 import com.hlw.demo.R;
-import com.hlw.demo.activity.opengl.renderer.AirHockeyRenderer;
 import com.hlw.demo.activity.opengl.renderer.AirHockeyRenderer2;
 import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityAirHockeyDemoBinding;
