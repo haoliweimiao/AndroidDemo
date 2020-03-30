@@ -34,11 +34,11 @@ public class OpenglAirHockeyActivity extends BaseActivity<ActivityAirHockeyDemoB
     protected void initView() {
         mGLSurfaceView = new GLSurfaceView(this);
 
-        boolean isSupportGL2 = CheckUtils.isSupportOpenGl2(this);
+        boolean isSupportGL2 = CheckUtils.isSupportOpenGl3(this);
 
         if (isSupportGL2) {
             //Request opengl 2.0 compatible context
-            mGLSurfaceView.setEGLContextClientVersion(2);
+            mGLSurfaceView.setEGLContextClientVersion(3);
 
 //            mGLSurfaceView.setRenderer(new AirHockeyRenderer(this));
             mGLSurfaceView.setRenderer(new AirHockeyRenderer2(this));
