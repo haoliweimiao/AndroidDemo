@@ -40,7 +40,7 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     private static final int STRIDE = (POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT) * BYTES_PER_FLOAT;
     private int aColorLocation;
 
-    private static final String A_Size = "a_Size";
+    private static final String U_Size = "u_Size";
     private int aSizeLocation;
 
     private static final String U_Matrix = "u_Matrix";
@@ -126,7 +126,8 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
 //        uColorLocation = GLES20.glGetUniformLocation(mProgram, U_COLOR);
         aColorLocation = GLES20.glGetAttribLocation(mProgram, A_COLOR);
         aPositionLocation = GLES20.glGetAttribLocation(mProgram, A_POSITION);
-        aSizeLocation = GLES20.glGetUniformLocation(mProgram, A_Size);
+
+        aSizeLocation = GLES20.glGetUniformLocation(mProgram, U_Size);
         uMatrixLocation = GLES20.glGetUniformLocation(mProgram, U_Matrix);
 
         vertexData.position(0);
