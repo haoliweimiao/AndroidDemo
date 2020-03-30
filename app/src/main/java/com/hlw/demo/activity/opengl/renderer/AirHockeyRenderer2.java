@@ -1,7 +1,7 @@
 package com.hlw.demo.activity.opengl.renderer;
 
 import android.content.Context;
-import android.opengl.GLES20;
+import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 
 import com.hlw.demo.R;
@@ -17,9 +17,9 @@ import com.hlw.demo.util.LogUtils;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import static android.opengl.GLES20.GL_COLOR_BUFFER_BIT;
-import static android.opengl.GLES20.glClear;
-import static android.opengl.GLES20.glClearColor;
+import static android.opengl.GLES30.GL_COLOR_BUFFER_BIT;
+import static android.opengl.GLES30.glClear;
+import static android.opengl.GLES30.glClearColor;
 
 public class AirHockeyRenderer2 implements GLSurfaceView.Renderer {
 
@@ -56,7 +56,7 @@ public class AirHockeyRenderer2 implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        GLES20.glViewport(0, 0, width, height);
+        GLES30.glViewport(0, 0, width, height);
 
         MatrixHelper.perspectiveM(projectionMatrix, 45, (float) width / (float) height, 1f, 10f);
         MatrixHelper.setIdentityM(modelMatrix, 0);

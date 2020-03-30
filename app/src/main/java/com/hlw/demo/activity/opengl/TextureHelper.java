@@ -7,7 +7,7 @@ import android.opengl.GLUtils;
 
 import com.hlw.demo.util.LogUtils;
 
-import static android.opengl.GLES20.*;
+import static android.opengl.GLES30.*;
 
 public class TextureHelper {
 

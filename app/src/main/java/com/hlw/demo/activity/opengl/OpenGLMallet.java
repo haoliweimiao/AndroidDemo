@@ -1,6 +1,6 @@
 package com.hlw.demo.activity.opengl;
 
-import android.opengl.GLES20;
+import android.opengl.GLES30;
 
 public class OpenGLMallet {
     private static final int POSITION_COMPONENT_COUNT = 2;
@@ -37,6 +37,6 @@ public class OpenGLMallet {
     }
 
     public void draw() {
-        GLES20.glDrawArrays(GLES20.GL_POINTS, 0, 2);
+        GLES30.glDrawArrays(GLES30.GL_POINTS, 0, 2);
     }
 }

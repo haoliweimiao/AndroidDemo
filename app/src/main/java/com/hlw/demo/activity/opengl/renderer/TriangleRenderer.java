@@ -1,7 +1,7 @@
 package com.hlw.demo.activity.opengl.renderer;
 
 import android.content.Context;
-import android.opengl.GLES20;
+import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 
 import com.hlw.demo.activity.opengl.ShaderHelper;
@@ -44,7 +44,7 @@ public class TriangleRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        GLES30.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
         int vertex = ShaderHelper.compileVertexShaderByAssetsPath(context, "glsl/triangle/vertex.glsl");
         int fragment = ShaderHelper.compileFragmentShaderByAssetsPath(context, "glsl/triangle/fragment.glsl");
@@ -52,26 +52,26 @@ public class TriangleRenderer implements GLSurfaceView.Renderer {
 
         ShaderHelper.validateProgram(program);
 
-        GLES20.glUseProgram(program);
+        GLES30.glUseProgram(program);
 
-        aPositionLocation = GLES20.glGetAttribLocation(program, A_POSITION);
-        uColorLocation = GLES20.glGetUniformLocation(program, U_COLOR);
-        GLES20.glUniform4f(uColorLocation, 1.0f, 0.5f, 0.2f, 1.0f);
+        aPositionLocation = GLES30.glGetAttribLocation(program, A_POSITION);
+        uColorLocation = GLES30.glGetUniformLocation(program, U_COLOR);
+        GLES30.glUniform4f(uColorLocation, 1.0f, 0.5f, 0.2f, 1.0f);
 
         vertexArray.setVertexAttributePointer(0, aPositionLocation, POSITION_COUNT, STRIDE);
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        GLES20.glViewport(0, 0, width, height);
+        GLES30.glViewport(0, 0, width, height);
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
         //clear the rendering surface
         //清空屏幕，擦除所有颜色，使用 glClearColor 填充的颜色当背景
-        GLES20.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        GLES30.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 3);
+        GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, 3);
     }
 }

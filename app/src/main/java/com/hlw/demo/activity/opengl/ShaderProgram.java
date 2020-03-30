@@ -1,7 +1,7 @@
 package com.hlw.demo.activity.opengl;
 
 import android.content.Context;
-import android.opengl.GLES20;
+import android.opengl.GLES30;
 
 import com.hlw.demo.util.AssetsUtil;
 
@@ -32,7 +32,7 @@ public class ShaderProgram {
 
     public void useProgram() {
         // Set the current OpenGL shader program to this program
-        GLES20.glUseProgram(programId);
+        GLES30.glUseProgram(programId);
     }
 
     public int getShaderProgramId() {
@@ -40,6 +40,6 @@ public class ShaderProgram {
     }
 
     public void deleteProgram() {
-        GLES20.glDeleteProgram(programId);
+        GLES30.glDeleteProgram(programId);
     }
 }

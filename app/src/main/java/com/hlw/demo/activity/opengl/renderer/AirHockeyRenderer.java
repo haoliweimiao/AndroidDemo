@@ -1,7 +1,7 @@
 package com.hlw.demo.activity.opengl.renderer;
 
 import android.content.Context;
-import android.opengl.GLES20;
+import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 
 import com.hlw.demo.activity.opengl.MatrixHelper;
@@ -111,7 +111,7 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        GLES30.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         String vertexShaderSource = AssetsUtil.getFromAssets(mContext, "glsl/simple_vertex_shader.glsl");
         String fragmentShaderSource = AssetsUtil.getFromAssets(mContext, "glsl/simple_fragment_shader.glsl");
         int vertexShader = ShaderHelper.compileVertexShader(vertexShaderSource);
@@ -121,30 +121,30 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
 
         ShaderHelper.validateProgram(mProgram);
 
-        GLES20.glUseProgram(mProgram);
+        GLES30.glUseProgram(mProgram);
 
-//        uColorLocation = GLES20.glGetUniformLocation(mProgram, U_COLOR);
-        aColorLocation = GLES20.glGetAttribLocation(mProgram, A_COLOR);
-        aPositionLocation = GLES20.glGetAttribLocation(mProgram, A_POSITION);
+//        uColorLocation = GLES30.glGetUniformLocation(mProgram, U_COLOR);
+        aColorLocation = GLES30.glGetAttribLocation(mProgram, A_COLOR);
+        aPositionLocation = GLES30.glGetAttribLocation(mProgram, A_POSITION);
 
-        aSizeLocation = GLES20.glGetUniformLocation(mProgram, U_Size);
-        uMatrixLocation = GLES20.glGetUniformLocation(mProgram, U_Matrix);
+        aSizeLocation = GLES30.glGetUniformLocation(mProgram, U_Size);
+        uMatrixLocation = GLES30.glGetUniformLocation(mProgram, U_Matrix);
 
         vertexData.position(0);
-//        GLES20.glVertexAttribPointer(aPositionLocation, POSITION_COMPONENT_COUNT, GLES20.GL_FLOAT, false, 0, vertexData);
-        GLES20.glVertexAttribPointer(aPositionLocation, POSITION_COMPONENT_COUNT, GLES20.GL_FLOAT, false, STRIDE, vertexData);
-        GLES20.glEnableVertexAttribArray(aPositionLocation);
+//        GLES30.glVertexAttribPointer(aPositionLocation, POSITION_COMPONENT_COUNT, GLES30.GL_FLOAT, false, 0, vertexData);
+        GLES30.glVertexAttribPointer(aPositionLocation, POSITION_COMPONENT_COUNT, GLES30.GL_FLOAT, false, STRIDE, vertexData);
+        GLES30.glEnableVertexAttribArray(aPositionLocation);
 
         vertexData.position(POSITION_COMPONENT_COUNT);
-        GLES20.glVertexAttribPointer(aColorLocation, COLOR_COMPONENT_COUNT, GLES20.GL_FLOAT, false, STRIDE, vertexData);
-        GLES20.glEnableVertexAttribArray(aColorLocation);
+        GLES30.glVertexAttribPointer(aColorLocation, COLOR_COMPONENT_COUNT, GLES30.GL_FLOAT, false, STRIDE, vertexData);
+        GLES30.glEnableVertexAttribArray(aColorLocation);
 
 
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl10, int width, int height) {
-        GLES20.glViewport(0, 0, width, height);
+        GLES30.glViewport(0, 0, width, height);
 
 //        final float aspectRadio = width > height ?
 //                (float) width / (float) height :
@@ -171,27 +171,27 @@ public class AirHockeyRenderer implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 gl10) {
         //clear the rendering surface
         //清空屏幕，擦除所有颜色，使用 glClearColor 填充的颜色当背景
-        GLES20.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        GLES30.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-        GLES20.glUniformMatrix4fv(uMatrixLocation, 1, false, projectionMatrix, 0);
+        GLES30.glUniformMatrix4fv(uMatrixLocation, 1, false, projectionMatrix, 0);
 
         //绘制桌面
-        GLES20.glUniform1f(aSizeLocation, 10.0f);
-//        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 6);
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, 6);
+        GLES30.glUniform1f(aSizeLocation, 10.0f);
+//        GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, 6);
+        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, 6);
 
         //绘制线
-//        GLES20.glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
-        GLES20.glDrawArrays(GLES20.GL_LINES, 6, 2);
+//        GLES30.glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
+        GLES30.glDrawArrays(GLES30.GL_LINES, 6, 2);
 
         //绘制点
-//        GLES20.glUniform4f(uColorLocation, 0.0f, 0.0f, 1.0f, 1.0f);
-        GLES20.glDrawArrays(GLES20.GL_POINTS, 8, 1);
+//        GLES30.glUniform4f(uColorLocation, 0.0f, 0.0f, 1.0f, 1.0f);
+        GLES30.glDrawArrays(GLES30.GL_POINTS, 8, 1);
 
         //绘制点
-//        GLES20.glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
-        GLES20.glDrawArrays(GLES20.GL_POINTS, 9, 1);
+//        GLES30.glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
+        GLES30.glDrawArrays(GLES30.GL_POINTS, 9, 1);
 
-//        GLES20.glVertexAttrib4f(aPositionLocation,0.5f,0.5f,0.5f,0);
+//        GLES30.glVertexAttrib4f(aPositionLocation,0.5f,0.5f,0.5f,0);
     }
 }

@@ -1,6 +1,6 @@
 package com.hlw.demo.activity.opengl;
 
-import android.opengl.GLES20;
+import android.opengl.GLES30;
 
 import com.hlw.demo.util.LogUtils;
 
@@ -29,8 +29,8 @@ public class VertexArray {
 //        LogUtils.i("setVertexAttributePointer dataOffset: " + dataOffset + " attributeLocation: " + attributeLocation +
 //                " componentCount: " + componentCount + " stride: " + stride);
         floatBuffer.position(dataOffset);
-        GLES20.glVertexAttribPointer(attributeLocation, componentCount, GLES20.GL_FLOAT, false, stride, floatBuffer);
-        GLES20.glEnableVertexAttribArray(attributeLocation);
+        GLES30.glVertexAttribPointer(attributeLocation, componentCount, GLES30.GL_FLOAT, false, stride, floatBuffer);
+        GLES30.glEnableVertexAttribArray(attributeLocation);
 
         floatBuffer.position(0);
     }

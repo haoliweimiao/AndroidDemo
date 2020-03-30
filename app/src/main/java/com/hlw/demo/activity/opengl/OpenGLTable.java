@@ -1,6 +1,6 @@
 package com.hlw.demo.activity.opengl;
 
-import android.opengl.GLES20;
+import android.opengl.GLES30;
 
 public class OpenGLTable {
     private int POSITION_COMPONENT_COUNT = 2;
@@ -41,6 +41,6 @@ public class OpenGLTable {
     }
 
     public void draw() {
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_FAN, 0, 6);
+        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, 6);
     }
 }

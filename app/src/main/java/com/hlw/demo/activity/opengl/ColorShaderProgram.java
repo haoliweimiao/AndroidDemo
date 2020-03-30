@@ -1,7 +1,7 @@
 package com.hlw.demo.activity.opengl;
 
 import android.content.Context;
-import android.opengl.GLES20;
+import android.opengl.GLES30;
 
 public class ColorShaderProgram extends ShaderProgram {
 
@@ -20,14 +20,14 @@ public class ColorShaderProgram extends ShaderProgram {
     public ColorShaderProgram(Context context) {
         super(context, "glsl/simple_vertex_shader_2.glsl", "glsl/simple_fragment_shader_2.glsl");
 
-        uMatrixLocation = GLES20.glGetUniformLocation(programId, U_MATRIX);
+        uMatrixLocation = GLES30.glGetUniformLocation(programId, U_MATRIX);
 
-        aColorLocation = GLES20.glGetAttribLocation(programId, A_COLOR);
-        aPositionLocation = GLES20.glGetAttribLocation(programId, A_POSITION);
+        aColorLocation = GLES30.glGetAttribLocation(programId, A_COLOR);
+        aPositionLocation = GLES30.glGetAttribLocation(programId, A_POSITION);
     }
 
     public void setUniforms(float[] matrix) {
-        GLES20.glUniformMatrix4fv(uMatrixLocation, 1, false, matrix, 0);
+        GLES30.glUniformMatrix4fv(uMatrixLocation, 1, false, matrix, 0);
     }
 
 
