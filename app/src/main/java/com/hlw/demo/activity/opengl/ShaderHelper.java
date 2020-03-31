@@ -95,6 +95,9 @@ public class ShaderHelper {
             return 0;
         }
 
+        glDeleteShader(vertexShaderId);
+        glDeleteShader(fragmentShaderId);
+
         return programObjectId;
     }
 
