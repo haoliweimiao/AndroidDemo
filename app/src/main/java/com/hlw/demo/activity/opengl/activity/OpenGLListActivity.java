@@ -35,6 +35,7 @@ public class OpenGLListActivity extends BaseActivity<ActivityOpenglListBinding> 
         mBinding.btnDemo1.setOnClickListener(this);
         mBinding.btnAirHockey.setOnClickListener(this);
         mBinding.btnDrawTriangle.setOnClickListener(this);
+        mBinding.btnDrawRectangle.setOnClickListener(this);
     }
 
     @Override
@@ -48,6 +49,9 @@ public class OpenGLListActivity extends BaseActivity<ActivityOpenglListBinding> 
                 break;
             case R.id.btn_draw_triangle:
                 OpenGLDrawDemoleActivity.start(this, OpenGLDrawType.TRIANGLE.name());
+                break;
+            case R.id.btn_draw_rectangle:
+                OpenGLDrawDemoleActivity.start(this, OpenGLDrawType.RECTANGLE.name());
                 break;
             default:
                 break;
