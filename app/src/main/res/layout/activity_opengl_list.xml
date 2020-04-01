@@ -25,10 +25,10 @@
             android:text="demo draw triangle2" />
 
         <Button
-            android:id="@+id/btn_draw_rectangle"
+            android:id="@+id/btn_draw_color_triangle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="demo draw rectangle" />
+            android:text="demo draw color triangle" />
 
         <Button
             android:id="@+id/btn_air_hockey"

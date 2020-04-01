@@ -3,7 +3,7 @@ package com.hlw.demo.activity.opengl;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 
-import com.hlw.demo.activity.opengl.renderer.RectangleRenderer;
+import com.hlw.demo.activity.opengl.renderer.ColorTriangleRenderer;
 import com.hlw.demo.activity.opengl.renderer.TriangleRenderer;
 import com.hlw.demo.activity.opengl.renderer.TriangleRenderer2;
 
@@ -12,7 +12,7 @@ public enum OpenGLDrawType {
     TRIANGLE("triangle"),
     TRIANGLE2("triangle2"),
     //绘制矩形
-    RECTANGLE("rectangle");
+    COLOR_RECTANGLE("color_rectangle");
 
     private String value;
 
@@ -24,8 +24,8 @@ public enum OpenGLDrawType {
         OpenGLDrawType type = OpenGLDrawType.valueOf(drawTypeStr);
 
         switch (type) {
-            case RECTANGLE:
-                return new RectangleRenderer(context);
+            case COLOR_RECTANGLE:
+                return new ColorTriangleRenderer(context);
             case TRIANGLE2:
                 return new TriangleRenderer2(context);
             case TRIANGLE:
