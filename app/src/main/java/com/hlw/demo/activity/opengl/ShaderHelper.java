@@ -5,6 +5,8 @@ import android.content.Context;
 import com.hlw.demo.util.AssetsUtil;
 import com.hlw.demo.util.LogUtils;
 
+import static android.opengl.GLES20.glGetUniformLocation;
+import static android.opengl.GLES20.glUniform4f;
 import static android.opengl.GLES30.GL_COMPILE_STATUS;
 import static android.opengl.GLES30.GL_FRAGMENT_SHADER;
 import static android.opengl.GLES30.GL_LINK_STATUS;
@@ -82,13 +84,13 @@ public class ShaderHelper {
 
         glLinkProgram(programObjectId);
 
-        final int[] linkStatus=new int[1];
+        final int[] linkStatus = new int[1];
 
-        glGetProgramiv(programObjectId,GL_LINK_STATUS,linkStatus,0);
+        glGetProgramiv(programObjectId, GL_LINK_STATUS, linkStatus, 0);
 
         LogUtils.v(TAG, "Results of linking program:\n" + glGetProgramInfoLog(programObjectId));
 
-        if (linkStatus[0]==0){
+        if (linkStatus[0] == 0) {
             //If it failed, delete the program object.
             glDeleteProgram(programObjectId);
             LogUtils.e(TAG, "Linking of program failed.");
@@ -101,15 +103,15 @@ public class ShaderHelper {
         return programObjectId;
     }
 
-    public static boolean validateProgram(int programObjectId){
+    public static boolean validateProgram(int programObjectId) {
         glValidateProgram(programObjectId);
 
-        final int[] validateStatus=new int[1];
-        glGetProgramiv(programObjectId,GL_VALIDATE_STATUS,validateStatus,0);
+        final int[] validateStatus = new int[1];
+        glGetProgramiv(programObjectId, GL_VALIDATE_STATUS, validateStatus, 0);
 
         LogUtils.v(TAG, "Results of validating program:\n" + glGetProgramInfoLog(programObjectId));
 
-        return validateStatus[0]!=0;
+        return validateStatus[0] != 0;
     }
 
     public static int buildProgram(String vertexShaderSource, String fragmentShaderSource) {
@@ -123,5 +125,10 @@ public class ShaderHelper {
         validateProgram(program);
 
         return program;
+    }
+
+    public static void setUniform4v(int programId, String name, float x, float y, float z, float w) {
+        int id = glGetUniformLocation(programId, name);
+        glUniform4f(id, x, y, z, w);
     }
 }
