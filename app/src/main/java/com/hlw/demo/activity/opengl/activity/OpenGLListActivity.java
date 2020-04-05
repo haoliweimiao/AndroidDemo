@@ -39,6 +39,8 @@ public class OpenGLListActivity extends BaseActivity<ActivityOpenglListBinding> 
         mBinding.btnDrawColorTriangle.setOnClickListener(this);
         mBinding.btnDrawTwoTriangle.setOnClickListener(this);
         mBinding.btnDrawRectangle.setOnClickListener(this);
+        mBinding.btnDraw3dBox.setOnClickListener(this);
+        mBinding.btnDraw2dMipmap.setOnClickListener(this);
     }
 
     @Override
@@ -64,6 +66,12 @@ public class OpenGLListActivity extends BaseActivity<ActivityOpenglListBinding> 
                 break;
             case R.id.btn_draw_rectangle:
                 OpenGLDrawDemoleActivity.start(this, OpenGLDrawType.RECTTRIANGLE.name());
+                break;
+            case R.id.btn_draw_3d_box:
+                OpenGLDrawDemoleActivity.start(this, OpenGLDrawType.OPEN_3D_BOX.name());
+                break;
+            case R.id.btn_draw_2d_mipmap:
+                OpenGLDrawDemoleActivity.start(this, OpenGLDrawType.OPEN_MIPMAP_2D.name());
                 break;
             default:
                 break;

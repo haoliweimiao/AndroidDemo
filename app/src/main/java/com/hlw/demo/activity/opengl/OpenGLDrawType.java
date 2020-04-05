@@ -4,7 +4,9 @@ import android.content.Context;
 import android.opengl.GLSurfaceView;
 
 import com.hlw.demo.activity.opengl.renderer.ColorTriangleRenderer;
+import com.hlw.demo.activity.opengl.renderer.MipMap2DRenderer;
 import com.hlw.demo.activity.opengl.renderer.RectangleRenderer;
+import com.hlw.demo.activity.opengl.renderer.SimpleVertexShaderRenderer;
 import com.hlw.demo.activity.opengl.renderer.TriangleRenderer;
 import com.hlw.demo.activity.opengl.renderer.TriangleRenderer2;
 import com.hlw.demo.activity.opengl.renderer.TwoTriangleRenderer;
@@ -16,6 +18,10 @@ public enum OpenGLDrawType {
     TWO_TRIANGLE("two_triangle"),
     //绘制彩色三角形
     COLOR_TRIANGLE("color_rectangle"),
+    //绘制3D 立方体
+    OPEN_3D_BOX("open_3d_box"),
+    //绘制3D 立方体
+    OPEN_MIPMAP_2D("open_mipmap_2d"),
     //绘制矩形
     RECTTRIANGLE("rectangle");
 
@@ -37,6 +43,10 @@ public enum OpenGLDrawType {
                 return new RectangleRenderer(context);
             case TWO_TRIANGLE:
                 return new TwoTriangleRenderer(context);
+            case OPEN_3D_BOX:
+                return new SimpleVertexShaderRenderer(context);
+            case OPEN_MIPMAP_2D:
+                return new MipMap2DRenderer(context);
             case TRIANGLE:
             default:
                 return new TriangleRenderer(context);

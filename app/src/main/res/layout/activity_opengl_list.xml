@@ -43,6 +43,18 @@
             android:text="demo draw rectangle" />
 
         <Button
+            android:id="@+id/btn_draw_3d_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="demo draw 3d box" />
+
+        <Button
+            android:id="@+id/btn_draw_2d_mipmap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="demo draw 2d mipmap" />
+
+        <Button
             android:id="@+id/btn_air_hockey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
