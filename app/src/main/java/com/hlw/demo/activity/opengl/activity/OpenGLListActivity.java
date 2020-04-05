@@ -41,6 +41,9 @@ public class OpenGLListActivity extends BaseActivity<ActivityOpenglListBinding> 
         mBinding.btnDrawRectangle.setOnClickListener(this);
         mBinding.btnDraw3dBox.setOnClickListener(this);
         mBinding.btnDraw2dMipmap.setOnClickListener(this);
+        mBinding.btnDrawSimpleTexture.setOnClickListener(this);
+        mBinding.btnDrawSimpleTextureCubemap.setOnClickListener(this);
+        mBinding.btnDrawTextureWrap.setOnClickListener(this);
     }
 
     @Override
@@ -72,6 +75,15 @@ public class OpenGLListActivity extends BaseActivity<ActivityOpenglListBinding> 
                 break;
             case R.id.btn_draw_2d_mipmap:
                 OpenGLDrawDemoleActivity.start(this, OpenGLDrawType.OPEN_MIPMAP_2D.name());
+                break;
+            case R.id.btn_draw_simple_texture:
+                OpenGLDrawDemoleActivity.start(this, OpenGLDrawType.OPEN_SIMPLE_TEXTURE.name());
+                break;
+            case R.id.btn_draw_simple_texture_cubemap:
+                OpenGLDrawDemoleActivity.start(this, OpenGLDrawType.OPEN_SIMPLE_TEXTURE_CUBEMAP.name());
+                break;
+            case R.id.btn_draw_texture_wrap:
+                OpenGLDrawDemoleActivity.start(this, OpenGLDrawType.OPEN_TEXTURE_WARP.name());
                 break;
             default:
                 break;

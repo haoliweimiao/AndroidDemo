@@ -55,6 +55,24 @@
             android:text="demo draw 2d mipmap" />
 
         <Button
+            android:id="@+id/btn_draw_simple_texture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="demo draw simple texture" />
+
+        <Button
+            android:id="@+id/btn_draw_simple_texture_cubemap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="demo draw simple texture cube map" />
+
+        <Button
+            android:id="@+id/btn_draw_texture_wrap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="demo draw texture wrap" />
+
+        <Button
             android:id="@+id/btn_air_hockey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

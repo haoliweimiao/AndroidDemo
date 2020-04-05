@@ -6,7 +6,10 @@ import android.opengl.GLSurfaceView;
 import com.hlw.demo.activity.opengl.renderer.ColorTriangleRenderer;
 import com.hlw.demo.activity.opengl.renderer.MipMap2DRenderer;
 import com.hlw.demo.activity.opengl.renderer.RectangleRenderer;
+import com.hlw.demo.activity.opengl.renderer.SimpleTexture2DRenderer;
+import com.hlw.demo.activity.opengl.renderer.SimpleTextureCubemapRenderer;
 import com.hlw.demo.activity.opengl.renderer.SimpleVertexShaderRenderer;
+import com.hlw.demo.activity.opengl.renderer.TextureWrapRenderer;
 import com.hlw.demo.activity.opengl.renderer.TriangleRenderer;
 import com.hlw.demo.activity.opengl.renderer.TriangleRenderer2;
 import com.hlw.demo.activity.opengl.renderer.TwoTriangleRenderer;
@@ -22,6 +25,9 @@ public enum OpenGLDrawType {
     OPEN_3D_BOX("open_3d_box"),
     //绘制3D 立方体
     OPEN_MIPMAP_2D("open_mipmap_2d"),
+    OPEN_SIMPLE_TEXTURE("open_simple_texture"),
+    OPEN_SIMPLE_TEXTURE_CUBEMAP("open_simple_texture_cubemap"),
+    OPEN_TEXTURE_WARP("open_texture_warp"),
     //绘制矩形
     RECTTRIANGLE("rectangle");
 
@@ -47,6 +53,12 @@ public enum OpenGLDrawType {
                 return new SimpleVertexShaderRenderer(context);
             case OPEN_MIPMAP_2D:
                 return new MipMap2DRenderer(context);
+            case OPEN_SIMPLE_TEXTURE:
+                return new SimpleTexture2DRenderer(context);
+            case OPEN_SIMPLE_TEXTURE_CUBEMAP:
+                return new SimpleTextureCubemapRenderer(context);
+            case OPEN_TEXTURE_WARP:
+                return new TextureWrapRenderer(context);
             case TRIANGLE:
             default:
                 return new TriangleRenderer(context);
