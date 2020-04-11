@@ -13,10 +13,10 @@ public class OpenGLMallet {
             0f, 0.4f, 0f, 0f, 0f
     };
 
-    private final VertexArray vertexArray;
+    private final FloatVertexArray vertexArray;
 
     public OpenGLMallet() {
-        vertexArray = new VertexArray(VERTEX_DATA);
+        vertexArray = new FloatVertexArray(VERTEX_DATA);
     }
 
     public void bindData(ColorShaderProgram shaderProgram) {

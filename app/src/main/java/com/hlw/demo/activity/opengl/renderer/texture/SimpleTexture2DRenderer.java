@@ -30,87 +30,77 @@
 //            http://my.safaribooksonline.com/book/animation-and-3d/9780133440133
 //
 
-package com.hlw.demo.activity.opengl.renderer;
+// Simple_Texture2D
+//
+//    This is a simple example that draws a quad with a 2D
+//    texture image. The purpose of this example is to demonstrate
+//    the basics of 2D texturing
+//
+
+package com.hlw.demo.activity.opengl.renderer.texture;
 
 import android.content.Context;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 
 import com.hlw.demo.activity.opengl.util.ESShader;
-import com.hlw.demo.activity.opengl.util.ESShapes;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class SimpleTextureCubemapRenderer implements GLSurfaceView.Renderer {
+public class SimpleTexture2DRenderer implements GLSurfaceView.Renderer {
+
     ///
     // Constructor
     //
-    public SimpleTextureCubemapRenderer(Context context) {
+    public SimpleTexture2DRenderer(Context context) {
+
+        mVertices = ByteBuffer.allocateDirect(mVerticesData.length * 4)
+                .order(ByteOrder.nativeOrder()).asFloatBuffer();
+        mVertices.put(mVerticesData).position(0);
+        mIndices = ByteBuffer.allocateDirect(mIndicesData.length * 2)
+                .order(ByteOrder.nativeOrder()).asShortBuffer();
+        mIndices.put(mIndicesData).position(0);
     }
 
-    ///
-    // Create a simple cubemap with a 1x1 face with a different
-    // color for each face
-    private int createSimpleTextureCubemap() {
+    //
+    // Create a simple 2x2 texture image with four different colors
+    //
+    private int createSimpleTexture2D() {
+        // Texture object handle
         int[] textureId = new int[1];
 
-        // Face 0 - Red
-        byte[] cubePixels0 = {127, 0, 0};
-        // Face 1 - Green
-        byte[] cubePixels1 = {0, 127, 0};
-        // Face 2 - Blue
-        byte[] cubePixels2 = {0, 0, 127};
-        // Face 3 - Yellow
-        byte[] cubePixels3 = {127, 127, 0};
-        // Face 4 - Purple
-        byte[] cubePixels4 = {127, 0, 127};
-        // Face 5 - White
-        byte[] cubePixels5 = {127, 127, 127};
+        // 2x2 Image, 3 bytes per pixel (R, G, B)
+        byte[] pixels =
+                {
+                        (byte) 0xff, 0, 0, // Red
+                        0, (byte) 0xff, 0, // Green
+                        0, 0, (byte) 0xff, // Blue
+                        (byte) 0xff, (byte) 0xff, 0 // Yellow
+                };
+        ByteBuffer pixelBuffer = ByteBuffer.allocateDirect(4 * 3);
+        pixelBuffer.put(pixels).position(0);
 
-        ByteBuffer cubePixels = ByteBuffer.allocateDirect(3);
+        // Use tightly packed data
+        GLES30.glPixelStorei(GLES30.GL_UNPACK_ALIGNMENT, 1);
 
-        // Generate a texture object
+        //  Generate a texture object
         GLES30.glGenTextures(1, textureId, 0);
 
         // Bind the texture object
-        GLES30.glBindTexture(GLES30.GL_TEXTURE_CUBE_MAP, textureId[0]);
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, textureId[0]);
 
-        // Load the cube face - Positive X
-        cubePixels.put(cubePixels0).position(0);
-        GLES30.glTexImage2D(GLES30.GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GLES30.GL_RGB, 1, 1, 0,
-                GLES30.GL_RGB, GLES30.GL_UNSIGNED_BYTE, cubePixels);
-
-        // Load the cube face - Negative X
-        cubePixels.put(cubePixels1).position(0);
-        GLES30.glTexImage2D(GLES30.GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GLES30.GL_RGB, 1, 1, 0,
-                GLES30.GL_RGB, GLES30.GL_UNSIGNED_BYTE, cubePixels);
-
-        // Load the cube face - Positive Y
-        cubePixels.put(cubePixels2).position(0);
-        GLES30.glTexImage2D(GLES30.GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GLES30.GL_RGB, 1, 1, 0,
-                GLES30.GL_RGB, GLES30.GL_UNSIGNED_BYTE, cubePixels);
-
-        // Load the cube face - Negative Y
-        cubePixels.put(cubePixels3).position(0);
-        GLES30.glTexImage2D(GLES30.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GLES30.GL_RGB, 1, 1, 0,
-                GLES30.GL_RGB, GLES30.GL_UNSIGNED_BYTE, cubePixels);
-
-        // Load the cube face - Positive Z
-        cubePixels.put(cubePixels4).position(0);
-        GLES30.glTexImage2D(GLES30.GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GLES30.GL_RGB, 1, 1, 0,
-                GLES30.GL_RGB, GLES30.GL_UNSIGNED_BYTE, cubePixels);
-
-        // Load the cube face - Negative Z
-        cubePixels.put(cubePixels5).position(0);
-        GLES30.glTexImage2D(GLES30.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GLES30.GL_RGB, 1, 1, 0,
-                GLES30.GL_RGB, GLES30.GL_UNSIGNED_BYTE, cubePixels);
+        //  Load the texture
+        GLES30.glTexImage2D(GLES30.GL_TEXTURE_2D, 0, GLES30.GL_RGB, 2, 2, 0, GLES30.GL_RGB, GLES30.GL_UNSIGNED_BYTE, pixelBuffer);
 
         // Set the filtering mode
-        GLES30.glTexParameteri(GLES30.GL_TEXTURE_CUBE_MAP, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_NEAREST);
-        GLES30.glTexParameteri(GLES30.GL_TEXTURE_CUBE_MAP, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_NEAREST);
+        GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MIN_FILTER, GLES30.GL_NEAREST);
+        GLES30.glTexParameteri(GLES30.GL_TEXTURE_2D, GLES30.GL_TEXTURE_MAG_FILTER, GLES30.GL_NEAREST);
 
         return textureId[0];
     }
@@ -120,27 +110,25 @@ public class SimpleTextureCubemapRenderer implements GLSurfaceView.Renderer {
     //
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
         String vShaderStr =
-
                 "#version 300 es              				\n" +
                         "layout(location = 0) in vec4 a_position;   \n" +
-                        "layout(location = 1) in vec3 a_normal;     \n" +
-                        "out vec3 v_normal;       	  				\n" +
+                        "layout(location = 1) in vec2 a_texCoord;   \n" +
+                        "out vec2 v_texCoord;     	  				\n" +
                         "void main()                  				\n" +
                         "{                            				\n" +
                         "   gl_Position = a_position; 				\n" +
-                        "   v_normal = a_normal;      				\n" +
+                        "   v_texCoord = a_texCoord;  				\n" +
                         "}                            				\n";
 
         String fShaderStr =
-
-                "#version 300 es              						 \n" +
+                "#version 300 es                                     \n" +
                         "precision mediump float;                            \n" +
-                        "in vec3 v_normal;                              	 \n" +
+                        "in vec2 v_texCoord;                            	 \n" +
                         "layout(location = 0) out vec4 outColor;             \n" +
-                        "uniform samplerCube s_texture;                      \n" +
+                        "uniform sampler2D s_texture;                        \n" +
                         "void main()                                         \n" +
                         "{                                                   \n" +
-                        "  outColor = texture( s_texture, v_normal );		 \n" +
+                        "  outColor = texture( s_texture, v_texCoord );      \n" +
                         "}                                                   \n";
 
         // Load the shaders and get a linked program object
@@ -150,15 +138,12 @@ public class SimpleTextureCubemapRenderer implements GLSurfaceView.Renderer {
         mSamplerLoc = GLES30.glGetUniformLocation(mProgramObject, "s_texture");
 
         // Load the texture
-        mTextureId = createSimpleTextureCubemap();
-
-        // Generate the vertex data
-        mSphere.genSphere(20, 0.75f);
+        mTextureId = createSimpleTexture2D();
 
         GLES30.glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
     }
 
-    ///
+    // /
     // Draw a triangle using the shader pair created in onSurfaceCreated()
     //
     public void onDrawFrame(GL10 glUnused) {
@@ -168,31 +153,32 @@ public class SimpleTextureCubemapRenderer implements GLSurfaceView.Renderer {
         // Clear the color buffer
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
 
-        GLES30.glCullFace(GLES30.GL_BACK);
-        GLES30.glEnable(GLES30.GL_CULL_FACE);
-
         // Use the program object
         GLES30.glUseProgram(mProgramObject);
 
         // Load the vertex position
+        mVertices.position(0);
         GLES30.glVertexAttribPointer(0, 3, GLES30.GL_FLOAT,
-                false, 0, mSphere.getVertices());
+                false,
+                5 * 4, mVertices);
         // Load the texture coordinate
-
-        GLES30.glVertexAttribPointer(1, 3, GLES30.GL_FLOAT,
-                false, 0, mSphere.getNormals());
+        mVertices.position(3);
+        GLES30.glVertexAttribPointer(1, 2, GLES30.GL_FLOAT,
+                false,
+                5 * 4,
+                mVertices);
 
         GLES30.glEnableVertexAttribArray(0);
         GLES30.glEnableVertexAttribArray(1);
 
         // Bind the texture
         GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
-        GLES30.glBindTexture(GLES30.GL_TEXTURE_CUBE_MAP, mTextureId);
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, mTextureId);
 
         // Set the sampler texture unit to 0
         GLES30.glUniform1i(mSamplerLoc, 0);
 
-        GLES30.glDrawElements(GLES30.GL_TRIANGLES, mSphere.getNumIndices(), GLES30.GL_UNSIGNED_SHORT, mSphere.getIndices());
+        GLES30.glDrawElements(GLES30.GL_TRIANGLES, 6, GLES30.GL_UNSIGNED_SHORT, mIndices);
     }
 
     ///
@@ -210,13 +196,30 @@ public class SimpleTextureCubemapRenderer implements GLSurfaceView.Renderer {
     // Sampler location
     private int mSamplerLoc;
 
-    // Texture ID
+    // Texture handle
     private int mTextureId;
-
-    // Vertex data
-    private ESShapes mSphere = new ESShapes();
 
     // Additional member variables
     private int mWidth;
     private int mHeight;
+    private FloatBuffer mVertices;
+    private ShortBuffer mIndices;
+
+    private final float[] mVerticesData =
+            {
+                    -0.5f, 0.5f, 0.0f, // Position 0
+                    0.0f, 0.0f, // TexCoord 0
+                    -0.5f, -0.5f, 0.0f, // Position 1
+                    0.0f, 1.0f, // TexCoord 1
+                    0.5f, -0.5f, 0.0f, // Position 2
+                    1.0f, 1.0f, // TexCoord 2
+                    0.5f, 0.5f, 0.0f, // Position 3
+                    1.0f, 0.0f // TexCoord 3
+            };
+
+    private final short[] mIndicesData =
+            {
+                    0, 1, 2, 0, 2, 3
+            };
+
 }

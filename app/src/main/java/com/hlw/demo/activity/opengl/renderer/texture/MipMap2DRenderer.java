@@ -36,7 +36,7 @@
 //    and rendering with it
 //
 
-package com.hlw.demo.activity.opengl.renderer;
+package com.hlw.demo.activity.opengl.renderer.texture;
 
 import android.content.Context;
 import android.opengl.GLES30;

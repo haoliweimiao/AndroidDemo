@@ -2,17 +2,15 @@ package com.hlw.demo.activity.opengl;
 
 import android.opengl.GLES30;
 
-import com.hlw.demo.util.LogUtils;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-public class VertexArray {
+public class FloatVertexArray {
     private final FloatBuffer floatBuffer;
     private static final int BYTES_PER_FLOAT = 4;
 
-    public VertexArray(float[] vertexData) {
+    public FloatVertexArray(float[] vertexData) {
         floatBuffer =
                 // allocateDirect 分配内存，一个float 32个字节，一个int 8个字节，*4
                 ByteBuffer.allocateDirect(vertexData.length * BYTES_PER_FLOAT)
@@ -22,6 +20,10 @@ public class VertexArray {
                         .asFloatBuffer()
                         .put(vertexData);
 
+    }
+
+    public FloatBuffer getFloatBuffer() {
+        return floatBuffer;
     }
 
     public void setVertexAttributePointer(int dataOffset, int attributeLocation,

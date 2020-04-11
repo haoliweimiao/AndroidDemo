@@ -19,10 +19,10 @@ public class OpenGLTable {
             -0.5f, -0.8f, 0f, 0.9f
     };
 
-    private final VertexArray vertexArray;
+    private final FloatVertexArray vertexArray;
 
     public OpenGLTable() {
-        vertexArray = new VertexArray(VERTEX_DATA);
+        vertexArray = new FloatVertexArray(VERTEX_DATA);
     }
 
     public void bindData(TextureShaderProgram shaderProgram) {

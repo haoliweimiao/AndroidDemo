@@ -5,7 +5,7 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 
 import com.hlw.demo.activity.opengl.ShaderHelper;
-import com.hlw.demo.activity.opengl.VertexArray;
+import com.hlw.demo.activity.opengl.FloatVertexArray;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -23,7 +23,7 @@ public class TriangleRenderer implements GLSurfaceView.Renderer {
             0.0f, 0.0f, 0.0f, 1.0f
     };
 
-    private VertexArray vertexArray;
+    private FloatVertexArray vertexArray;
     //vec4(1.0f, 0.5f, 0.2f, 1.0f)
 
     private final String A_POSITION = "a_Position";
@@ -38,7 +38,7 @@ public class TriangleRenderer implements GLSurfaceView.Renderer {
     public TriangleRenderer(Context context) {
         this.context = context;
 
-        vertexArray = new VertexArray(VERTICES);
+        vertexArray = new FloatVertexArray(VERTICES);
     }
 
 

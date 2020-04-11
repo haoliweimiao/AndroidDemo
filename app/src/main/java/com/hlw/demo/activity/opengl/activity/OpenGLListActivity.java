@@ -44,6 +44,7 @@ public class OpenGLListActivity extends BaseActivity<ActivityOpenglListBinding> 
         mBinding.btnDrawSimpleTexture.setOnClickListener(this);
         mBinding.btnDrawSimpleTextureCubemap.setOnClickListener(this);
         mBinding.btnDrawTextureWrap.setOnClickListener(this);
+        mBinding.btnDrawImageTexture.setOnClickListener(this);
     }
 
     @Override
@@ -84,6 +85,9 @@ public class OpenGLListActivity extends BaseActivity<ActivityOpenglListBinding> 
                 break;
             case R.id.btn_draw_texture_wrap:
                 OpenGLDrawDemoleActivity.start(this, OpenGLDrawType.OPEN_TEXTURE_WARP.name());
+                break;
+            case R.id.btn_draw_image_texture:
+                OpenGLDrawDemoleActivity.start(this, OpenGLDrawType.OPEN_IAMGE_TEXTURE.name());
                 break;
             default:
                 break;

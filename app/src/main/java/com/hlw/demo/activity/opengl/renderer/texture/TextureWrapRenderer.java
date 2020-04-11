@@ -36,7 +36,7 @@
 //    wrap modes available on 2D textures
 //
 
-package com.hlw.demo.activity.opengl.renderer;
+package com.hlw.demo.activity.opengl.renderer.texture;
 
 import android.content.Context;
 import android.opengl.GLES30;
@@ -53,6 +53,41 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 public class TextureWrapRenderer implements GLSurfaceView.Renderer {
+
+    // Handle to a program object
+    private int mProgramObject;
+
+    // Sampler location
+    private int mSamplerLoc;
+
+    // Offset location
+    private int mOffsetLoc;
+
+    // Texture handle
+    private int mTextureId;
+
+    // Additional member variables
+    private int mWidth;
+    private int mHeight;
+    private FloatBuffer mVertices;
+    private ShortBuffer mIndices;
+
+    private final float[] mVerticesData =
+            {
+                    -0.3f, 0.3f, 0.0f, 1.0f,  // Position 0
+                    -1.0f, -1.0f,              // TexCoord 0
+                    -0.3f, -0.3f, 0.0f, 1.0f, // Position 1
+                    -1.0f, 2.0f,              // TexCoord 1
+                    0.3f, -0.3f, 0.0f, 1.0f, // Position 2
+                    2.0f, 2.0f,              // TexCoord 2
+                    0.3f, 0.3f, 0.0f, 1.0f,  // Position 3
+                    2.0f, -1.0f               // TexCoord 3
+            };
+
+    private final short[] mIndicesData =
+            {
+                    0, 1, 2, 0, 2, 3
+            };
 
     ///
     // Constructor
@@ -234,40 +269,5 @@ public class TextureWrapRenderer implements GLSurfaceView.Renderer {
         mHeight = height;
     }
 
-
-    // Handle to a program object
-    private int mProgramObject;
-
-    // Sampler location
-    private int mSamplerLoc;
-
-    // Offset location
-    private int mOffsetLoc;
-
-    // Texture handle
-    private int mTextureId;
-
-    // Additional member variables
-    private int mWidth;
-    private int mHeight;
-    private FloatBuffer mVertices;
-    private ShortBuffer mIndices;
-
-    private final float[] mVerticesData =
-            {
-                    -0.3f, 0.3f, 0.0f, 1.0f,  // Position 0
-                    -1.0f, -1.0f,              // TexCoord 0
-                    -0.3f, -0.3f, 0.0f, 1.0f, // Position 1
-                    -1.0f, 2.0f,              // TexCoord 1
-                    0.3f, -0.3f, 0.0f, 1.0f, // Position 2
-                    2.0f, 2.0f,              // TexCoord 2
-                    0.3f, 0.3f, 0.0f, 1.0f,  // Position 3
-                    2.0f, -1.0f               // TexCoord 3
-            };
-
-    private final short[] mIndicesData =
-            {
-                    0, 1, 2, 0, 2, 3
-            };
 
 }
