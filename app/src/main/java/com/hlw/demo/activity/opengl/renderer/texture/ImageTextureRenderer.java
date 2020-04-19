@@ -67,6 +67,8 @@ public class ImageTextureRenderer implements GLSurfaceView.Renderer {
         GLES30.glGenBuffers(1, mVBOId, 0);
         GLES30.glGenBuffers(1, mEBOId, 0);
 
+        GLES30.glBindVertexArray(mVAOId[0]);
+
         DataBindHelper.bindArrayData(mVBOId, vertices, vertexData.getFloatBuffer());
 
         DataBindHelper.bindElementArrayBuffer(mEBOId, indices, indexData.getIntBuffer());
