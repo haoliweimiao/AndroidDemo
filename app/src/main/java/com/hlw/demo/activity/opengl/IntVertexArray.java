@@ -9,8 +9,11 @@ import java.nio.IntBuffer;
 public class IntVertexArray {
     private final IntBuffer intBuffer;
     private static final int BYTES_PER_FLOAT = 4;
+    private final int vertexSize;
 
     public IntVertexArray(int[] vertexData) {
+        vertexSize = vertexData.length * BYTES_PER_FLOAT;
+
         intBuffer =
                 // allocateDirect 分配内存，一个float 32个字节，一个int 8个字节，*4
                 ByteBuffer.allocateDirect(vertexData.length * BYTES_PER_FLOAT)
@@ -23,7 +26,12 @@ public class IntVertexArray {
     }
 
     public IntBuffer getIntBuffer() {
+        intBuffer.position(0);
         return intBuffer;
+    }
+
+    public int getVertexSize() {
+        return vertexSize;
     }
 
     public void setVertexAttributePointer(int dataOffset, int attributeLocation,

@@ -1,6 +1,7 @@
 package com.hlw.demo.activity.opengl;
 
 import android.content.Context;
+import android.opengl.GLES30;
 
 import com.hlw.demo.util.AssetsUtil;
 import com.hlw.demo.util.LogUtils;
@@ -65,7 +66,6 @@ public class ShaderHelper {
             //If it failed, delete the shader object
             glDeleteShader(shaderObjectId);
             LogUtils.e(TAG, "Compilation of shader failed.");
-
             return 0;
         }
 

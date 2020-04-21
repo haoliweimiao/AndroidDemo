@@ -86,7 +86,13 @@
                 android:id="@+id/btn_draw_image_texture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="demo draw iamge texture" />
+                android:text="demo draw image texture" />
+
+            <Button
+                android:id="@+id/btn_draw_smile_box_texture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="demo draw smile box texture" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

@@ -13,7 +13,7 @@ import com.hlw.demo.activity.opengl.renderer.texture.ImageTextureRenderer;
 import com.hlw.demo.activity.opengl.renderer.texture.MipMap2DRenderer;
 import com.hlw.demo.activity.opengl.renderer.texture.SimpleTexture2DRenderer;
 import com.hlw.demo.activity.opengl.renderer.texture.SimpleTextureCubemapRenderer;
-import com.hlw.demo.activity.opengl.renderer.texture.TextureRenderer;
+import com.hlw.demo.activity.opengl.renderer.texture.SmileBoxTextureRenderer;
 import com.hlw.demo.activity.opengl.renderer.texture.TextureWrapRenderer;
 
 public enum OpenGLDrawType {
@@ -28,11 +28,13 @@ public enum OpenGLDrawType {
     //绘制3D 立方体
     OPEN_MIPMAP_2D("open_mipmap_2d"),
     OPEN_SIMPLE_TEXTURE("open_simple_texture"),
-    OPEN_SIMPLE_TEXTURE_CUBEMAP("open_simple_texture_cubemap"),
+    OPEN_SIMPLE_TEXTURE_CUBE_MAP("open_simple_texture_cube_map"),
     OPEN_TEXTURE_WARP("open_texture_warp"),
-    OPEN_IAMGE_TEXTURE("open_iamge_texture"),
+    OPEN_IMAGE_TEXTURE("open_image_texture"),
     //绘制矩形
-    RECTTRIANGLE("rectangle");
+    RECTANGLE("rectangle"),
+    //绘制笑脸纹理
+    SMILE_BOX_TEXTURE("smile_box_texture");
 
     private String value;
 
@@ -48,7 +50,7 @@ public enum OpenGLDrawType {
                 return new ColorTriangleRenderer(context);
             case TRIANGLE2:
                 return new TriangleRenderer2(context);
-            case RECTTRIANGLE:
+            case RECTANGLE:
                 return new RectangleRenderer(context);
             case TWO_TRIANGLE:
                 return new TwoTriangleRenderer(context);
@@ -58,13 +60,15 @@ public enum OpenGLDrawType {
                 return new MipMap2DRenderer(context);
             case OPEN_SIMPLE_TEXTURE:
                 return new SimpleTexture2DRenderer(context);
-            case OPEN_SIMPLE_TEXTURE_CUBEMAP:
+            case OPEN_SIMPLE_TEXTURE_CUBE_MAP:
                 return new SimpleTextureCubemapRenderer(context);
             case OPEN_TEXTURE_WARP:
                 return new TextureWrapRenderer(context);
-            case OPEN_IAMGE_TEXTURE:
+            case OPEN_IMAGE_TEXTURE:
                 return new ImageTextureRenderer(context);
 //                return new TextureRenderer(context);
+            case SMILE_BOX_TEXTURE:
+                return new SmileBoxTextureRenderer(context);
             case TRIANGLE:
             default:
                 return new TriangleRenderer(context);
