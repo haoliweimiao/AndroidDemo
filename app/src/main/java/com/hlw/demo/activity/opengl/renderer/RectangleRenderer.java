@@ -117,7 +117,7 @@ public class RectangleRenderer implements GLSurfaceView.Renderer {
                 GL_STATIC_DRAW);
 
         GLES30.glVertexAttribPointer(VERTEX_POS_INDX, VERTEX_POS_SIZE, GL_FLOAT, false, VERTEX_STRIDE, 0);
-        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(VERTEX_POS_INDX);
 
         // note that this is allowed, the call to glVertexAttribPointer registered VBO
         // as the vertex attribute's bound vertex buffer object so afterwards we can

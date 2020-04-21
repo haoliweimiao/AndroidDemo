@@ -18,19 +18,19 @@ import static android.opengl.GLES20.GL_FLOAT;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
 
 public class ImageTextureRenderer implements GLSurfaceView.Renderer {
-    private final String U_TEXTURE = "u_texture";
+    //    private final String U_TEXTURE = "u_texture";
     private Context context;
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
-    private final float vertices[] = {
+    private final float[] vertices = {
             // positions          // colors           // texture coords
             0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right
             0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
             -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
             -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f  // top left
     };
-    private final int indices[] = {
+    private final int[] indices = {
             0, 1, 3, // first triangle
             1, 2, 3  // second triangle
     };
@@ -44,7 +44,7 @@ public class ImageTextureRenderer implements GLSurfaceView.Renderer {
 
     private int mProgramId;
     private int mTextureId;
-    private int uTextureLocation;
+//    private int uTextureLocation;
 
     public ImageTextureRenderer(Context context) {
         this.context = context;
@@ -61,7 +61,7 @@ public class ImageTextureRenderer implements GLSurfaceView.Renderer {
         mProgramId = ShaderHelper.linkProgram(vertexId, fragmentId);
         ShaderHelper.validateProgram(mProgramId);
 
-        uTextureLocation = GLES30.glGetUniformLocation(mProgramId, U_TEXTURE);
+//        uTextureLocation = GLES30.glGetUniformLocation(mProgramId, U_TEXTURE);
 
         GLES30.glGenVertexArrays(1, mVAOId, 0);
         GLES30.glGenBuffers(1, mVBOId, 0);
@@ -73,33 +73,17 @@ public class ImageTextureRenderer implements GLSurfaceView.Renderer {
 
         DataBindHelper.bindElementArrayBuffer(mEBOId, indices, indexData.getIntBuffer());
 
-        GLES30.glVertexAttribPointer(1, 8, GL_FLOAT, false, 8 * 4, 0);
-        glEnableVertexAttribArray(0);
-
         // position attribute
-        GLES30.glVertexAttribPointer(0, 3, GL_FLOAT, false, 8 * 4, 0);
+        GLES30.glVertexAttribPointer(0, 3, GL_FLOAT, false, 8 * 4, 0 * 4);
         glEnableVertexAttribArray(0);
         // color attribute
-        GLES30.glVertexAttribPointer(1, 3, GL_FLOAT, false, 8 * 4, 3);
+        GLES30.glVertexAttribPointer(1, 3, GL_FLOAT, false, 8 * 4, 3 * 4);
         glEnableVertexAttribArray(1);
         // texture coord attribute
-        GLES30.glVertexAttribPointer(2, 2, GL_FLOAT, false, 8 * 4, 6);
+        GLES30.glVertexAttribPointer(2, 2, GL_FLOAT, false, 8 * 4, 6 * 4);
         glEnableVertexAttribArray(2);
 
-        mTextureId = TextureHelper.loadTexture(context, R.mipmap.bg_green);
-
-        // Bind the texture
-        GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
-        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, mTextureId);
-
-        // 告诉shaderProgram sampler2D纹理采集器 使用纹理单元0的纹理对象。
-        GLES30.glUniform1i(uTextureLocation, 0);
-
-
-        // 注意，这是允许的，调用glVertexAttribPointer将VBO注册为顶点属性的绑定顶点缓冲区对象，这样我们就可以安全地解除绑定
-//        glBindBuffer(GL_ARRAY_BUFFER, 0);
-//
-//        GLES30.glBindVertexArray(0);
+        mTextureId = TextureHelper.loadTexture(context, R.mipmap.container);
 
     }
 
@@ -123,12 +107,6 @@ public class ImageTextureRenderer implements GLSurfaceView.Renderer {
 
         GLES30.glBindVertexArray(mVAOId[0]);
 
-        // Bind the texture
-        GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
-        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, mTextureId);
-
-        // Set the sampler texture unit to 0
-        GLES30.glUniform1i(uTextureLocation, 0);
 
         GLES30.glDrawElements(GLES30.GL_TRIANGLES, 6, GLES30.GL_UNSIGNED_INT, 0);
 

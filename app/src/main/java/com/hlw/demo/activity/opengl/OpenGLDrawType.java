@@ -13,6 +13,7 @@ import com.hlw.demo.activity.opengl.renderer.texture.ImageTextureRenderer;
 import com.hlw.demo.activity.opengl.renderer.texture.MipMap2DRenderer;
 import com.hlw.demo.activity.opengl.renderer.texture.SimpleTexture2DRenderer;
 import com.hlw.demo.activity.opengl.renderer.texture.SimpleTextureCubemapRenderer;
+import com.hlw.demo.activity.opengl.renderer.texture.TextureRenderer;
 import com.hlw.demo.activity.opengl.renderer.texture.TextureWrapRenderer;
 
 public enum OpenGLDrawType {
@@ -63,6 +64,7 @@ public enum OpenGLDrawType {
                 return new TextureWrapRenderer(context);
             case OPEN_IAMGE_TEXTURE:
                 return new ImageTextureRenderer(context);
+//                return new TextureRenderer(context);
             case TRIANGLE:
             default:
                 return new TriangleRenderer(context);
