@@ -53,8 +53,8 @@ public class SmileBoxTextureRenderer implements GLSurfaceView.Renderer {
         final int fragmentId = ShaderHelper.compileFragmentShaderByAssetsPath(context, "glsl/texture/smile_box_fragment.glsl");
         mProgramId = ShaderHelper.linkProgram(vertexId, fragmentId);
 
-//        GLES30.glEnable(GLES30.GL_BLEND);
-//        GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
+        GLES30.glEnable(GLES30.GL_BLEND);
+        GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
 //        GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_DST_ALPHA);
 
         GLES30.glGenVertexArrays(1, mVAOId, 0);
@@ -100,7 +100,7 @@ public class SmileBoxTextureRenderer implements GLSurfaceView.Renderer {
 
         GLES30.glActiveTexture(GLES30.GL_TEXTURE1);
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, mTextureId2);
-        GLES30.glUniform1i(uTextureId1, 1);
+        GLES30.glUniform1i(uTextureId2, 1);
 
         GLES30.glUseProgram(mProgramId);
         GLES30.glBindVertexArray(mVAOId[0]);
