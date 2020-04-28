@@ -2,11 +2,14 @@ package com.hlw.demo;
 
 
 import android.view.View;
+import android.widget.Toast;
 
 import com.hlw.demo.activity.ViewListActivity;
 import com.hlw.demo.activity.opengl.activity.OpenGLListActivity;
 import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityMainBinding;
+import com.hlw.demo.ndk.NDKTest;
+import com.hlw.demo.ndk.TestUtils;
 
 /**
  * @author hlw
@@ -28,6 +31,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 //        AssetManager assetManager = getAssets();
 //        Typeface typeface = Typeface.createFromAsset(assetManager, "fonts/DIGITAL-Regular.ttf");
 //        mBinding.tvTest.setTypeface(typeface);
+//        Toast.makeText(MainActivity.this, NDKTest.hello(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, TestUtils.hello(),Toast.LENGTH_SHORT).show();
     }
 
     @Override

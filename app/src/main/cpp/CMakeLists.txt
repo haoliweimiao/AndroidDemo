@@ -12,12 +12,11 @@ cmake_minimum_required(VERSION 3.4.1)
 
 add_library( # Sets the name of the library.
         ndk_test
-
         # Sets the library as a shared library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        src/main/cpp/ndk_test.cpp)
+        ndk_test.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -32,13 +31,25 @@ find_library( # Sets the name of the path variable.
         # you want CMake to locate.
         log )
 
+
+#使用命令 ADD_SUBDIRECTORY 指明本项目包含一个子目录 src
+ADD_SUBDIRECTORY( ${PROJECT_SOURCE_DIR}/test )
+
+# 查找当前目录下的所有源文件
+# 并将名称保存到 DIR_LIB_SRCS 变量
+#aux_source_directory(. DIR_SRCS)
+
+# 指定生成目标
+#ADD_EXECUTABLE 指示变量 DIR_SRCS 中的源文件需要编译 成一个名称为 OpenGLDemo 的可执行文件。
+#ADD_EXECUTABLE(OpenGLDemo ${DIR_SRCS})
+
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries( # Specifies the target library.
         ndk_test
-
+        libtest
         # Links the target library to the log library
         # included in the NDK.
         ${log-lib} )
