@@ -30,6 +30,19 @@
         <activity android:name=".activity.opengl.activity.OpenGLListActivity" />
         <activity android:name=".activity.opengl.activity.OpenglAirHockeyActivity" />
         <activity android:name=".activity.opengl.activity.OpenGLDrawDemoleActivity" />
+
+        <activity android:name="android.app.NativeActivity"
+            android:label="HelloTriangle"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|keyboardHidden">
+            <meta-data android:name="android.app.lib_name"
+                android:value="ndk_test" />
+            <intent-filter>
+                <action android:name="opengl.demo.triangle"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
