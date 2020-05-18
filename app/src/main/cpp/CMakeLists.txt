@@ -45,7 +45,8 @@ include_directories( Common/Include )
 add_library(
         ndk_test
         SHARED
-        Hello_Triangle.c)
+        LinkUtil.c
+        DrawMain.c)
 
 find_library(
         log-lib
