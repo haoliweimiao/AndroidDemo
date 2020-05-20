@@ -41,6 +41,7 @@ endif (${ANDROID_PLATFORM_LEVEL} LESS 12)
 
 include_directories( External/Include )
 include_directories( Common/Include )
+include_directories( stb_image )
 
 add_library(
         ndk_test
@@ -82,6 +83,7 @@ target_link_libraries( # Specifies the target library.
 #        OPENGL_LIB
 #        GLESv2
 #        GLESv3
+        ${jnigraphics}
         ${OPENGL_LIB}
         app_glue
         # Links the target library to the log library

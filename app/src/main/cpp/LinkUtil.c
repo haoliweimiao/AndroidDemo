@@ -4,6 +4,9 @@
 
 #include "LinkUtil.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 char *getAssetsFile(AAssetManager *mgr, const char *filename) {
     //open file
     AAsset *assetFile = AAssetManager_open(mgr, filename, AASSET_MODE_BUFFER);
@@ -28,7 +31,7 @@ char *getAssetsFile(AAssetManager *mgr, const char *filename) {
 // Create a shader object, load the shader source, and
 // compile the shader.
 //
-GLuint LoadShader(GLenum type, const char *shaderSrc) {
+GLuint loadShader(GLenum type, const char *shaderSrc) {
     GLuint shader;
     GLint compiled;
 
@@ -111,15 +114,50 @@ GLuint linkProgram(GLuint *vertexShader, GLuint *fragmentShader, GLint *linked) 
 ///
 // Load texture from disk
 //
-GLuint LoadTexture(void *ioContext, char *fileName) {
-    int width,
-            height;
+GLuint loadTexture(void *ioContext, char *fileName) {
+    int width, height;
 
     char *buffer = esLoadTGA(ioContext, fileName, &width, &height);
     GLuint texId;
 
     if (buffer == NULL) {
         esLogMessage("Error loading (%s) image.\n", fileName);
+        return 0;
+    }
+
+
+    glGenTextures(1, &texId);
+    glBindTexture(GL_TEXTURE_2D, texId);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    free(buffer);
+
+    return texId;
+}
+
+/**
+ * Load texture from assets file
+ */
+GLuint loadTextureByMgr(AAssetManager *mgr, const char *filename) {
+    int width, height, nrChannels;
+    // 打开 Asset 文件夹下的文件
+    AAsset *pathAsset = AAssetManager_open(mgr, filename, AASSET_MODE_UNKNOWN);
+    // 得到文件的长度
+    off_t assetLength = AAsset_getLength(pathAsset);
+    // 得到文件对应的 Buffer
+    unsigned char *fileData = (unsigned char *) AAsset_getBuffer(pathAsset);
+    // stb_image 的方法，从内存中加载图片
+    unsigned char *buffer = stbi_load_from_memory(fileData, assetLength, &width, &height, &nrChannels, 0);
+
+    GLuint texId;
+
+    if (buffer == NULL) {
+        esLogMessage("Error loading (%s) image.\n", filename);
         return 0;
     }
 
@@ -132,7 +170,7 @@ GLuint LoadTexture(void *ioContext, char *fileName) {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    free(buffer);
+    stbi_image_free(buffer);
 
     return texId;
 }

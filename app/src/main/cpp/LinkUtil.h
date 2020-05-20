@@ -13,10 +13,12 @@
 
 char *getAssetsFile(AAssetManager *mgr, const char *filename);
 
-GLuint LoadShader(GLenum type, const char *shaderSrc);
+GLuint loadShader(GLenum type, const char *shaderSrc);
 
 GLuint linkProgram(GLuint *vertexShader, GLuint *fragmentShader, GLint *linked);
 
-GLuint LoadTexture(void *ioContext, char *fileName);
+GLuint loadTexture(void *ioContext, char *fileName);
+
+GLuint loadTextureByMgr(AAssetManager *mgr, const char *filename);
 
 #endif //ANDROIDDEMO_LINKUTIL_H
