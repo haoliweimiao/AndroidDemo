@@ -5,6 +5,7 @@
 #include "LinkUtil.h"
 
 #define STB_IMAGE_IMPLEMENTATION
+
 #include "stb_image.h"
 
 char *getAssetsFile(AAssetManager *mgr, const char *filename) {
@@ -152,7 +153,8 @@ GLuint loadTextureByMgr(AAssetManager *mgr, const char *filename) {
     // 得到文件对应的 Buffer
     unsigned char *fileData = (unsigned char *) AAsset_getBuffer(pathAsset);
     // stb_image 的方法，从内存中加载图片
-    unsigned char *buffer = stbi_load_from_memory(fileData, assetLength, &width, &height, &nrChannels, 0);
+    unsigned char *buffer = stbi_load_from_memory(fileData, assetLength, &width, &height,
+                                                  &nrChannels, 0);
 
     GLuint texId;
 
@@ -164,11 +166,31 @@ GLuint loadTextureByMgr(AAssetManager *mgr, const char *filename) {
     glGenTextures(1, &texId);
     glBindTexture(GL_TEXTURE_2D, texId);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    // set the texture wrapping parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
+                    GL_REPEAT);    // set texture wrapping to GL_REPEAT (default wrapping method)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // set texture filtering parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    if (nrChannels == 3)//rgb 适用于jpg图像
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+                     buffer);//后面一个是RGBA
+    else if (nrChannels == 4)//rgba 适用于png图像
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+                     buffer);//注意，两个都是RGBA
+    else
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
+
+    glGenerateMipmap(GL_TEXTURE_2D);
+//    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, buffer);
+//    glGenerateMipmap(GL_TEXTURE_2D);
 
     stbi_image_free(buffer);
 

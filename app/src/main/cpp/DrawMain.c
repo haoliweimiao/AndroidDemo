@@ -13,9 +13,9 @@ typedef struct {
 
 } UserData;
 
-unsigned int VBO, VAO, EBO;
+GLuint VBO, VAO, EBO;
 
-unsigned int texture;
+GLuint texture1, texture2;
 
 ///
 // Initialize the shader and program object
@@ -23,11 +23,11 @@ unsigned int texture;
 int Init(ESContext *esContext) {
     UserData *userData = esContext->userData;
     char *vShaderStr = getAssetsFile(esContext->platformData,
-                                     "glsl/texture/vertex_image_texture.glsl");
+                                     "glsl/texture/smile_box_vertex.glsl");
     esLogMessage("load vertex text file in android assets:\n%s\n", vShaderStr);
 
     char *fShaderStr = getAssetsFile(esContext->platformData,
-                                     "glsl/texture/fragment_image_texture.glsl");
+                                     "glsl/texture/smile_box_fragment.glsl");
     esLogMessage("load fragment text file in android assets:\n%s\n", vShaderStr);
 
     GLuint vertexShader;
@@ -41,6 +41,9 @@ int Init(ESContext *esContext) {
 
     // Create the program object
     programObject = linkProgram(&vertexShader, &fragmentShader, &linked);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glDeleteShader(fragmentShader);
     glDeleteShader(vertexShader);
@@ -88,11 +91,8 @@ int Init(ESContext *esContext) {
                           (void *) (6 * sizeof(GLfloat)));
     glEnableVertexAttribArray(2);
 
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    glBindVertexArray(0);
-
-    texture = loadTextureByMgr(esContext->platformData, "image/container.jpg");
+    texture1 = loadTextureByMgr(esContext->platformData, "image/container2.png");
+    texture2 = loadTextureByMgr(esContext->platformData, "image/awesomeface.png");
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     // Set the viewport
@@ -113,7 +113,15 @@ void Draw(ESContext *esContext) {
     glClear(GL_COLOR_BUFFER_BIT);
 
     //bind texture
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture1);
+
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, texture2);
+
+    glUniform1i(glGetUniformLocation(userData->programObject, "uTexture1"), 0);
+    glUniform1i(glGetUniformLocation(userData->programObject, "uTexture2"), 1);
+
 
     // draw our first triangle
     glUseProgram(userData->programObject);
