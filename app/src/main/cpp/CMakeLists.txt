@@ -42,12 +42,13 @@ endif (${ANDROID_PLATFORM_LEVEL} LESS 12)
 include_directories( External/Include )
 include_directories( Common/Include )
 include_directories( stb_image )
+include_directories( glm )
 
 add_library(
         ndk_test
         SHARED
         LinkUtil.c
-        DrawMain.c)
+        DrawMain.c )
 
 find_library(
         log-lib
@@ -72,12 +73,14 @@ set(CMAKE_SHARED_LINKER_FLAGS
 #使用命令 ADD_SUBDIRECTORY 指明本项目包含一个子目录 src
 ADD_SUBDIRECTORY( ${PROJECT_SOURCE_DIR}/test )
 ADD_SUBDIRECTORY( ${PROJECT_SOURCE_DIR}/Common )
+ADD_SUBDIRECTORY( ${PROJECT_SOURCE_DIR}/glm )
 
 target_link_libraries( # Specifies the target library.
         ndk_test
         libtest
         Common
         -landroid
+        glm
 #        camera2ndk
 #        mediandk
 #        OPENGL_LIB
