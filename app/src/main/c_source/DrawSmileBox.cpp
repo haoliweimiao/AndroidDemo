@@ -21,12 +21,12 @@ GLuint texture1, texture2;
 // Initialize the shader and program object
 //
 int Init(ESContext *esContext) {
-    UserData *userData = esContext->userData;
-    char *vShaderStr = getAssetsFile(esContext->platformData,
+    UserData *userData = (UserData *) esContext->userData;
+    char *vShaderStr = getAssetsFile((AAssetManager *) esContext->platformData,
                                      "glsl/texture/smile_box_vertex.glsl");
     esLogMessage("load vertex text file in android assets:\n%s\n", vShaderStr);
 
-    char *fShaderStr = getAssetsFile(esContext->platformData,
+    char *fShaderStr = getAssetsFile((AAssetManager *) esContext->platformData,
                                      "glsl/texture/smile_box_fragment.glsl");
     esLogMessage("load fragment text file in android assets:\n%s\n", vShaderStr);
 
@@ -91,8 +91,8 @@ int Init(ESContext *esContext) {
                           (void *) (6 * sizeof(GLfloat)));
     glEnableVertexAttribArray(2);
 
-    texture1 = loadTextureByMgr(esContext->platformData, "image/container2.png");
-    texture2 = loadTextureByMgr(esContext->platformData, "image/awesomeface.png");
+    texture1 = loadTextureByMgr((AAssetManager *) esContext->platformData, "image/container2.png");
+    texture2 = loadTextureByMgr((AAssetManager *) esContext->platformData, "image/awesomeface.png");
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     // Set the viewport
@@ -105,7 +105,7 @@ int Init(ESContext *esContext) {
 // Draw a triangle using the shader pair created in Init()
 //
 void Draw(ESContext *esContext) {
-    UserData *userData = esContext->userData;
+    UserData *userData = (UserData *) esContext->userData;
 
     // render
     // ------
@@ -132,7 +132,7 @@ void Draw(ESContext *esContext) {
 }
 
 void Shutdown(ESContext *esContext) {
-    UserData *userData = esContext->userData;
+    UserData *userData = (UserData *)esContext->userData;
 
     glDeleteProgram(userData->programObject);
 }

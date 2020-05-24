@@ -335,6 +335,12 @@ esMatrixLookAt ( ESMatrix *result,
                  float lookAtX, float lookAtY, float lookAtZ,
                  float upX,     float upY,     float upZ );
 
+///
+//  Global extern.  The application must declare this function
+//  that runs the application.
+//
+extern int esMain ( ESContext *esContext );
+
 #ifdef __cplusplus
 }
 #endif

@@ -231,7 +231,7 @@ void WinLoop ( ESContext *esContext )
 //  Global extern.  The application must declare this function
 //  that runs the application.
 //
-extern int esMain ( ESContext *esContext );
+//extern int esMain ( ESContext *esContext );
 
 ///
 //  main()

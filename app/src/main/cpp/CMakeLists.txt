@@ -48,7 +48,7 @@ add_library(
         ndk_test
         SHARED
         LinkUtil.c
-        DrawMain.c )
+        DrawMain.cpp)
 
 find_library(
         log-lib

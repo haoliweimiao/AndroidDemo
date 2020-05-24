@@ -5,6 +5,10 @@
 #ifndef ANDROIDDEMO_LINKUTIL_H
 #define ANDROIDDEMO_LINKUTIL_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "esUtil.h"
 #include <android/log.h>
 #include <android_native_app_glue.h>
@@ -21,4 +25,8 @@ GLuint loadTexture(void *ioContext, char *fileName);
 
 GLuint loadTextureByMgr(AAssetManager *mgr, const char *filename);
 
+#ifdef __cplusplus
+}
+#endif
 #endif //ANDROIDDEMO_LINKUTIL_H
+
