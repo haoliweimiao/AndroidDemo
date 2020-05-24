@@ -48,6 +48,7 @@ add_library(
         ndk_test
         SHARED
         LinkUtil.c
+        OtherUtil.c
         DrawMain.cpp)
 
 find_library(
