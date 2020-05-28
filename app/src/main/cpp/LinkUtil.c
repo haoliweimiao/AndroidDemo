@@ -13,19 +13,20 @@ char *getAssetsFile(AAssetManager *mgr, const char *filename) {
     AAsset *assetFile = AAssetManager_open(mgr, filename, AASSET_MODE_BUFFER);
     //get file length
     size_t fileLength = (size_t) AAsset_getLength(assetFile);
-    char *fileData = (char *) malloc(fileLength);
+    char *fileData = (char *) malloc(fileLength + 1);
+    fileData[fileLength] = 0;
     //read file data
     AAsset_read(assetFile, fileData, fileLength);
     //the data has been copied to dataBuffer2, so , close it
     AAsset_close(assetFile);
 
-    // +1 because of '\0' at the end
-    char *data = malloc(strlen(fileData) + 1);
-    strcpy(data, fileData);
-    //free malloc
-    free(fileData);
+//    // +1 because of '\0' at the end
+//    char *data = malloc(strlen(fileData) + 1);
+//    strcpy(data, fileData);
+//    //free malloc
+//    free(fileData);
 
-    return data;
+    return fileData;
 }
 
 ///
@@ -42,6 +43,8 @@ GLuint loadShader(GLenum type, const char *shaderSrc) {
     if (shader == 0) {
         return 0;
     }
+
+    esLogMessage("\n\nload text file in android assets:\n%s\n\n", shaderSrc);
 
     // Load the shader source
     glShaderSource(shader, 1, &shaderSrc, NULL);

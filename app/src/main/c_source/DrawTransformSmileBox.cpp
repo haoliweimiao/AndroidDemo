@@ -26,10 +26,10 @@ GLuint texture1, texture2;
 int Init(ESContext *esContext) {
     UserData *userData = (UserData *) esContext->userData;
     const char *vShaderStr = getAssetsFile((AAssetManager *) esContext->platformData,
-                                     "glsl/ndk/vertex_perspective_smile_box.glsl");
+                                           "glsl/ndk/vertex_perspective_smile_box.glsl");
 
     const char *fShaderStr = getAssetsFile((AAssetManager *) esContext->platformData,
-                                     "glsl/ndk/fragment_perspective_smile_box.glsl");
+                                           "glsl/ndk/fragment_perspective_smile_box.glsl");
 
     GLuint vertexShader;
     GLuint fragmentShader;
