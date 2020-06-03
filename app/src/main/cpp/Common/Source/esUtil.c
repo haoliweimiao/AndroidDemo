@@ -218,8 +218,12 @@ GLboolean ESUTIL_API esCreateWindow ( ESContext *esContext, const char *title, G
    }
 #endif // ANDROID
 
+   EGLint attribListtt[]={
+           EGL_RENDER_BUFFER, EGL_BACK_BUFFER,
+           EGL_NONE,
+   };
    // Create a surface
-   esContext->eglSurface = eglCreateWindowSurface ( esContext->eglDisplay, config, 
+   esContext->eglSurface = eglCreateWindowSurface ( esContext->eglDisplay, config,
                                                     esContext->eglNativeWindow, NULL );
 
    if ( esContext->eglSurface == EGL_NO_SURFACE )
@@ -228,7 +232,7 @@ GLboolean ESUTIL_API esCreateWindow ( ESContext *esContext, const char *title, G
    }
 
    // Create a GL context
-   esContext->eglContext = eglCreateContext ( esContext->eglDisplay, config, 
+   esContext->eglContext = eglCreateContext ( esContext->eglDisplay, config,
                                               EGL_NO_CONTEXT, contextAttribs );
 
    if ( esContext->eglContext == EGL_NO_CONTEXT )
@@ -237,7 +241,7 @@ GLboolean ESUTIL_API esCreateWindow ( ESContext *esContext, const char *title, G
    }
 
    // Make the context current
-   if ( !eglMakeCurrent ( esContext->eglDisplay, esContext->eglSurface, 
+   if ( !eglMakeCurrent ( esContext->eglDisplay, esContext->eglSurface,
                           esContext->eglSurface, esContext->eglContext ) )
    {
       return GL_FALSE;
