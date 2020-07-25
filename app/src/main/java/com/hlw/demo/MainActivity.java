@@ -10,6 +10,7 @@ import com.hlw.demo.activity.opengl.activity.OpenGLListActivity;
 import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityMainBinding;
 import com.hlw.demo.ndk.TestUtils;
+import com.hlw.demo.util.LogUtils;
 
 /**
  * @author hlw
@@ -59,5 +60,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+//        long startActivityTime = PreferenceUtils.getLong(SPFiles.FILE_COMMON, SPKeys.COMMON_APP_START_TIME_LONG);
+        long startActivityTime = ((DemoApplication) getApplication()).getStartApplictionTime();
+        LogUtils.i(String.format("start application total time: %s ms", startActivityTime));
     }
 }

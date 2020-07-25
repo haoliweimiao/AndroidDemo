@@ -1,5 +1,6 @@
 package com.hlw.demo.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -39,6 +40,7 @@ public class CircleView extends View {
         init(context, attrs);
     }
 
+    @SuppressLint("NewApi")
     public CircleView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);

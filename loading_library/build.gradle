@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply from: '../lint_options.gradle'
 
 android {
     compileSdkVersion 23
