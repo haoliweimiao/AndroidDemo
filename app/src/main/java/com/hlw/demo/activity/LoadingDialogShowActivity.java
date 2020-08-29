@@ -12,6 +12,7 @@ import com.hlw.demo.dialog.DownloadProcessDialog;
 import com.hlw.demo.dialog.LoadingDialogFragment;
 
 /**
+ * LoadingDialogShowActivity
  * @author hlw
  * @date 2020-03-22 16:22:21
  */
@@ -57,6 +58,7 @@ public class LoadingDialogShowActivity extends BaseActivity<ActivityLoadingDialo
                 LoadingDialogFragment loadingDialog = LoadingDialogFragment.newInstance();
                 loadingDialog.show(getSupportFragmentManager(), loadingDialog.getShowTag());
             }
+            break;
             case R.id.btn_show_download_process_dialog: {
                 DownloadProcessDialog dialog = new DownloadProcessDialog(this);
                 dialog.show();

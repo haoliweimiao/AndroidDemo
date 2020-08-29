@@ -1,0 +1,31 @@
+/*
+ * 检查代码规范
+ */
+apply plugin: 'checkstyle'
+
+//设置CheckStyle版本
+checkstyle {
+    ignoreFailures = false
+    showViolations true
+    toolVersion '8.0'
+}
+
+//设置配置文件
+task checkstyle(type: Checkstyle) {
+    description 'Check code standard'
+    group 'verification'
+
+    configFile file("${project.rootDir}/checkstyle.xml")
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+    exclude '**/test/**'
+    exclude '**/androidTest/**'
+
+    classpath = files()
+}
+
+// 每次编绎时都进行checkstyle检测
+project.afterEvaluate {
+    preBuild.dependsOn 'checkstyle'
+}

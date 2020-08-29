@@ -9,10 +9,15 @@ import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityHorizontalDemoBinding;
 
 /**
+ * HorizontalDemoActivity
  * @author hlw
  */
 public class HorizontalDemoActivity extends BaseActivity<ActivityHorizontalDemoBinding> {
 
+    /**
+     * start to HorizontalDemoActivity
+     * @param context context
+     */
     public static void start(Context context) {
         Intent intent = new Intent(context, HorizontalDemoActivity.class);
         context.startActivity(intent);

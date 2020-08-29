@@ -13,6 +13,8 @@ import com.hlw.demo.ndk.TestUtils;
 import com.hlw.demo.util.LogUtils;
 
 /**
+ * MainActivity
+ *
  * @author hlw
  */
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
@@ -66,7 +68,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
 //        long startActivityTime = PreferenceUtils.getLong(SPFiles.FILE_COMMON, SPKeys.COMMON_APP_START_TIME_LONG);
-        long startActivityTime = ((DemoApplication) getApplication()).getStartApplictionTime();
+        long startActivityTime = ((DemoApplication) getApplication()).getStartApplicationTime();
         LogUtils.i(String.format("start application total time: %s ms", startActivityTime));
     }
 }

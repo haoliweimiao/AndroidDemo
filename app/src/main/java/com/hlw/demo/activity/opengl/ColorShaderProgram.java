@@ -3,6 +3,11 @@ package com.hlw.demo.activity.opengl;
 import android.content.Context;
 import android.opengl.GLES30;
 
+/**
+ * OpenGL ES ColorShaderProgram
+ *
+ * @author hlw
+ */
 public class ColorShaderProgram extends ShaderProgram {
 
     /**
@@ -11,10 +16,13 @@ public class ColorShaderProgram extends ShaderProgram {
     private final int uMatrixLocation;
 
     /**
-     * Attribute location
+     * Color Attribute location
      */
     private final int aColorLocation;
 
+    /**
+     * Position Attribute location
+     */
     private final int aPositionLocation;
 
     public ColorShaderProgram(Context context) {
@@ -26,19 +34,38 @@ public class ColorShaderProgram extends ShaderProgram {
         aPositionLocation = GLES30.glGetAttribLocation(programId, A_POSITION);
     }
 
+    /**
+     * setUniforms
+     *
+     * @param matrix matrix
+     */
     public void setUniforms(float[] matrix) {
         GLES30.glUniformMatrix4fv(uMatrixLocation, 1, false, matrix, 0);
     }
 
-
+    /**
+     * get color location
+     *
+     * @return color location
+     */
     public int getColorLocation() {
         return aColorLocation;
     }
 
+    /**
+     * get position location
+     *
+     * @return position location
+     */
     public int getPositionLocation() {
         return aPositionLocation;
     }
 
+    /**
+     * get matrix location
+     *
+     * @return matrix location
+     */
     public int getMatrixLocation() {
         return uMatrixLocation;
     }

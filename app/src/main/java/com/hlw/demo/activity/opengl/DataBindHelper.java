@@ -11,6 +11,13 @@ import static android.opengl.GLES20.glBufferData;
 
 public class DataBindHelper {
 
+    /**
+     * bind array data to OpenGL es GL_ARRAY_BUFFER
+     *
+     * @param mVBOId       VBO ID
+     * @param vertices     vertices
+     * @param vertexBuffer cache buffer
+     */
     public static void bindArrayData(int[] mVBOId, float[] vertices, FloatBuffer vertexBuffer) {
         vertexBuffer.position(0);
         // glBindBuffer函数把新创建的缓冲绑定到GL_ARRAY_BUFFER目标上：->VBO
@@ -20,6 +27,13 @@ public class DataBindHelper {
         glBufferData(GL_ARRAY_BUFFER, vertices.length * 4, vertexBuffer, GL_STATIC_DRAW);
     }
 
+    /**
+     * bind element array data to OpenGL es GL_ELEMENT_ARRAY_BUFFER
+     *
+     * @param mEBOId      EBO ID
+     * @param indices     indices
+     * @param indexBuffer cache buffer
+     */
     public static void bindElementArrayBuffer(int[] mEBOId, int[] indices, IntBuffer indexBuffer) {
         indexBuffer.position(0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mEBOId[0]);

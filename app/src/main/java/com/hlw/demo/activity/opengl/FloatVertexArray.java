@@ -6,15 +6,29 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
+/**
+ * FloatVertexArray
+ *
+ * @author hlw
+ */
 public class FloatVertexArray {
-    private final FloatBuffer floatBuffer;
+    /**
+     * float buffer
+     */
+    private final FloatBuffer mFloatBuffer;
+    /**
+     * float size
+     */
     private static final int BYTES_PER_FLOAT = 4;
-    private final int vertexSize;
+    /**
+     * vertex size
+     */
+    private final int VERTEX_SIZE;
 
     public FloatVertexArray(float[] vertexData) {
-        vertexSize = vertexData.length * BYTES_PER_FLOAT;
+        VERTEX_SIZE = vertexData.length * BYTES_PER_FLOAT;
 
-        floatBuffer =
+        mFloatBuffer =
                 // allocateDirect 分配内存，一个float 32个字节，一个int 8个字节，*4
                 ByteBuffer.allocateDirect(vertexData.length * BYTES_PER_FLOAT)
                         //按照本地字节序(大小端)组织内容(当一个值占多个字节时，比如32位整形数，
@@ -25,23 +39,41 @@ public class FloatVertexArray {
 
     }
 
+    /**
+     * getFloatBuffer
+     *
+     * @return FloatBuffer
+     */
     public FloatBuffer getFloatBuffer() {
-        floatBuffer.position(0);
-        return floatBuffer;
+        mFloatBuffer.position(0);
+        return mFloatBuffer;
     }
 
+    /**
+     * getVertexSize
+     *
+     * @return VertexSize
+     */
     public int getVertexSize() {
-        return vertexSize;
+        return VERTEX_SIZE;
     }
 
+    /**
+     * setVertexAttributePointer
+     *
+     * @param dataOffset        dataOffset
+     * @param attributeLocation attributeLocation
+     * @param componentCount    componentCount
+     * @param stride            stride
+     */
     public void setVertexAttributePointer(int dataOffset, int attributeLocation,
                                           int componentCount, int stride) {
 //        LogUtils.i("setVertexAttributePointer dataOffset: " + dataOffset + " attributeLocation: " + attributeLocation +
 //                " componentCount: " + componentCount + " stride: " + stride);
-        floatBuffer.position(dataOffset);
-        GLES30.glVertexAttribPointer(attributeLocation, componentCount, GLES30.GL_FLOAT, false, stride, floatBuffer);
+        mFloatBuffer.position(dataOffset);
+        GLES30.glVertexAttribPointer(attributeLocation, componentCount, GLES30.GL_FLOAT, false, stride, mFloatBuffer);
         GLES30.glEnableVertexAttribArray(attributeLocation);
 
-        floatBuffer.position(0);
+        mFloatBuffer.position(0);
     }
 }

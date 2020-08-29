@@ -5,7 +5,15 @@ import android.content.Context;
 
 import com.hlw.demo.util.LogUtils;
 
+/**
+ * Demo Application
+ *
+ * @author hlw
+ */
 public class DemoApplication extends Application {
+    /**
+     * application context
+     */
     private static Context mContext;
 
     @Override
@@ -15,21 +23,34 @@ public class DemoApplication extends Application {
         LogUtils.initLog(BuildConfig.DEBUG);
     }
 
-    private long startApplictionTime;
+    /**
+     * start application time
+     */
+    private long mStartApplicationTime;
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         // attachBaseContext 之后 getApplication 才会有值
 //            PreferenceUtils.put(SPFiles.FILE_COMMON, SPKeys.COMMON_APP_START_TIME_LONG, System.currentTimeMillis());
-        startApplictionTime = System.currentTimeMillis();
+        mStartApplicationTime = System.currentTimeMillis();
     }
 
+    /**
+     * get application context
+     *
+     * @return application context
+     */
     public static Context getAppContext() {
         return mContext;
     }
 
-    public long getStartApplictionTime() {
-        return System.currentTimeMillis() - startApplictionTime;
+    /**
+     * get application start time
+     *
+     * @return application start time
+     */
+    public long getStartApplicationTime() {
+        return System.currentTimeMillis() - mStartApplicationTime;
     }
 }

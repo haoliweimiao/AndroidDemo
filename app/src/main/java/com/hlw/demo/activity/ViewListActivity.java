@@ -9,10 +9,17 @@ import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityViewListBinding;
 
 /**
+ * ViewListActivity
+ *
  * @author hlw
  */
 public class ViewListActivity extends BaseActivity<ActivityViewListBinding> {
 
+    /**
+     * start to ViewListActivity
+     *
+     * @param context context
+     */
     public static void start(Context context) {
         Intent intent = new Intent(context, ViewListActivity.class);
         context.startActivity(intent);

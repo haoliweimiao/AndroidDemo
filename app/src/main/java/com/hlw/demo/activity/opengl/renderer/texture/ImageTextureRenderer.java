@@ -18,9 +18,6 @@ import static android.opengl.GLES20.GL_FLOAT;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
 
 public class ImageTextureRenderer implements GLSurfaceView.Renderer {
-    //    private final String U_TEXTURE = "u_texture";
-    private Context context;
-
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     private final float[] vertices = {
@@ -34,10 +31,10 @@ public class ImageTextureRenderer implements GLSurfaceView.Renderer {
             0, 1, 3, // first triangle
             1, 2, 3  // second triangle
     };
-
     private final FloatVertexArray vertexData;
     private final IntVertexArray indexData;
-
+    //    private final String U_TEXTURE = "u_texture";
+    private Context context;
     private int[] mVAOId = new int[1];
     private int[] mVBOId = new int[1];
     private int[] mEBOId = new int[1];

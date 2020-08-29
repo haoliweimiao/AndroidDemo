@@ -3,9 +3,11 @@ package com.hlw.demo.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -15,13 +17,26 @@ import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityLoadingViewsBinding;
 import com.hlw.loading.LoadingIndicatorView;
 
+/**
+ * LoadingViewsActivity
+ *
+ * @author hlw
+ */
 public class LoadingViewsActivity extends BaseActivity<ActivityLoadingViewsBinding> {
 
+    /**
+     * start to LoadingViewsActivity
+     *
+     * @param context context
+     */
     public static void start(Context context) {
         Intent intent = new Intent(context, LoadingViewsActivity.class);
         context.startActivity(intent);
     }
 
+    /**
+     * loading view indicators
+     */
     private static final String[] INDICATORS = new String[]{
             "BallPulseIndicator",
             "BallGridPulseIndicator",
@@ -80,8 +95,8 @@ public class LoadingViewsActivity extends BaseActivity<ActivityLoadingViewsBindi
 
             @Override
             public void onBindViewHolder(@NonNull IndicatorHolder holder, @SuppressLint("RecyclerView") final int position) {
-                holder.indicatorView.setIndicator(INDICATORS[position]);
-                holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+                holder.mIndicatorView.setIndicator(INDICATORS[position]);
+                holder.mItemLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Toast.makeText(LoadingViewsActivity.this, INDICATORS[position], Toast.LENGTH_SHORT).show();
@@ -101,15 +116,26 @@ public class LoadingViewsActivity extends BaseActivity<ActivityLoadingViewsBindi
 
     }
 
-    final static class IndicatorHolder extends RecyclerView.ViewHolder {
+    /**
+     * IndicatorHolder
+     *
+     * @author hlw
+     */
+    static final class IndicatorHolder extends RecyclerView.ViewHolder {
 
-        LoadingIndicatorView indicatorView;
-        View itemLayout;
+        /**
+         * IndicatorView
+         */
+        LoadingIndicatorView mIndicatorView;
+        /**
+         * ItemLayout
+         */
+        View mItemLayout;
 
         IndicatorHolder(View itemView) {
             super(itemView);
-            itemLayout = itemView.findViewById(R.id.itemLayout);
-            indicatorView = itemView.findViewById(R.id.indicator);
+            mItemLayout = itemView.findViewById(R.id.itemLayout);
+            mIndicatorView = itemView.findViewById(R.id.indicator);
         }
     }
 }
