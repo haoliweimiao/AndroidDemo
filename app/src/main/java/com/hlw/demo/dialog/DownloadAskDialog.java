@@ -1,8 +1,8 @@
 package com.hlw.demo.dialog;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.hlw.demo.R;
 import com.hlw.demo.base.BaseDialog;

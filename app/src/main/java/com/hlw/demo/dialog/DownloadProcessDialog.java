@@ -3,9 +3,8 @@ package com.hlw.demo.dialog;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.hlw.demo.R;
 import com.hlw.demo.base.BaseDialog;

@@ -1,6 +1,6 @@
 package com.hlw.demo.config;
 
-import android.support.annotation.StringDef;
+import androidx.annotation.StringDef;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

@@ -1,2 +1,2 @@
-include ':app', ':loading_library'
+include ':app', ':lib_loading'
 rootProject.name='AndroidDemo'
