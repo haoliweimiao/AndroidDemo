@@ -15,12 +15,6 @@
             android:text="view" />
 
         <Button
-            android:id="@+id/btn_open_gl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="open gl" />
-
-        <Button
             android:id="@+id/btn_open_gl_demo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -3,12 +3,9 @@ package com.hlw.demo;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.hlw.demo.activity.ViewListActivity;
-import com.hlw.demo.activity.opengl.activity.OpenGLListActivity;
 import com.hlw.demo.databinding.ActivityMainBinding;
-import com.hlw.demo.ndk.TestUtils;
 import com.hlw.demo.util.LogUtils;
 import com.hlw.library.ui.BaseActivity;
 
@@ -35,13 +32,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 //        Typeface typeface = Typeface.createFromAsset(assetManager, "fonts/DIGITAL-Regular.ttf");
 //        getBinding().tvTest.setTypeface(typeface);
 //        Toast.makeText(MainActivity.this, NDKTest.hello(),Toast.LENGTH_SHORT).show();
-        Toast.makeText(MainActivity.this, TestUtils.hello(), Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
     protected void initListener() {
         getBinding().btnView.setOnClickListener(this);
-        getBinding().btnOpenGl.setOnClickListener(this);
         getBinding().btnOpenGlDemo.setOnClickListener(this);
     }
 
@@ -50,9 +46,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         switch (v.getId()) {
             case R.id.btn_view:
                 ViewListActivity.start(this);
-                break;
-            case R.id.btn_open_gl:
-                OpenGLListActivity.start(this);
                 break;
             case R.id.btn_open_gl_demo: {
                 Intent intent = new Intent("opengl.demo.triangle");

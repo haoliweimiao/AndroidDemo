@@ -17,12 +17,6 @@ android {
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        externalNativeBuild {
-            cmake {
-                cppFlags ""
-            }
-        }
     }
 
     buildTypes {
@@ -39,12 +33,6 @@ android {
     compileOptions {
         sourceCompatibility rootProject.ext.android.javaVersion
         targetCompatibility rootProject.ext.android.javaVersion
-    }
-
-    externalNativeBuild {
-        cmake {
-            path file('./src/main/cpp/CMakeLists.txt')
-        }
     }
 }
 
