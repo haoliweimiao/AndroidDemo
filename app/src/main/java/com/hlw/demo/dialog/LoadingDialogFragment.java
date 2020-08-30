@@ -5,15 +5,18 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.DialogInterface;
 import android.os.Bundle;
+
 import androidx.fragment.app.FragmentManager;
 
 import com.hlw.demo.R;
-import com.hlw.demo.base.ZKBaseDialogFragment;
 import com.hlw.demo.databinding.DialogLoadingBinding;
+import com.hlw.library.ui.BaseDialogFragment;
 
-public class LoadingDialogFragment extends ZKBaseDialogFragment<DialogLoadingBinding> {
+public class LoadingDialogFragment extends BaseDialogFragment<DialogLoadingBinding> {
 
     private ValueAnimator animator;
+
+    private boolean mIsUserCanSee;
 
     public static LoadingDialogFragment newInstance() {
         LoadingDialogFragment dialog = new LoadingDialogFragment();
@@ -30,7 +33,7 @@ public class LoadingDialogFragment extends ZKBaseDialogFragment<DialogLoadingBin
     @Override
     protected void initData() {
         animator = ValueAnimator.ofFloat(0, 360);
-        animator.setTarget(mBinding.ivLoading);
+        animator.setTarget(getBinding().ivLoading);
         //设置动画执行次数
 //        animator.setRepeatCount(ValueAnimator.INFINITE);
         //设置动画执行模式
@@ -40,16 +43,16 @@ public class LoadingDialogFragment extends ZKBaseDialogFragment<DialogLoadingBin
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 Float value = (Float) animation.getAnimatedValue();
-                mBinding.ivLoading.setRotation(value);
+                getBinding().ivLoading.setRotation(value);
             }
         });
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                if (isUserCanSee) {
+                if (mIsUserCanSee) {
                     //部分机型不在post方法内部 animator.start(); 不会生效
-                    mBinding.ivLoading.post(() -> {
+                    getBinding().ivLoading.post(() -> {
                         animator.start();
                     });
                 }
@@ -88,6 +91,7 @@ public class LoadingDialogFragment extends ZKBaseDialogFragment<DialogLoadingBin
 
     @Override
     protected void onUserVisibleChange(boolean isUserCanSee) {
+        this.mIsUserCanSee = isUserCanSee;
         if (isUserCanSee) {
             if (animator != null && !animator.isRunning()) {
                 animator.start();
@@ -98,4 +102,5 @@ public class LoadingDialogFragment extends ZKBaseDialogFragment<DialogLoadingBin
             }
         }
     }
+
 }

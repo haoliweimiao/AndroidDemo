@@ -3,12 +3,13 @@ package com.hlw.demo.dialog;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.hlw.demo.R;
-import com.hlw.demo.base.BaseDialog;
 import com.hlw.demo.databinding.DialogDownloadProcessBinding;
+import com.hlw.library.ui.BaseDialog;
 
 public class DownloadProcessDialog extends BaseDialog<DialogDownloadProcessBinding> {
 
@@ -41,7 +42,7 @@ public class DownloadProcessDialog extends BaseDialog<DialogDownloadProcessBindi
         animator.setDuration(10000);
         animator.addUpdateListener(animation -> {
             float value = (float) animation.getAnimatedValue();
-            mBinding.tvProcess.setText(String.format("%.2f %s", value, "%"));
+            getBinding().tvProcess.setText(String.format("%.2f %s", value, "%"));
         });
         animator.start();
     }

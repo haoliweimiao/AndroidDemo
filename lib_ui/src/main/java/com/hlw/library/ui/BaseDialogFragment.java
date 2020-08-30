@@ -1,45 +1,49 @@
-package com.hlw.demo.base;
+package com.hlw.library.ui;
 
 import android.app.Dialog;
 import android.content.Context;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
-/**
- * @author von.wu
- * DialogFragment弹窗基类
- * 默认宽度为屏幕宽度80%，不可点击外围隐藏dialog，无标题栏
- */
-public abstract class ZKBaseDialogFragment<T extends ViewDataBinding> extends DialogFragment {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
-    protected T mBinding;
+/**
+ * @param <T> R.layout.fragment_*
+ * @author von.wu
+ * DialogFragment弹窗基类: 默认宽度为屏幕宽度80%，不可点击外围隐藏dialog，无标题栏
+ */
+public abstract class BaseDialogFragment<T extends ViewDataBinding> extends DialogFragment {
+
+    /**
+     * dialog fragment view binding object
+     */
+    private T mBinding;
 
     /**
      * dialog确认、取消按钮点击监听
      */
-    protected ZKBaseFragmentDialogClickLisenter baseImpl;
+    private BaseFragmentDialogClickListener mBaseClickListener;
 
     /**
      * dialog dismiss监听
      */
-    protected ZKBaseFragmentDialogDismissLisenter mDialogDismissLisenter;
+    private BaseFragmentDialogDismissListener mDialogDismissListener;
     /**
      * 是否对用户可见
      */
-    protected boolean isUserCanSee = false;
+    private boolean mIsUserCanSee = false;
 
     /**
      * 加载布局
@@ -61,12 +65,12 @@ public abstract class ZKBaseDialogFragment<T extends ViewDataBinding> extends Di
      */
     protected abstract void initListener();
 
-    public void setButtonClickLisenter(ZKBaseFragmentDialogClickLisenter baseImpl) {
-        this.baseImpl = baseImpl;
+    public void setButtonClickListener(BaseFragmentDialogClickListener listener) {
+        this.mBaseClickListener = listener;
     }
 
-    public void setDialogDismissLisenter(ZKBaseFragmentDialogDismissLisenter dialogDismissLisenter) {
-        this.mDialogDismissLisenter = dialogDismissLisenter;
+    public void setDialogDismissListener(BaseFragmentDialogDismissListener listener) {
+        this.mDialogDismissListener = listener;
     }
 
     /**
@@ -120,11 +124,15 @@ public abstract class ZKBaseDialogFragment<T extends ViewDataBinding> extends Di
         return dialogPortWidthScale();
     }
 
+    protected T getBinding() {
+        return mBinding;
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = new Dialog(getActivity(), getTheme());
-        //创建dialogfragment 仅设置这两个属性无效，需在创建DialogFragment时对其进行设置setCancelable->false
+        //创建dialog fragment 仅设置这两个属性无效，需在创建DialogFragment时对其进行设置setCancelable->false
         //false：dialog弹出后会点击屏幕或物理返回键，dialog不消失
         dialog.setCancelable(isCancelable());
         //false：dialog弹出后会点击屏幕，dialog不消失；点击物理返回键dialog消失
@@ -135,7 +143,8 @@ public abstract class ZKBaseDialogFragment<T extends ViewDataBinding> extends Di
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog);
+//        setStyle(DialogFragment.STYLE_NO_TITLE, android.R.style.Theme_Holo_Light_Dialog);
+        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Dialog_FullScreen_NoDim);
     }
 
     @Nullable
@@ -147,10 +156,6 @@ public abstract class ZKBaseDialogFragment<T extends ViewDataBinding> extends Di
         }
 
         mBinding = DataBindingUtil.inflate(inflater, initLayout(), container, attachToParent());
-
-        if (getArguments() == null) {
-            return mBinding.getRoot();
-        }
 
         initData();
 
@@ -177,7 +182,7 @@ public abstract class ZKBaseDialogFragment<T extends ViewDataBinding> extends Di
     public void onResume() {
         super.onResume();
         if (getUserVisibleHint()) {
-            isUserCanSee = true;
+            mIsUserCanSee = true;
             onUserVisibleChange(true);
         }
     }
@@ -186,7 +191,7 @@ public abstract class ZKBaseDialogFragment<T extends ViewDataBinding> extends Di
     public void onStop() {
         super.onStop();
         if (getUserVisibleHint()) {
-            isUserCanSee = false;
+            mIsUserCanSee = false;
             onUserVisibleChange(false);
         }
     }
@@ -195,11 +200,16 @@ public abstract class ZKBaseDialogFragment<T extends ViewDataBinding> extends Di
     public void onPause() {
         super.onPause();
         if (getUserVisibleHint()) {
-            isUserCanSee = false;
+            mIsUserCanSee = false;
         }
     }
 
 
+    /**
+     * show fragment
+     *
+     * @param manager FragmentManager
+     */
     public void show(FragmentManager manager) {
         show(manager, this.getTag());
     }
@@ -221,8 +231,8 @@ public abstract class ZKBaseDialogFragment<T extends ViewDataBinding> extends Di
 
     @Override
     public void dismiss() {
-        if (mDialogDismissLisenter != null) {
-            mDialogDismissLisenter.dialogDismiss();
+        if (mDialogDismissListener != null) {
+            mDialogDismissListener.dialogDismiss();
         }
         //重写dismiss,防止出现以下异常
         //java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState

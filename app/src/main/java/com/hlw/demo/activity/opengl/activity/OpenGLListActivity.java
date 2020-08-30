@@ -7,8 +7,8 @@ import android.view.View;
 import com.hlw.demo.R;
 import com.hlw.demo.activity.opengl.OpenGLDrawType;
 import com.hlw.demo.activity.opengl.OpenglDemoActivity;
-import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityOpenglListBinding;
+import com.hlw.library.ui.BaseActivity;
 
 public class OpenGLListActivity extends BaseActivity<ActivityOpenglListBinding> {
     public static void start(Context context) {
@@ -32,20 +32,20 @@ public class OpenGLListActivity extends BaseActivity<ActivityOpenglListBinding> 
 
     @Override
     protected void initListener() {
-        mBinding.btnDemo1.setOnClickListener(this);
-        mBinding.btnAirHockey.setOnClickListener(this);
-        mBinding.btnDrawTriangle.setOnClickListener(this);
-        mBinding.btnDrawTriangle2.setOnClickListener(this);
-        mBinding.btnDrawColorTriangle.setOnClickListener(this);
-        mBinding.btnDrawTwoTriangle.setOnClickListener(this);
-        mBinding.btnDrawRectangle.setOnClickListener(this);
-        mBinding.btnDraw3dBox.setOnClickListener(this);
-        mBinding.btnDraw2dMipmap.setOnClickListener(this);
-        mBinding.btnDrawSimpleTexture.setOnClickListener(this);
-        mBinding.btnDrawSimpleTextureCubemap.setOnClickListener(this);
-        mBinding.btnDrawTextureWrap.setOnClickListener(this);
-        mBinding.btnDrawImageTexture.setOnClickListener(this);
-        mBinding.btnDrawSmileBoxTexture.setOnClickListener(this);
+        getBinding().btnDemo1.setOnClickListener(this);
+        getBinding().btnAirHockey.setOnClickListener(this);
+        getBinding().btnDrawTriangle.setOnClickListener(this);
+        getBinding().btnDrawTriangle2.setOnClickListener(this);
+        getBinding().btnDrawColorTriangle.setOnClickListener(this);
+        getBinding().btnDrawTwoTriangle.setOnClickListener(this);
+        getBinding().btnDrawRectangle.setOnClickListener(this);
+        getBinding().btnDraw3dBox.setOnClickListener(this);
+        getBinding().btnDraw2dMipmap.setOnClickListener(this);
+        getBinding().btnDrawSimpleTexture.setOnClickListener(this);
+        getBinding().btnDrawSimpleTextureCubemap.setOnClickListener(this);
+        getBinding().btnDrawTextureWrap.setOnClickListener(this);
+        getBinding().btnDrawImageTexture.setOnClickListener(this);
+        getBinding().btnDrawSmileBoxTexture.setOnClickListener(this);
     }
 
     @Override

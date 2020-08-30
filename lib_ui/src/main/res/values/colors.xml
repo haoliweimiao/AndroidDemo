@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="hlw_ui_theme_bg_color">#F2F2F2</color>
+    <color name="hlw_ui_color_bg_title">#ffffff</color>
+    <color name="hlw_ui_color_bg_subtitle">#ffffff</color>
+    <color name="hlw_ui_color_bg_dialog">#ffffff</color>
+    <color name="hlw_ui_color_bg_dialog_stroke">#8C8C8C</color>
+
+    <color name="hlw_ui_color_line">#D5D5D5</color>
+
+    <color name="hlw_ui_color_title_arrow">#4BB17D</color>
+    <color name="hlw_ui_color_subtitle">#4BB17D</color>
+    <color name="hlw_ui_color_subtitle_red">#F61212</color>F
+    <color name="hlw_ui_color_subtitle_right">#8C8C8C</color>
+
+    <color name="hlw_ui_color_dialog_text_right_btn">#FFFFFF</color>
+    <color name="hlw_ui_color_dialog_text_left_btn">#4BB17D</color>
+    <color name="hlw_ui_color_dialog_text_content">#4BB17D</color>
+    <color name="hlw_ui_color_dialog_edit_line_normal">#D5D5D5</color>
+    <color name="hlw_ui_color_dialog_edit_line_focus">#4BB17D</color>
+</resources>

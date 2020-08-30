@@ -1,2 +1,5 @@
-include ':app', ':lib_loading'
-rootProject.name='AndroidDemo'
+include ':lib_ui'
+include ':moudle_opengl'
+include ':lib_loading'
+include ':app'
+rootProject.name = 'AndroidDemo'

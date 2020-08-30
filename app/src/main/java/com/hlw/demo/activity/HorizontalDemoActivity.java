@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.widget.ArrayAdapter;
 
 import com.hlw.demo.R;
-import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityHorizontalDemoBinding;
+import com.hlw.library.ui.BaseActivity;
 
 /**
  * HorizontalDemoActivity
@@ -35,8 +35,8 @@ public class HorizontalDemoActivity extends BaseActivity<ActivityHorizontalDemoB
         ArrayAdapter<String> numberAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, numbers);
         ArrayAdapter<String> letterAdapter = new ArrayAdapter<>(this, android.R.layout.simple_expandable_list_item_1, letters);
 
-        mBinding.llOne.setAdapter(numberAdapter);
-        mBinding.llTwo.setAdapter(letterAdapter);
+        getBinding().llOne.setAdapter(numberAdapter);
+        getBinding().llTwo.setAdapter(letterAdapter);
     }
 
     @Override

@@ -1,20 +1,30 @@
-package com.hlw.demo.base;
+package com.hlw.library.ui;
 
 import android.app.Dialog;
 import android.content.Context;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+
+/**
+ * @param <DialogView> R.layout.dialog_* data binding view
+ * @author von
+ * @date 2020年08月06日13:54:02
+ * Dialog通用基类
+ */
 public abstract class BaseDialog<DialogView extends ViewDataBinding> extends Dialog {
 
-    protected DialogView mBinding;
+    /**
+     * dialog view binding object
+     */
+    private DialogView mBinding;
 
     public BaseDialog(@NonNull Context context) {
         super(context);
@@ -55,6 +65,10 @@ public abstract class BaseDialog<DialogView extends ViewDataBinding> extends Dia
             return width > height ? dialogLandWidthScale() : dialogPortWidthScale();
         }
         return dialogPortWidthScale();
+    }
+
+    protected DialogView getBinding() {
+        return mBinding;
     }
 
     @Override

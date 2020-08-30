@@ -1,11 +1,12 @@
 package com.hlw.demo.dialog;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.hlw.demo.R;
-import com.hlw.demo.base.BaseDialog;
+import com.hlw.library.ui.BaseDialog;
 
 public class DownloadAskDialog extends BaseDialog {
 

@@ -1,40 +1,51 @@
-package com.hlw.demo.base;
+package com.hlw.library.ui;
 
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+
 
 /**
  * lazy fragment懒加载类
+ *
+ * @param <ViewFragment> layout DataBinding
+ * @author von
  */
 public abstract class BaseLazyFragment<ViewFragment extends ViewDataBinding> extends Fragment {
 
-    protected ViewFragment mBinding;
+    /**
+     * fragment view binding object
+     */
+    private ViewFragment mBinding;
 
     /**
      * Fragment当前状态是否可见
      */
-    protected boolean isVisible;
+    private boolean mIsVisible;
     /**
      * 是否是首次进入获取数据(还未首次加载数据为true)
      */
-    protected boolean isFirst = true;
+    private boolean mIsFirst = true;
     /**
      * 界面是否已经准备好可以加载创建
      */
-    protected boolean isPrepared;
+    private boolean mIsPrepared;
     /**
      * 界面是否已经加载数据
      */
-    protected boolean isReady = false;
+    private boolean mIsReady = false;
 
+
+    protected ViewFragment getBinding() {
+        return mBinding;
+    }
 
     //    ①isPrepared参数在系统调用onActivityCreated时设置为true,这时onCreateView方法已调用完毕
     //      (一般我们在这方法里执行findviewbyid等方法),确保 initData()方法不会报空指针异常。
@@ -68,8 +79,16 @@ public abstract class BaseLazyFragment<ViewFragment extends ViewDataBinding> ext
     }
 
 
+    /**
+     * init layout
+     *
+     * @return R.layout.fragment_*
+     */
     public abstract int initLayout();
 
+    /**
+     * init view
+     */
     protected abstract void initView();
 
     /**
@@ -79,10 +98,10 @@ public abstract class BaseLazyFragment<ViewFragment extends ViewDataBinding> ext
     protected abstract void initData();
 
     private void lazyLoad() {
-        if (isPrepared && isVisible && isFirst) {
+        if (mIsPrepared && mIsVisible && mIsFirst) {
             initData();
-            isFirst = false;
-            isReady = true;
+            mIsFirst = false;
+            mIsReady = true;
         }
     }
 
@@ -90,10 +109,10 @@ public abstract class BaseLazyFragment<ViewFragment extends ViewDataBinding> ext
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (getUserVisibleHint()) {
-            isVisible = true;
+            mIsVisible = true;
             onVisible();
         } else {
-            isVisible = false;
+            mIsVisible = false;
             onInvisible();
         }
     }
@@ -101,7 +120,7 @@ public abstract class BaseLazyFragment<ViewFragment extends ViewDataBinding> ext
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        isPrepared = true;
+        mIsPrepared = true;
         lazyLoad();
     }
 

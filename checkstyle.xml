@@ -28,16 +28,16 @@
             <property name="tokens" value="VARIABLE_DEF,CLASS_DEF" />
             <!--一般来说,静态常量都是大写 忽略该检测-->
             <property name="ignoreStatic" value="true" />
-            <!--最多可以连续打印3个大写字母,ZKCore正确,ZKCOre错误-->
-            <property name="allowedAbbreviationLength" value="2" />
+            <!--最多可以连续打印2个大写字母,CCore正确,CCCOre错误-->
+            <property name="allowedAbbreviationLength" value="1" />
             <!--必须跳过检查的缩写列表。缩写列表应该用逗号隔开，不允许有空格。-->
             <property name="allowedAbbreviations" value="XML,URL" />
         </module>
 
         <!--验证抽象类的标识符-->
         <module name="AbstractClassName">
-            <!--抽象类以ZKBase开头-->
-            <property name="format" value="^ZKBase.+$" />
+            <!--抽象类以Base开头-->
+            <property name="format" value="^Base.+$" />
             <!--匹配名称的类的抽象修饰符丢失是否需要告警:默认就是false,因此可以不写-->
             <property name="ignoreModifier" value="false" />
         </module>

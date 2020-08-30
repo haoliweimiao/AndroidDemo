@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="hlw_ui_title_height">154dp</dimen>
+    <dimen name="hlw_ui_subtitle_height">134dp</dimen>
+
+    <dimen name="hlw_ui_title_left_padding">72dp</dimen>
+    <dimen name="hlw_ui_title_right_padding">72dp</dimen>
+
+    <dimen name="hlw_ui_subtitle_left_padding">96dp</dimen>
+    <dimen name="hlw_ui_subtitle_left_icon">60dp</dimen>
+    <dimen name="hlw_ui_subtitle_right_padding">26dp</dimen>
+    <dimen name="hlw_ui_subtitle_right_switch_padding">52dp</dimen>
+    <dimen name="hlw_ui_subtitle_right_icon_padding">87dp</dimen>
+    <dimen name="hlw_ui_subtitle_right_text_padding">154dp</dimen>
+    <dimen name="hlw_ui_subtitle_right_text_max_width">460dp</dimen>
+    <dimen name="hlw_ui_subtitle_text_left_padding">194dp</dimen>
+
+    <dimen name="hlw_ui_txt_title_arrow_size">56sp</dimen>
+    <dimen name="hlw_ui_txt_subtitle_size">36sp</dimen>
+
+
+    <dimen name="hlw_ui_dialog_height">332dp</dimen>
+    <dimen name="hlw_ui_dialog_width">675dp</dimen>
+    <dimen name="hlw_ui_dialog_content_padding">32dp</dimen>
+    <dimen name="hlw_ui_dialog_btn_txt_size">36sp</dimen>
+    <dimen name="hlw_ui_dialog_edit_padding_width">20dp</dimen>
+    <dimen name="hlw_ui_dialog_btn_padding_width">36dp</dimen>
+    <dimen name="hlw_ui_dialog_btn_padding_height">18dp</dimen>
+    <dimen name="hlw_ui_dialog_txt_size">36sp</dimen>
+    <dimen name="hlw_ui_dialog_radius">10dp</dimen>
+    <dimen name="hlw_ui_dialog_btn_width">330dp</dimen>
+    <dimen name="hlw_ui_dialog_btn_height">100dp</dimen>
+</resources>

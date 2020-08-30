@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.view.View;
 
 import com.hlw.demo.R;
-import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityViewListBinding;
+import com.hlw.library.ui.BaseActivity;
 
 /**
  * ViewListActivity
@@ -42,9 +42,9 @@ public class ViewListActivity extends BaseActivity<ActivityViewListBinding> {
 
     @Override
     protected void initListener() {
-        mBinding.btnDialogLoadingShow.setOnClickListener(this);
-        mBinding.btnLoadingViewsShow.setOnClickListener(this);
-        mBinding.btnHorizontalViewDemo.setOnClickListener(this);
+        getBinding().btnDialogLoadingShow.setOnClickListener(this);
+        getBinding().btnLoadingViewsShow.setOnClickListener(this);
+        getBinding().btnHorizontalViewDemo.setOnClickListener(this);
     }
 
     @Override

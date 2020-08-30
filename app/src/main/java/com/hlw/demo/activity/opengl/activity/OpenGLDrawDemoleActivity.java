@@ -8,9 +8,9 @@ import android.widget.Toast;
 
 import com.hlw.demo.R;
 import com.hlw.demo.activity.opengl.OpenGLDrawType;
-import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityOpenglDrawDemoBinding;
 import com.hlw.demo.util.CheckUtils;
+import com.hlw.library.ui.BaseActivity;
 
 public class OpenGLDrawDemoleActivity extends BaseActivity<ActivityOpenglDrawDemoBinding> {
 
@@ -54,7 +54,7 @@ public class OpenGLDrawDemoleActivity extends BaseActivity<ActivityOpenglDrawDem
             mGLSurfaceView.setRenderer(OpenGLDrawType.getRenderer(this, mDrawType));
             redererSet = true;
 
-            mBinding.rlContent.addView(mGLSurfaceView);
+            getBinding().rlContent.addView(mGLSurfaceView);
         } else {
             Toast.makeText(this, "This device cannot support opengl es 2.0", Toast.LENGTH_SHORT).show();
             finish();

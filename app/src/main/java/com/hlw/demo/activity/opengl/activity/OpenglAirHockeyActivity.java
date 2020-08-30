@@ -7,9 +7,9 @@ import android.widget.Toast;
 
 import com.hlw.demo.R;
 import com.hlw.demo.activity.opengl.renderer.AirHockeyRenderer2;
-import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityAirHockeyDemoBinding;
 import com.hlw.demo.util.CheckUtils;
+import com.hlw.library.ui.BaseActivity;
 
 public class OpenglAirHockeyActivity extends BaseActivity<ActivityAirHockeyDemoBinding> {
 
@@ -44,7 +44,7 @@ public class OpenglAirHockeyActivity extends BaseActivity<ActivityAirHockeyDemoB
             mGLSurfaceView.setRenderer(new AirHockeyRenderer2(this));
             redererSet = true;
 
-            mBinding.rlContent.addView(mGLSurfaceView);
+            getBinding().rlContent.addView(mGLSurfaceView);
         } else {
             Toast.makeText(this, "This device cannot support opengl es 2.0", Toast.LENGTH_SHORT).show();
             finish();

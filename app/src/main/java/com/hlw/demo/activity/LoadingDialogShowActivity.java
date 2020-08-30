@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.view.View;
 
 import com.hlw.demo.R;
-import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityLoadingDialogBinding;
 import com.hlw.demo.dialog.DownloadAskDialog;
 import com.hlw.demo.dialog.DownloadProcessDialog;
 import com.hlw.demo.dialog.LoadingDialogFragment;
+import com.hlw.library.ui.BaseActivity;
 
 /**
  * LoadingDialogShowActivity
@@ -41,9 +41,9 @@ public class LoadingDialogShowActivity extends BaseActivity<ActivityLoadingDialo
 
     @Override
     protected void initListener() {
-        mBinding.btnShowLoadingDialog.setOnClickListener(this);
-        mBinding.btnShowDownloadAskDialog.setOnClickListener(this);
-        mBinding.btnShowDownloadProcessDialog.setOnClickListener(this);
+        getBinding().btnShowLoadingDialog.setOnClickListener(this);
+        getBinding().btnShowDownloadAskDialog.setOnClickListener(this);
+        getBinding().btnShowDownloadProcessDialog.setOnClickListener(this);
     }
 
     @Override

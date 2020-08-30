@@ -3,18 +3,17 @@ package com.hlw.demo.activity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.hlw.demo.R;
-import com.hlw.demo.base.BaseActivity;
 import com.hlw.demo.databinding.ActivityLoadingViewsBinding;
+import com.hlw.library.ui.BaseActivity;
 import com.hlw.loading.LoadingIndicatorView;
 
 /**
@@ -23,16 +22,6 @@ import com.hlw.loading.LoadingIndicatorView;
  * @author hlw
  */
 public class LoadingViewsActivity extends BaseActivity<ActivityLoadingViewsBinding> {
-
-    /**
-     * start to LoadingViewsActivity
-     *
-     * @param context context
-     */
-    public static void start(Context context) {
-        Intent intent = new Intent(context, LoadingViewsActivity.class);
-        context.startActivity(intent);
-    }
 
     /**
      * loading view indicators
@@ -69,6 +58,16 @@ public class LoadingViewsActivity extends BaseActivity<ActivityLoadingViewsBindi
             "BallCircleRotateIndicator",
     };
 
+    /**
+     * start to LoadingViewsActivity
+     *
+     * @param context context
+     */
+    public static void start(Context context) {
+        Intent intent = new Intent(context, LoadingViewsActivity.class);
+        context.startActivity(intent);
+    }
+
     @Override
     protected int initLayout() {
         return R.layout.activity_loading_views;
@@ -83,8 +82,8 @@ public class LoadingViewsActivity extends BaseActivity<ActivityLoadingViewsBindi
     protected void initView() {
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 4);
-        mBinding.recycler.setLayoutManager(layoutManager);
-        mBinding.recycler.setAdapter(new RecyclerView.Adapter<IndicatorHolder>() {
+        getBinding().recycler.setLayoutManager(layoutManager);
+        getBinding().recycler.setAdapter(new RecyclerView.Adapter<IndicatorHolder>() {
 
             @NonNull
             @Override
