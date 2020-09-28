@@ -1,5 +1,6 @@
+include ':lib_usb'
 include ':lib_ui'
-include ':moudle_opengl'
+include ':module_opengl'
 include ':lib_loading'
 include ':app'
 rootProject.name = 'AndroidDemo'

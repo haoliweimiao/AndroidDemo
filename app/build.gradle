@@ -59,4 +59,5 @@ dependencies {
 
     implementation project(':lib_loading')
     implementation project(':lib_ui')
+    implementation project(':lib_usb')
 }
