@@ -29,6 +29,17 @@ char *getAssetsFile(AAssetManager *mgr, const char *filename) {
     return fileData;
 }
 
+void readAssetsFile(AAssetManager *mgr, const char *filename, char *ret) {
+    //open file
+    AAsset *assetFile = AAssetManager_open(mgr, filename, AASSET_MODE_BUFFER);
+    //get file length
+    size_t fileLength = (size_t) AAsset_getLength(assetFile);
+    //read file data
+    AAsset_read(assetFile, ret, fileLength);
+    //the data has been copied to dataBuffer2, so , close it
+    AAsset_close(assetFile);
+}
+
 ///
 // Create a shader object, load the shader source, and
 // compile the shader.

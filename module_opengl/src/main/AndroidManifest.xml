@@ -30,7 +30,7 @@
                 android:name="android.app.lib_name"
                 android:value="ndk_test" />
             <intent-filter>
-                <action android:name="opengl.demo.triangle" />
+                <action android:name="com.hlw.opengl.demo.intent" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

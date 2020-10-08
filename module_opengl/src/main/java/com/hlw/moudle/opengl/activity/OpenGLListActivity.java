@@ -52,7 +52,9 @@ public class OpenGLListActivity extends BaseActivity<ActivityOpenglListBinding> 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_demo_1:
-                OpenGLDemoActivity.start(this);
+//                OpenGLDemoActivity.start(this);
+                Intent intent = new Intent("com.hlw.opengl.demo.intent");
+                startActivity(intent);
                 break;
             case R.id.btn_air_hockey:
                 OpenGLAirHockeyActivity.start(this);

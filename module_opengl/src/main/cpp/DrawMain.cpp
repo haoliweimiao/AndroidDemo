@@ -7,6 +7,7 @@
 #include <android/asset_manager.h>
 #include <glm/ext.hpp>
 #include <stb_image.h>
+#include <malloc.h>
 
 typedef struct {
     // Handle to a program object
@@ -23,11 +24,13 @@ GLuint texture1, texture2;
 //
 int Init(ESContext *esContext) {
     UserData *userData = (UserData *) esContext->userData;
-    const char *vShaderStr = getAssetsFile((AAssetManager *) esContext->platformData,
-                                           "glsl/ndk/vertex_perspective_smile_box.glsl");
+    char vShaderStr[4096] = {0};
+    readAssetsFile((AAssetManager *) esContext->platformData,
+                   "glsl/ndk/vertex_perspective_smile_box.glsl", vShaderStr);
 
-    const char *fShaderStr = getAssetsFile((AAssetManager *) esContext->platformData,
-                                           "glsl/ndk/fragment_perspective_smile_box.glsl");
+    char fShaderStr[4096] = {0};
+    readAssetsFile((AAssetManager *) esContext->platformData,
+                   "glsl/ndk/fragment_perspective_smile_box.glsl", fShaderStr);
 
     GLuint vertexShader;
     GLuint fragmentShader;
@@ -51,7 +54,7 @@ int Init(ESContext *esContext) {
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
-    float vVertices[] = {
+    const float vVertices[] = {
             -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
             0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
             0.5f, 0.5f, -0.5f, 1.0f, 1.0f,

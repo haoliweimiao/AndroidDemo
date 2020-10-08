@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 //                UsbUtils.detectUsbDeviceWithUsbManager(this);
                 break;
             case R.id.btn_open_gl_demo: {
-                Intent intent = new Intent("opengl.demo.triangle");
+                Intent intent = new Intent("com.hlw.opengl.demo.intent");
                 startActivity(intent);
             }
             break;

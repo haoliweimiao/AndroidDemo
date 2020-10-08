@@ -17,6 +17,8 @@ extern "C" {
 
 char *getAssetsFile(AAssetManager *mgr, const char *filename);
 
+void readAssetsFile(AAssetManager *mgr, const char *filename, char *ret);
+
 GLuint loadShader(GLenum type, const char *shaderSrc);
 
 GLuint linkProgram(GLuint *vertexShader, GLuint *fragmentShader, GLint *linked);
