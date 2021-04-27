@@ -46,7 +46,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         switch (v.getId()) {
             case R.id.btn_view:
                 ViewListActivity.start(this);
-//                UsbUtils.detectUsbDeviceWithUsbManager(this);
                 break;
             case R.id.btn_open_gl_demo: {
                 Intent intent = new Intent("com.hlw.opengl.demo.intent");

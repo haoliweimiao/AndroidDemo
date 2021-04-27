@@ -3,6 +3,7 @@ package com.hlw.library.usb;
 import android.content.Context;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
+import android.os.Build;
 import android.util.Log;
 
 import java.util.HashMap;
@@ -19,12 +20,19 @@ public class UsbUtils {
      * @param appContext application
      */
     public static void detectUsbDeviceWithUsbManager(Context appContext) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             HashMap<String, UsbDevice> deviceHashMap = ((UsbManager)
                     appContext.getSystemService(Context.USB_SERVICE)).getDeviceList();
             for (Map.Entry<String, UsbDevice> entry : deviceHashMap.entrySet()) {
                 UsbDevice device = entry.getValue();
-                Log.d("usb device", String.format("usb device pid:%s vid:%s", device.getProductId(), device.getVendorId()));
+                Log.d("usb device",
+                        String.format("usb device pid:%s vid:%s DeviceName:%s ProductName:%s ManufacturerName:%s",
+                                device.getProductId(),
+                                device.getVendorId(),
+                                device.getDeviceName(),
+                                device.getProductName(),
+                                device.getManufacturerName()
+                        ));
             }
         }
     }
