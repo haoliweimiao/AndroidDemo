@@ -30,11 +30,11 @@ GLint transformLoc;
 //
 int Init(ESContext *esContext) {
     UserData *userData = (UserData *) esContext->userData;
-    char *vShaderStr = getAssetsFile((AAssetManager *) esContext->platformData,
+    char *vShaderStr = getAssetsFile((AAssetManager *) esContext->assetManager,
                                      "glsl/ndk/vertex_rotate_smile_box.glsl");
     esLogMessage("load vertex text file in android assets:\n%s\n", vShaderStr);
 
-    char *fShaderStr = getAssetsFile((AAssetManager *) esContext->platformData,
+    char *fShaderStr = getAssetsFile((AAssetManager *) esContext->assetManager,
                                      "glsl/ndk/fragment_rotate_smile_box.glsl");
     esLogMessage("load fragment text file in android assets:\n%s\n", vShaderStr);
 
@@ -94,8 +94,8 @@ int Init(ESContext *esContext) {
                           (void *) (3 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
 
-    texture1 = loadTextureByMgr((AAssetManager *) esContext->platformData, "image/container2.png");
-    texture2 = loadTextureByMgr((AAssetManager *) esContext->platformData, "image/awesomeface.png");
+    texture1 = loadTextureByMgr((AAssetManager *) esContext->assetManager, "image/container2.png");
+    texture2 = loadTextureByMgr((AAssetManager *) esContext->assetManager, "image/awesomeface.png");
 
     transformLoc = glGetUniformLocation(userData->programObject, "transform");
 

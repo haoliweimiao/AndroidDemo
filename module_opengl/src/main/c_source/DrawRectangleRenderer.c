@@ -24,10 +24,10 @@ unsigned int VBO, VAO, EBO;
 //
 int Init(ESContext *esContext) {
     UserData *userData = esContext->userData;
-    char *vShaderStr = getAssetsFile(esContext->platformData, "glsl/rectangle/vertex.glsl");
+    char *vShaderStr = getAssetsFile(esContext->assetManager, "glsl/rectangle/vertex.glsl");
     esLogMessage("load vertex text file in android assets:\n%s\n", vShaderStr);
 
-    char *fShaderStr = getAssetsFile(esContext->platformData, "glsl/rectangle/fragment.glsl");
+    char *fShaderStr = getAssetsFile(esContext->assetManager, "glsl/rectangle/fragment.glsl");
     esLogMessage("load fragment text file in android assets:\n%s\n", vShaderStr);
 
     GLuint vertexShader;

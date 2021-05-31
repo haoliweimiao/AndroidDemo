@@ -10,6 +10,16 @@ extern "C" {
 #endif
 
 #include "esUtil.h"
+
+
+GLuint loadShader(GLenum type, const char *shaderSrc);
+
+GLuint linkProgram(const GLuint *vertexShader, const GLuint *fragmentShader, GLint *linked);
+
+GLuint loadTexture(void *ioContext, char *fileName);
+
+#ifdef ANDROID
+
 #include <android/log.h>
 #include <android_native_app_glue.h>
 #include <android/asset_manager_jni.h>
@@ -19,13 +29,10 @@ char *getAssetsFile(AAssetManager *mgr, const char *filename);
 
 void readAssetsFile(AAssetManager *mgr, const char *filename, char *ret);
 
-GLuint loadShader(GLenum type, const char *shaderSrc);
-
-GLuint linkProgram(GLuint *vertexShader, GLuint *fragmentShader, GLint *linked);
-
-GLuint loadTexture(void *ioContext, char *fileName);
-
 GLuint loadTextureByMgr(AAssetManager *mgr, const char *filename);
+
+#endif // ANDROID
+
 
 #ifdef __cplusplus
 }

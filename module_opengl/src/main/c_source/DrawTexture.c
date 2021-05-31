@@ -26,11 +26,11 @@ unsigned int texture;
 //
 int Init(ESContext *esContext) {
     UserData *userData = esContext->userData;
-    char *vShaderStr = getAssetsFile(esContext->platformData,
+    char *vShaderStr = getAssetsFile(esContext->assetManager,
                                      "glsl/texture/vertex_image_texture.glsl");
     esLogMessage("load vertex text file in android assets:\n%s\n", vShaderStr);
 
-    char *fShaderStr = getAssetsFile(esContext->platformData,
+    char *fShaderStr = getAssetsFile(esContext->assetManager,
                                      "glsl/texture/fragment_image_texture.glsl");
     esLogMessage("load fragment text file in android assets:\n%s\n", vShaderStr);
 
@@ -96,7 +96,7 @@ int Init(ESContext *esContext) {
 
     glBindVertexArray(0);
 
-    texture = loadTextureByMgr(esContext->platformData, "image/container.jpg");
+    texture = loadTextureByMgr(esContext->assetManager, "image/container.jpg");
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     // Set the viewport

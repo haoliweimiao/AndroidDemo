@@ -88,7 +88,7 @@ GLuint loadShader(GLenum type, const char *shaderSrc) {
 
 }
 
-GLuint linkProgram(GLuint *vertexShader, GLuint *fragmentShader, GLint *linked) {
+GLuint linkProgram(const GLuint *vertexShader, const GLuint *fragmentShader, GLint *linked) {
     // Create the program object
     GLuint programObject = glCreateProgram();
 

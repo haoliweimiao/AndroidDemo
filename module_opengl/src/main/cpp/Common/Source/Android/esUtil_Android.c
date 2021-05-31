@@ -40,6 +40,7 @@
 #include <android/log.h>
 #include <android_native_app_glue.h>
 #include <time.h>
+#include <string.h>
 #include "esUtil.h"
 
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "esUtil", __VA_ARGS__))
@@ -133,44 +134,39 @@ static void HandleCommand ( struct android_app *pApp, int32_t cmd )
 //
 //    Main entrypoint for Android application
 //
-void android_main ( struct android_app *pApp )
-{
-   ESContext esContext;
-   float lastTime;
+void android_main(struct android_app *pApp) {
+    ESContext esContext;
+    float lastTime;
 
-   // Make sure glue isn't stripped.
-   app_dummy();
+    // Make sure glue isn't stripped.
+    app_dummy();
 
-   // Initialize the context
-   memset ( &esContext, 0, sizeof ( ESContext ) );
+    // Initialize the context
+    memset(&esContext, 0, sizeof(ESContext));
 
-   esContext.platformData = ( void * ) pApp->activity->assetManager;
+    esContext.assetManager = (void *) pApp->activity->assetManager;
 
-   pApp->onAppCmd = HandleCommand;
-   pApp->userData = &esContext;
+    pApp->onAppCmd = HandleCommand;
+    pApp->userData = &esContext;
 
-   lastTime = GetCurrentTime();
+    lastTime = GetCurrentTime();
 
-   while ( 1 )
-   {
-      int ident;
-      int events;
-      struct android_poll_source *pSource;
+    while (1) {
+        int ident;
+        int events;
+        struct android_poll_source *pSource;
 
-      while ( ( ident = ALooper_pollAll ( 0, NULL, &events, ( void ** ) &pSource ) ) >= 0 )
-      {
+        while ((ident = ALooper_pollAll(0, NULL, &events, (void **) &pSource)) >= 0) {
 
-         if ( pSource != NULL )
-         {
-            pSource->process ( pApp, pSource );
-         }
+            if (pSource != NULL) {
+                pSource->process(pApp, pSource);
+            }
 
-         if ( pApp->destroyRequested != 0 )
-         {
-            return;
-         }
+            if (pApp->destroyRequested != 0) {
+                return;
+            }
 
-      }
+        }
 
       if ( esContext.eglNativeWindow == NULL )
       {

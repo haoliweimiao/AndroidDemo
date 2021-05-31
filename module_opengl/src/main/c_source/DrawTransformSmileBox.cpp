@@ -25,10 +25,10 @@ GLuint texture1, texture2;
 //
 int Init(ESContext *esContext) {
     UserData *userData = (UserData *) esContext->userData;
-    const char *vShaderStr = getAssetsFile((AAssetManager *) esContext->platformData,
+    const char *vShaderStr = getAssetsFile((AAssetManager *) esContext->assetManager,
                                            "glsl/ndk/vertex_perspective_smile_box.glsl");
 
-    const char *fShaderStr = getAssetsFile((AAssetManager *) esContext->platformData,
+    const char *fShaderStr = getAssetsFile((AAssetManager *) esContext->assetManager,
                                            "glsl/ndk/fragment_perspective_smile_box.glsl");
 
     GLuint vertexShader;
@@ -88,8 +88,8 @@ int Init(ESContext *esContext) {
     glEnableVertexAttribArray(1);
 
     stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-    texture1 = loadTextureByMgr((AAssetManager *) esContext->platformData, "image/container2.png");
-    texture2 = loadTextureByMgr((AAssetManager *) esContext->platformData, "image/awesomeface.png");
+    texture1 = loadTextureByMgr((AAssetManager *) esContext->assetManager, "image/container2.png");
+    texture2 = loadTextureByMgr((AAssetManager *) esContext->assetManager, "image/awesomeface.png");
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     // Set the viewport

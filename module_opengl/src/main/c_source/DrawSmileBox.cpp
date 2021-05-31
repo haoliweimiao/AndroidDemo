@@ -22,11 +22,11 @@ GLuint texture1, texture2;
 //
 int Init(ESContext *esContext) {
     UserData *userData = (UserData *) esContext->userData;
-    char *vShaderStr = getAssetsFile((AAssetManager *) esContext->platformData,
+    char *vShaderStr = getAssetsFile((AAssetManager *) esContext->assetManager,
                                      "glsl/texture/smile_box_vertex.glsl");
     esLogMessage("load vertex text file in android assets:\n%s\n", vShaderStr);
 
-    char *fShaderStr = getAssetsFile((AAssetManager *) esContext->platformData,
+    char *fShaderStr = getAssetsFile((AAssetManager *) esContext->assetManager,
                                      "glsl/texture/smile_box_fragment.glsl");
     esLogMessage("load fragment text file in android assets:\n%s\n", vShaderStr);
 
@@ -91,8 +91,8 @@ int Init(ESContext *esContext) {
                           (void *) (6 * sizeof(GLfloat)));
     glEnableVertexAttribArray(2);
 
-    texture1 = loadTextureByMgr((AAssetManager *) esContext->platformData, "image/container2.png");
-    texture2 = loadTextureByMgr((AAssetManager *) esContext->platformData, "image/awesomeface.png");
+    texture1 = loadTextureByMgr((AAssetManager *) esContext->assetManager, "image/container2.png");
+    texture2 = loadTextureByMgr((AAssetManager *) esContext->assetManager, "image/awesomeface.png");
 
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     // Set the viewport

@@ -28,7 +28,7 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <meta-data
                 android:name="android.app.lib_name"
-                android:value="ndk_test" />
+                android:value="ndk_open_demo_lib" />
             <intent-filter>
                 <action android:name="com.hlw.opengl.demo.intent" />
                 <category android:name="android.intent.category.DEFAULT" />

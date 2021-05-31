@@ -97,42 +97,50 @@ typedef struct
 
 typedef struct ESContext ESContext;
 
-struct ESContext
-{
-   /// Put platform specific data here
-   void       *platformData;
+struct ESContext {
+    /// Put platform specific data here
+    void *platformData;
 
-   /// Put your user data here...
-   void       *userData;
+    /// Put your user data here...
+    void *userData;
 
-   /// Window width
-   GLint       width;
+    /// Window width
+    GLint width;
 
-   /// Window height
-   GLint       height;
+    /// Window height
+    GLint height;
+
+
+#ifdef ANDROID
+    /// android asset manger
+    void *assetManager;
+#endif // ANDROID
 
 #ifndef __APPLE__
-   /// Display handle
-   EGLNativeDisplayType eglNativeDisplay;
+    /// Display handle
+    EGLNativeDisplayType eglNativeDisplay;
 
-   /// Window handle
-   EGLNativeWindowType  eglNativeWindow;
+    /// Window handle
+    EGLNativeWindowType eglNativeWindow;
 
-   /// EGL display
-   EGLDisplay  eglDisplay;
+    /// EGL display
+    EGLDisplay eglDisplay;
 
-   /// EGL context
-   EGLContext  eglContext;
+    /// EGL context
+    EGLContext eglContext;
 
-   /// EGL surface
-   EGLSurface  eglSurface;
+    /// EGL surface
+    EGLSurface eglSurface;
 #endif
 
-   /// Callbacks
-   void ( ESCALLBACK *drawFunc ) ( ESContext * );
-   void ( ESCALLBACK *shutdownFunc ) ( ESContext * );
-   void ( ESCALLBACK *keyFunc ) ( ESContext *, unsigned char, int, int );
-   void ( ESCALLBACK *updateFunc ) ( ESContext *, float deltaTime );
+    /// Callbacks
+    void ( ESCALLBACK *drawFunc )(ESContext *);
+
+    void ( ESCALLBACK *shutdownFunc )(ESContext *);
+
+    void ( ESCALLBACK *keyFunc )(ESContext *, unsigned char, int, int);
+
+    void ( ESCALLBACK *updateFunc )(ESContext *, float deltaTime);
 };
 
 

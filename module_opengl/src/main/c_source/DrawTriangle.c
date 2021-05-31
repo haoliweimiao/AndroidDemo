@@ -1,11 +1,14 @@
-#include "esUtil.h"
-#include "LinkUtil.h"
 #include <android/log.h>
 #include <android_native_app_glue.h>
 #include <android/asset_manager_jni.h>
 #include <android/asset_manager.h>
+#include <glm/ext.hpp>
+#include <stb_image.h>
+#include <malloc.h>
 
-#define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "esUtil", __VA_ARGS__))
+#include "esUtil.h"
+#include "LinkUtil.h"
+#include "OtherUtil.h"
 
 typedef struct {
     // Handle to a program object
@@ -17,12 +20,17 @@ typedef struct {
 // Initialize the shader and program object
 //
 int Init(ESContext *esContext) {
-    UserData *userData = esContext->userData;
-    char *vShaderStr = getAssetsFile(esContext->platformData, "glsl/triangle/vertex_3_0.glsl");
-    esLogMessage("load vertex text file in android assets:\n%s\n", vShaderStr);
+    UserData *userData = (UserData *) esContext->userData;
 
-    char *fShaderStr = getAssetsFile(esContext->platformData, "glsl/triangle/fragment_3_0.glsl");
-    esLogMessage("load fragment text file in android assets:\n%s\n", vShaderStr);
+    char vShaderStr[4096] = {0};
+    char fShaderStr[4096] = {0};
+
+    readAssetsFile((AAssetManager *) esContext->assetManager,
+                   "glsl/triangle/vertex_3_0.glsl", vShaderStr);
+
+    readAssetsFile((AAssetManager *) esContext->assetManager,
+                   "glsl/triangle/fragment_3_0.glsl", fShaderStr);
+
 
     GLuint vertexShader;
     GLuint fragmentShader;
@@ -30,8 +38,8 @@ int Init(ESContext *esContext) {
     GLint linked;
 
     // Load the vertex/fragment shaders
-    vertexShader = LoadShader(GL_VERTEX_SHADER, vShaderStr);
-    fragmentShader = LoadShader(GL_FRAGMENT_SHADER, fShaderStr);
+    vertexShader = loadShader(GL_VERTEX_SHADER, vShaderStr);
+    fragmentShader = loadShader(GL_FRAGMENT_SHADER, fShaderStr);
 
     // Create the program object
     programObject = linkProgram(&vertexShader, &fragmentShader, &linked);
@@ -47,7 +55,7 @@ int Init(ESContext *esContext) {
 // Draw a triangle using the shader pair created in Init()
 //
 void Draw(ESContext *esContext) {
-    UserData *userData = esContext->userData;
+    UserData *userData = (UserData *) esContext->userData;
     GLfloat vVertices[] = {0.0f, 0.5f, 0.0f,
                            -0.5f, -0.5f, 0.0f,
                            0.5f, -0.5f, 0.0f
@@ -70,7 +78,7 @@ void Draw(ESContext *esContext) {
 }
 
 void Shutdown(ESContext *esContext) {
-    UserData *userData = esContext->userData;
+    UserData *userData = (UserData *) esContext->userData;
 
     glDeleteProgram(userData->programObject);
 }

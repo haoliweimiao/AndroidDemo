@@ -218,10 +218,6 @@ GLboolean ESUTIL_API esCreateWindow ( ESContext *esContext, const char *title, G
    }
 #endif // ANDROID
 
-   EGLint attribListtt[]={
-           EGL_RENDER_BUFFER, EGL_BACK_BUFFER,
-           EGL_NONE,
-   };
    // Create a surface
    esContext->eglSurface = eglCreateWindowSurface ( esContext->eglDisplay, config,
                                                     esContext->eglNativeWindow, NULL );
