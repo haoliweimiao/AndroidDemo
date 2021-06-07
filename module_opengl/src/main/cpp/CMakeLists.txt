@@ -48,7 +48,7 @@ include_directories( stb_image )
 include_directories( glm )
 
 add_library(
-        ndk_open_demo_lib
+        lib_ndk_open_demo
         SHARED
         LinkUtil.c
         OtherUtil.c
@@ -80,7 +80,7 @@ ADD_SUBDIRECTORY( ${PROJECT_SOURCE_DIR}/Common )
 ADD_SUBDIRECTORY( ${PROJECT_SOURCE_DIR}/glm )
 
 target_link_libraries( # Specifies the target library.
-        ndk_open_demo_lib
+        lib_ndk_open_demo
         libtest
         Common
         -landroid

@@ -122,6 +122,8 @@ GLuint linkProgram(const GLuint *vertexShader, const GLuint *fragmentShader, GLi
         glDeleteProgram(programObject);
         return FALSE;
     }
+    glDeleteShader(*vertexShader);
+    glDeleteShader(*fragmentShader);
 
     return programObject;
 }

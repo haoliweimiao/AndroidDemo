@@ -38,6 +38,7 @@ public class SmileBoxTextureRenderer implements GLSurfaceView.Renderer {
 
     private int mTextureId1, mTextureId2;
     private int uTextureId1, uTextureId2;
+    private int uTimeId;
 
     private int[] mVAOId = new int[1], mVBOId = new int[1], mEBOId = new int[1];
 
@@ -81,12 +82,18 @@ public class SmileBoxTextureRenderer implements GLSurfaceView.Renderer {
 
         uTextureId1 = GLES30.glGetUniformLocation(mProgramId, "uTexture1");
         uTextureId2 = GLES30.glGetUniformLocation(mProgramId, "uTexture2");
+        uTimeId = GLES30.glGetUniformLocation(mProgramId, "u_Time");
+
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
         GLES30.glViewport(0, 0, width, height);
     }
+
+    float angle = 0.f;
+    long startTime = System.currentTimeMillis();
+    boolean isStart = false;
 
     @Override
     public void onDrawFrame(GL10 gl) {
@@ -101,6 +108,18 @@ public class SmileBoxTextureRenderer implements GLSurfaceView.Renderer {
         GLES30.glActiveTexture(GLES30.GL_TEXTURE1);
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, mTextureId2);
         GLES30.glUniform1i(uTextureId2, 1);
+
+        if (!isStart) {
+            startTime = System.currentTimeMillis();
+            isStart = true;
+        }
+        long nowTime = System.currentTimeMillis();
+        if (nowTime - startTime > 3000) {
+            isStart = false;
+        }
+
+        angle = ((float) (nowTime - startTime) / 3000.f) * 1;
+        GLES30.glUniform1f(uTimeId, angle);
 
         GLES30.glUseProgram(mProgramId);
         GLES30.glBindVertexArray(mVAOId[0]);

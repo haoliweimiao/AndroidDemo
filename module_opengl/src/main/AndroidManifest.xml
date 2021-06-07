@@ -21,14 +21,14 @@
         <activity android:name=".OpenGLDemoActivity" />
 
         <activity
-            android:name="android.app.NativeActivity"
+            android:name=".activity.OpenGLNativeActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="HelloTriangle"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <meta-data
                 android:name="android.app.lib_name"
-                android:value="ndk_open_demo_lib" />
+                android:value="lib_ndk_open_demo" />
             <intent-filter>
                 <action android:name="com.hlw.opengl.demo.intent" />
                 <category android:name="android.intent.category.DEFAULT" />
