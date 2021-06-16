@@ -102,7 +102,7 @@
          called "premultiplied alpha", in which the other color channels
          have had the alpha value multiplied in. If you use premultiplied
          alpha, linear filtering (such as image resampling done by this
-         library, or performed in texture units on GPUs) does the "right
+         library, or performed in textureId units on GPUs) does the "right
          thing". While premultiplied alpha is standard in the movie CGI
          industry, it is still uncommon in the videogame/real-time world.
 
@@ -242,7 +242,7 @@ STBIRDEF int stbir_resize_float(     const float *input_pixels , int input_w , i
 
 #define STBIR_ALPHA_CHANNEL_NONE       -1
 
-// Set this flag if your texture has premultiplied alpha. Otherwise, stbir will
+// Set this flag if your textureId has premultiplied alpha. Otherwise, stbir will
 // use alpha-weighted resampling (effectively premultiplying, resampling,
 // then unpremultiplying).
 #define STBIR_FLAG_ALPHA_PREMULTIPLIED    (1 << 0)
@@ -288,7 +288,7 @@ typedef enum
 {
     STBIR_FILTER_DEFAULT      = 0,  // use same filter type that easy-to-use API chooses
     STBIR_FILTER_BOX          = 1,  // A trapezoid w/1-pixel wide ramps, same result as box for integer scale ratios
-    STBIR_FILTER_TRIANGLE     = 2,  // On upsampling, produces same results as bilinear texture filtering
+    STBIR_FILTER_TRIANGLE     = 2,  // On upsampling, produces same results as bilinear textureId filtering
     STBIR_FILTER_CUBICBSPLINE = 3,  // The cubic b-spline (aka Mitchell-Netrevalli with B=1,C=0), gaussian-esque
     STBIR_FILTER_CATMULLROM   = 4,  // An interpolating cubic spline
     STBIR_FILTER_MITCHELL     = 5,  // Mitchell-Netrevalli filter with B=1/3, C=1/3
@@ -335,7 +335,7 @@ STBIRDEF int stbir_resize_float_generic( const float *input_pixels         , int
 //     * separate filter types for each axis
 //     * separate edge modes for each axis
 //     * can specify scale explicitly for subpixel correctness
-//     * can specify image source tile using texture coordinates
+//     * can specify image source tile using textureId coordinates
 
 typedef enum
 {

@@ -49,8 +49,8 @@
 //     diagonals, and even odder shapes especially for doing
 //     more-continuous "ground".
 //
-//   - texture coordinates are projections along one of the major
-//     axes, with the per-texture scaling.
+//   - textureId coordinates are projections along one of the major
+//     axes, with the per-textureId scaling.
 //
 //   - a number of aspects of the shader and the vertex format
 //     are configurable; the library generally takes care of
@@ -61,19 +61,19 @@
 //
 //   - vertices aligned on integer lattice, z on multiples of 0.5
 //   - per-vertex "lighting" or "ambient occlusion" value (6 bits)
-//   - per-vertex texture crossfade (3 bits)
+//   - per-vertex textureId crossfade (3 bits)
 //
-//   - per-face texture #1 id (8-bit index into array texture)
-//   - per-face texture #2 id (8-bit index into second array texture)
-//   - per-face color (6-bit palette index, 2 bits of per-texture boolean enable)
-//   - per-face 5-bit normal for lighting calculations & texture coord computation
-//   - per-face 2-bit texture matrix rotation to rotate faces
+//   - per-face textureId #1 id (8-bit index into array textureId)
+//   - per-face textureId #2 id (8-bit index into second array textureId)
+//   - per-face color (6-bit palette index, 2 bits of per-textureId boolean enable)
+//   - per-face 5-bit normal for lighting calculations & textureId coord computation
+//   - per-face 2-bit textureId matrix rotation to rotate faces
 //
-//   - indexed-by-texture-id scale factor (separate for texture #1 and texture #2)
-//   - indexed-by-texture-#2-id blend mode (alpha composite or modulate/multiply);
+//   - indexed-by-textureId-id scale factor (separate for textureId #1 and textureId #2)
+//   - indexed-by-textureId-#2-id blend mode (alpha composite or modulate/multiply);
 //     the first is good for decals, the second for detail textures, "light maps",
-//     etc; both modes are controlled by texture #2's alpha, scaled by the
-//     per-vertex texture crossfade and the per-face color (if enabled on texture #2);
+//     etc; both modes are controlled by textureId #2's alpha, scaled by the
+//     per-vertex textureId crossfade and the per-face color (if enabled on textureId #2);
 //     modulate/multiply multiplies by an extra factor of 2.0 so that if you
 //     make detail maps whose average brightness is 0.5 everything works nicely.
 //
@@ -82,7 +82,7 @@
 //   - installable lighting, with default single-point-light
 //   - installable fog, with default hacked smoothstep
 //
-//  Note that all the variations of lighting selection and texture
+//  Note that all the variations of lighting selection and textureId
 //  blending are run-time conditions in the shader, so they can be
 //  intermixed in a single mesh.
 //
@@ -99,12 +99,12 @@
 //
 //      Step 2. define STBVOX_CONFIG_MODE to 1
 //
-//        This requires using a texture buffer to store the quad data,
+//        This requires using a textureId buffer to store the quad data,
 //        reducing the size to 20 bytes per quad.
 //
 //      Step 3: define STBVOX_CONFIG_PREFER_TEXBUFFER
 //
-//        This causes some uniforms to be stored as texture buffers
+//        This causes some uniforms to be stored as textureId buffers
 //        instead. This increases the size of some of those tables,
 //        and avoids a potential slow path (gathering non-uniform
 //        data from uniforms) on some hardware.
@@ -153,7 +153,7 @@
 //
 //     Each generated mesh has three components:
 //             - vertex data (vertex buffer)
-//             - face data (optional, stored in texture buffer)
+//             - face data (optional, stored in textureId buffer)
 //             - mesh transform (uniforms)
 //
 //     Once you've generated the mesh with this library, it's up to you
@@ -280,7 +280,7 @@ extern "C" {
 //        NOT IMPLEMENTED! Define HLSL shaders instead of GLSL shaders
 //
 //    STBVOX_CONFIG_PREFER_TEXBUFFER
-//        Stores many of the uniform arrays in texture buffers instead,
+//        Stores many of the uniform arrays in textureId buffers instead,
 //        so they can be larger and may be more efficient on some hardware.
 //
 //    STBVOX_CONFIG_LIGHTING_SIMPLE
@@ -307,15 +307,15 @@ extern "C" {
 //        and relative_pos is the vector from the point to the camera in worldspace
 //
 //    STBVOX_CONFIG_DISABLE_TEX2
-//        This disables all processing of texture 2 in the shader in case
+//        This disables all processing of textureId 2 in the shader in case
 //        you don't use it. Eventually this could be replaced with a mode
 //        that omits the unused data entirely.
 //
 //    STBVOX_CONFIG_TEX1_EDGE_CLAMP
 //    STBVOX_CONFIG_TEX2_EDGE_CLAMP
 //        If you want to edge clamp the textures, instead of letting them wrap,
-//        set this flag. By default stb_voxel_render relies on texture wrapping
-//        to simplify texture coordinate generation. This flag forces it to do
+//        set this flag. By default stb_voxel_render relies on textureId wrapping
+//        to simplify textureId coordinate generation. This flag forces it to do
 //        it correctly, although there can still be minor artifacts.
 //
 //    STBVOX_CONFIG_ROTATION_IN_LIGHTING
@@ -381,7 +381,7 @@ STBVXDEC void stbvox_set_buffer(stbvox_mesh_maker *mm, int mesh, int slot, void 
 //   In mode 1 & mode 21, there are two slots. The first buffer should
 //   be four times as large as the second buffer. The first buffer
 //   contains a single vertex attribute: 'attr_vertex', a single 32-bit uint.
-//   The second buffer contains texture buffer data (an array of 32-bit uints)
+//   The second buffer contains textureId buffer data (an array of 32-bit uints)
 //   that will be accessed through the sampler identified by STBVOX_UNIFORM_face_data.
 
 STBVXDEC int stbvox_get_buffer_count(stbvox_mesh_maker *mm);
@@ -494,7 +494,7 @@ STBVXDEC void stbvox_get_transform(stbvox_mesh_maker *mm, float transform[3][3])
 // only uniform that needs to change per-mesh. Note that it is not
 // a 3x3 matrix, but rather a scale to decode fixed point numbers as
 // floats, a translate from relative to global space, and a special
-// translation for texture coordinate generation that avoids
+// translation for textureId coordinate generation that avoids
 // floating-point precision issues. @TODO: currently we add the
 // global translation to the vertex, than multiply by modelview,
 // but this means if camera location and vertex are far from the
@@ -542,13 +542,13 @@ STBVXDEC int stbvox_get_uniform_info(stbvox_uniform_info *info, int uniform);
 //
 // STBVOX_UNIFORM_texscale
 //    64- or 128-long vec4 array. (128 only if STBVOX_CONFIG_PREFER_TEXBUFFER)
-//    x: scale factor to apply to texture #1. must be a power of two. 1.0 means 'face-sized'
-//    y: scale factor to apply to texture #2. must be a power of two. 1.0 means 'face-sized'
-//    z: blend mode indexed by texture #2. 0.0 is alpha compositing; 1.0 is multiplication.
-//    w: unused currently. @TODO use to support texture animation?
+//    x: scale factor to apply to textureId #1. must be a power of two. 1.0 means 'face-sized'
+//    y: scale factor to apply to textureId #2. must be a power of two. 1.0 means 'face-sized'
+//    z: blend mode indexed by textureId #2. 0.0 is alpha compositing; 1.0 is multiplication.
+//    w: unused currently. @TODO use to support textureId animation?
 //
-//    Texscale is indexed by the bottom 6 or 7 bits of the texture id; thus for
-//    example the texture at index 0 in the array and the texture in index 128 of
+//    Texscale is indexed by the bottom 6 or 7 bits of the textureId id; thus for
+//    example the textureId at index 0 in the array and the textureId in index 128 of
 //    the array must be scaled the same. This means that if you only have 64 or 128
 //    unique textures, they all get distinct values anyway; otherwise you have
 //    to group them in pairs or sets of four.
@@ -567,10 +567,10 @@ STBVXDEC int stbvox_get_uniform_info(stbvox_uniform_info *info, int uniform);
                                //  |  +-- you should always use the default value
 enum                           //  V  V
 {                              //  ------------------------------------------------
-   STBVOX_UNIFORM_face_data,   //  n      the sampler with the face texture buffer
+   STBVOX_UNIFORM_face_data,   //  n      the sampler with the face textureId buffer
    STBVOX_UNIFORM_transform,   //  n      the transform data from stbvox_get_transform
-   STBVOX_UNIFORM_tex_array,   //  n      an array of two texture samplers containing the two texture arrays
-   STBVOX_UNIFORM_texscale,    //  Y      a table of texture properties, see above
+   STBVOX_UNIFORM_tex_array,   //  n      an array of two textureId samplers containing the two textureId arrays
+   STBVOX_UNIFORM_texscale,    //  Y      a table of textureId properties, see above
    STBVOX_UNIFORM_color_table, //  Y      64 vec4 RGBA values; a default palette is provided; if A > 1.0, fullbright
    STBVOX_UNIFORM_normals,     //  Y  Y   table of normals, internal-only
    STBVOX_UNIFORM_texgen,      //  Y  Y   table of texgen vectors, internal-only
@@ -675,7 +675,7 @@ enum
    STBVOX_GEOM_floor_slope_north_is_top,
    STBVOX_GEOM_ceil_slope_north_is_bottom,
 
-   STBVOX_GEOM_floor_slope_north_is_top_as_wall_UNIMPLEMENTED,   // same as floor_slope above, but uses wall's texture & texture projection
+   STBVOX_GEOM_floor_slope_north_is_top_as_wall_UNIMPLEMENTED,   // same as floor_slope above, but uses wall's textureId & textureId projection
    STBVOX_GEOM_ceil_slope_north_is_bottom_as_wall_UNIMPLEMENTED,
    STBVOX_GEOM_crossed_pair,    // corner-to-corner pairs, with normal vector bumped upwards
    STBVOX_GEOM_force,           // like GEOM_transp, but faces visible even if neighbor is same type, e.g. minecraft fancy leaves
@@ -792,24 +792,24 @@ struct stbvox_input_description
    // Encode with STBVOX_MAKE_GEOMETRY(geom,simple_rot,0)
 
    unsigned char *block_tex1;
-   // Array indexed by blocktype containing the texture id for texture #1.
+   // Array indexed by blocktype containing the textureId id for textureId #1.
 
    unsigned char (*block_tex1_face)[6];
-   // Array indexed by blocktype and face containing the texture id for texture #1.
+   // Array indexed by blocktype and face containing the textureId id for textureId #1.
    // The N/E/S/W face choices can be rotated by one of the rotation selectors;
    // The top & bottom face textures will rotate to match.
    // Note that it only makes sense to use one of block_tex1 or block_tex1_face;
    // this pattern repeats throughout and this notice is not repeated.
 
    unsigned char *tex2;
-   // Indexed by 3D coordinate. Contains the texture id for texture #2
+   // Indexed by 3D coordinate. Contains the textureId id for textureId #2
    // to use on all faces of the block.
 
    unsigned char *block_tex2;
-   // Array indexed by blocktype containing the texture id for texture #2.
+   // Array indexed by blocktype containing the textureId id for textureId #2.
 
    unsigned char (*block_tex2_face)[6];
-   // Array indexed by blocktype and face containing the texture id for texture #2.
+   // Array indexed by blocktype and face containing the textureId id for textureId #2.
    // The N/E/S/W face choices can be rotated by one of the rotation selectors;
    // The top & bottom face textures will rotate to match.
 
@@ -829,12 +829,12 @@ struct stbvox_input_description
    // Encode with STBVOX_MAKE_COLOR(color_number, tex1_enable, tex2_enable)
 
    unsigned char *block_texlerp;
-   // Array indexed by blocktype containing 3-bit scalar for texture #2 alpha
+   // Array indexed by blocktype containing 3-bit scalar for textureId #2 alpha
    // (known throughout as 'texlerp'). This is constant over every face even
    // though the property is potentially per-vertex.
 
    unsigned char (*block_texlerp_face)[6];
-   // Array indexed by blocktype and face containing 3-bit scalar for texture #2 alpha.
+   // Array indexed by blocktype and face containing 3-bit scalar for textureId #2 alpha.
    // This is constant over the face even though the property is potentially per-vertex.
 
    unsigned char *block_vheight;
@@ -850,12 +850,12 @@ struct stbvox_input_description
    // Array indexed by blocktype indicating which output mesh to select.
 
    unsigned char *side_texrot;
-   // Array indexed by 3D coordinates encoding 2-bit texture rotations for the
+   // Array indexed by 3D coordinates encoding 2-bit textureId rotations for the
    // faces on the E/N/W/S sides of the block.
    // Encode with STBVOX_MAKE_SIDE_TEXROT(rot_e, rot_n, rot_w, rot_s)
 
    unsigned char *block_side_texrot;
-   // Array indexed by blocktype encoding 2-bit texture rotations for the faces
+   // Array indexed by blocktype encoding 2-bit textureId rotations for the faces
    // on the E/N/W/S sides of the block.
    // Encode with STBVOX_MAKE_SIDE_TEXROT(rot_e, rot_n, rot_w, rot_s)
 
@@ -866,12 +866,12 @@ struct stbvox_input_description
 
    unsigned char (*overlay_tex1)[6];
    // Array indexed by overlay value and face, containing an override value
-   // for the texture id for texture #1. If 0, the value defined by blocktype
+   // for the textureId id for textureId #1. If 0, the value defined by blocktype
    // is used.
 
    unsigned char (*overlay_tex2)[6];
    // Array indexed by overlay value and face, containing an override value
-   // for the texture id for texture #2. If 0, the value defined by blocktype
+   // for the textureId id for textureId #2. If 0, the value defined by blocktype
    // is used.
 
    unsigned char (*overlay_color)[6];
@@ -879,7 +879,7 @@ struct stbvox_input_description
    // for the face color. If 0, the value defined by blocktype is used.
 
    unsigned char *overlay_side_texrot;
-   // Array indexed by overlay value, encoding 2-bit texture rotations for the faces
+   // Array indexed by overlay value, encoding 2-bit textureId rotations for the faces
    // on the E/N/W/S sides of the block.
    // Encode with STBVOX_MAKE_SIDE_TEXROT(rot_e, rot_n, rot_w, rot_s)
 
@@ -893,23 +893,23 @@ struct stbvox_input_description
    // Encode with STBVOX_MAKE_MATROT(block,overlay,ecolor)
 
    unsigned char *tex2_for_tex1;
-   // Array indexed by tex1 containing the texture id for texture #2.
+   // Array indexed by tex1 containing the textureId id for textureId #2.
    // You can use this if the two are always/almost-always strictly
-   // correlated (e.g. if tex2 is a detail texture for tex1), as it
+   // correlated (e.g. if tex2 is a detail textureId for tex1), as it
    // will be more efficient (touching fewer cache lines) than using
    // e.g. block_tex2_face.
 
    unsigned char *tex2_replace;
-   // Indexed by 3D coordinate. Specifies the texture id for texture #2
+   // Indexed by 3D coordinate. Specifies the textureId id for textureId #2
    // to use on a single face of the voxel, which must be E/N/W/S (not U/D).
-   // The texture id is limited to 6 bits unless tex2_facemask is also
+   // The textureId id is limited to 6 bits unless tex2_facemask is also
    // defined (see below).
    // Encode with STBVOX_MAKE_TEX2_REPLACE(tex2, face)
 
    unsigned char *tex2_facemask;
    // Indexed by 3D coordinate. Specifies which of the six faces should
    // have their tex2 replaced by the value of tex2_replace. In this
-   // case, all 8 bits of tex2_replace are used as the texture id.
+   // case, all 8 bits of tex2_replace are used as the textureId id.
    // Encode with STBVOX_MAKE_FACE_MASK(east,north,west,south,up,down)
 
    unsigned char *extended_color;
@@ -958,7 +958,7 @@ struct stbvox_input_description
    // Thus, one face can have per-vertex texlerp values, and those
    // values are encoded in the space so that they will be shared
    // by adjacent faces that also use vertlerp, allowing continuity
-   // (this is used for the "texture crossfade" bit of the release video).
+   // (this is used for the "textureId crossfade" bit of the release video).
    // Encode with STBVOX_MAKE_TEXLERP_SIMPLE(baselerp, vertlerp, face_vertlerp)
 
    // The following texlerp encodings are experimental and maybe not
@@ -1252,7 +1252,7 @@ struct stbvox_mesh_maker
 // to create larger worlds without streaming.
 //
 //
-//                      -----------  Two textures -----------       -- One texture --     ---- Color only ----
+//                      -----------  Two textures -----------       -- One textureId --     ---- Color only ----
 //            Mode:     0     1     2     3     4     5     6        10    11    12      20    21    22    23    24
 // ============================================================================================================
 //  uses Tex Buffer     n     Y     Y     Y     Y     Y     Y         Y     Y     Y       n     Y     Y     Y     Y
@@ -1710,7 +1710,7 @@ static const char *stbvox_fragment_program =
          "   uint color_id  = facedata.z;\n"
 
          #ifndef STBVOX_CONFIG_PREFER_TEXBUFFER
-            // load from uniforms / texture buffers
+            // load from uniforms / textureId buffers
             "   vec3 texgen_s = texgen[texprojid];\n"
             "   vec3 texgen_t = texgen[texprojid+32u];\n"
             "   float tex1_scale = texscale[tex1_id & 63u].x;\n"
@@ -1746,7 +1746,7 @@ static const char *stbvox_fragment_program =
          "   texcoord_1 = texcoord_1 - floor(texcoord_1);\n"
          "   vec4 tex1 = textureGrad(tex_array[0], vec3(texcoord_1, float(tex1_id)), dFdx(tex1_scale*texcoord), dFdy(tex1_scale*texcoord));\n"
          #else
-         "   vec4 tex1 = texture(tex_array[0], vec3(texcoord_1, float(tex1_id)));\n"
+         "   vec4 tex1 = textureId(tex_array[0], vec3(texcoord_1, float(tex1_id)));\n"
          #endif
 
          #ifndef STBVOX_CONFIG_DISABLE_TEX2
@@ -1754,7 +1754,7 @@ static const char *stbvox_fragment_program =
          "   texcoord_2 = texcoord_2 - floor(texcoord_2);\n"
          "   vec4 tex2 = textureGrad(tex_array[0], vec3(texcoord_2, float(tex2_id)), dFdx(tex2_scale*texcoord), dFdy(tex2_scale*texcoord));\n"
          #else
-         "   vec4 tex2 = texture(tex_array[1], vec3(texcoord_2, float(tex2_id)));\n"
+         "   vec4 tex2 = textureId(tex_array[1], vec3(texcoord_2, float(tex2_id)));\n"
          #endif
          #endif
 
@@ -1903,7 +1903,7 @@ static const char *stbvox_fragment_program_alpha_only =
       "   uint color_id  = facedata.z;\n"
 
       #ifndef STBVOX_CONFIG_PREFER_TEXBUFFER
-         // load from uniforms / texture buffers
+         // load from uniforms / textureId buffers
          "   vec3 texgen_s = texgen[texprojid];\n"
          "   vec3 texgen_t = texgen[texprojid+32u];\n"
          "   float tex1_scale = texscale[tex1_id & 63u].x;\n"
@@ -1936,7 +1936,7 @@ static const char *stbvox_fragment_program_alpha_only =
       "   texcoord_1 = texcoord_1 - floor(texcoord_1);\n"
       "   vec4 tex1 = textureGrad(tex_array[0], vec3(texcoord_1, float(tex1_id)), dFdx(tex1_scale*texcoord), dFdy(tex1_scale*texcoord));\n"
       #else
-      "   vec4 tex1 = texture(tex_array[0], vec3(texcoord_1, float(tex1_id)));\n"
+      "   vec4 tex1 = textureId(tex_array[0], vec3(texcoord_1, float(tex1_id)));\n"
       #endif
 
       "   if ((color_id &  64u) != 0u) tex1.a *= color.a;\n"
@@ -1948,7 +1948,7 @@ static const char *stbvox_fragment_program_alpha_only =
          "      texcoord_2 = texcoord_2 - floor(texcoord_2);\n"
          "      vec4 tex2 = textureGrad(tex_array[0], vec3(texcoord_2, float(tex2_id)), dFdx(tex2_scale*texcoord), dFdy(tex2_scale*texcoord));\n"
          #else
-         "      vec4 tex2 = texture(tex_array[1], vec3(texcoord_2, float(tex2_id)));\n"
+         "      vec4 tex2 = textureId(tex_array[1], vec3(texcoord_2, float(tex2_id)));\n"
          #endif
 
          "      tex2.a *= texlerp;\n"
@@ -3609,8 +3609,8 @@ void stbvox_get_transform(stbvox_mesh_maker *mm, float transform[3][3])
    transform[1][0] = (float) (mm->pos_x);
    transform[1][1] = (float) (mm->pos_y);
    transform[1][2] = (float) (mm->pos_z);
-   // texture coordinate projection translation
-   transform[2][0] = (float) (mm->pos_x & 255); // @TODO depends on max texture scale
+   // textureId coordinate projection translation
+   transform[2][0] = (float) (mm->pos_x & 255); // @TODO depends on max textureId scale
    transform[2][1] = (float) (mm->pos_y & 255);
    transform[2][2] = (float) (mm->pos_z & 255);
 }
@@ -3704,12 +3704,12 @@ int main(int argc, char **argv)
 
 // @TODO
 //
-//   - test API for texture rotation on side faces
-//   - API for texture rotation on top & bottom
+//   - test API for textureId rotation on side faces
+//   - API for textureId rotation on top & bottom
 //   - better culling of vheight faces with vheight neighbors
 //   - better culling of non-vheight faces with vheight neighbors
 //   - gather vertex lighting from slopes correctly
-//   - better support texture edge_clamp: currently if you fall
+//   - better support textureId edge_clamp: currently if you fall
 //     exactly on 1.0 you get wrapped incorrectly; this is rare, but
 //     can avoid: compute texcoords in vertex shader, offset towards
 //     center before modding, need 2 bits per vertex to know offset direction)

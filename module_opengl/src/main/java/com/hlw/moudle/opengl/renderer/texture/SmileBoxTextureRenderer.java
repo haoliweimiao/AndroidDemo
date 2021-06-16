@@ -18,7 +18,7 @@ public class SmileBoxTextureRenderer implements GLSurfaceView.Renderer {
     private Context context;
 
     private final float VERTICES[] = {
-            // positions          // colors           // texture coords
+            // positions          // colors           // textureId coords
             0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right
             0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
             -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
@@ -100,7 +100,7 @@ public class SmileBoxTextureRenderer implements GLSurfaceView.Renderer {
         GLES30.glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT);
 
-        // bind textures on corresponding texture units
+        // bind textures on corresponding textureId units
         GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, mTextureId1);
         GLES30.glUniform1i(uTextureId1, 0);

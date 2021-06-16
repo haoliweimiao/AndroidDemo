@@ -129,7 +129,7 @@ GLuint linkProgram(const GLuint *vertexShader, const GLuint *fragmentShader, GLi
 }
 
 ///
-// Load texture from disk
+// Load textureId from disk
 //
 GLuint loadTexture(void *ioContext, char *fileName) {
     int width, height;
@@ -157,8 +157,25 @@ GLuint loadTexture(void *ioContext, char *fileName) {
     return texId;
 }
 
+unsigned char *
+loadImageData(AAssetManager *mgr, const char *filename, int width[],
+              int height[], int nrChannels[]) {
+    // 打开 Asset 文件夹下的文件
+    AAsset *pathAsset = AAssetManager_open(mgr, filename, AASSET_MODE_UNKNOWN);
+    // 得到文件的长度
+    off_t assetLength = AAsset_getLength(pathAsset);
+    // 得到文件对应的 Buffer
+    unsigned char *fileData = (unsigned char *) AAsset_getBuffer(pathAsset);
+    // stb_image 的方法，从内存中加载图片
+    unsigned char *buffer = stbi_load_from_memory(fileData, assetLength, width, height,
+                                                  nrChannels, 0);
+    esLogMessage("loadImageData length :%d", strlen(buffer));
+    return buffer;
+}
+
+
 /**
- * Load texture from assets file
+ * Load textureId from assets file
  */
 GLuint loadTextureByMgr(AAssetManager *mgr, const char *filename) {
     int width, height, nrChannels;
@@ -187,11 +204,11 @@ GLuint loadTextureByMgr(AAssetManager *mgr, const char *filename) {
 //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    // set the texture wrapping parameters
+    // set the textureId wrapping parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S,
-                    GL_REPEAT);    // set texture wrapping to GL_REPEAT (default wrapping method)
+                    GL_REPEAT);    // set textureId wrapping to GL_REPEAT (default wrapping method)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // set texture filtering parameters
+    // set textureId filtering parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 

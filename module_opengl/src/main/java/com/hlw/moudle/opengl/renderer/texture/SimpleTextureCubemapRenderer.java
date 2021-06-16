@@ -72,10 +72,10 @@ public class SimpleTextureCubemapRenderer implements GLSurfaceView.Renderer {
 
         ByteBuffer cubePixels = ByteBuffer.allocateDirect(3);
 
-        // Generate a texture object
+        // Generate a textureId object
         GLES30.glGenTextures(1, textureId, 0);
 
-        // Bind the texture object
+        // Bind the textureId object
         GLES30.glBindTexture(GLES30.GL_TEXTURE_CUBE_MAP, textureId[0]);
 
         // Load the cube face - Positive X
@@ -140,7 +140,7 @@ public class SimpleTextureCubemapRenderer implements GLSurfaceView.Renderer {
                         "uniform samplerCube s_texture;                      \n" +
                         "void main()                                         \n" +
                         "{                                                   \n" +
-                        "  outColor = texture( s_texture, v_normal );		 \n" +
+                        "  outColor = textureId( s_texture, v_normal );		 \n" +
                         "}                                                   \n";
 
         // Load the shaders and get a linked program object
@@ -149,7 +149,7 @@ public class SimpleTextureCubemapRenderer implements GLSurfaceView.Renderer {
         // Get the sampler location
         mSamplerLoc = GLES30.glGetUniformLocation(mProgramObject, "s_texture");
 
-        // Load the texture
+        // Load the textureId
         mTextureId = createSimpleTextureCubemap();
 
         // Generate the vertex data
@@ -177,7 +177,7 @@ public class SimpleTextureCubemapRenderer implements GLSurfaceView.Renderer {
         // Load the vertex position
         GLES30.glVertexAttribPointer(0, 3, GLES30.GL_FLOAT,
                 false, 0, mSphere.getVertices());
-        // Load the texture coordinate
+        // Load the textureId coordinate
 
         GLES30.glVertexAttribPointer(1, 3, GLES30.GL_FLOAT,
                 false, 0, mSphere.getNormals());
@@ -185,11 +185,11 @@ public class SimpleTextureCubemapRenderer implements GLSurfaceView.Renderer {
         GLES30.glEnableVertexAttribArray(0);
         GLES30.glEnableVertexAttribArray(1);
 
-        // Bind the texture
+        // Bind the textureId
         GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
         GLES30.glBindTexture(GLES30.GL_TEXTURE_CUBE_MAP, mTextureId);
 
-        // Set the sampler texture unit to 0
+        // Set the sampler textureId unit to 0
         GLES30.glUniform1i(mSamplerLoc, 0);
 
         GLES30.glDrawElements(GLES30.GL_TRIANGLES, mSphere.getNumIndices(), GLES30.GL_UNSIGNED_SHORT, mSphere.getIndices());

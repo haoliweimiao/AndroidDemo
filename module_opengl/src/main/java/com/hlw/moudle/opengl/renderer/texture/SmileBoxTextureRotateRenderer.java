@@ -36,7 +36,7 @@ import static android.opengl.GLES30.glVertexAttribPointer;
 public class SmileBoxTextureRotateRenderer implements GLSurfaceView.Renderer {
 
     private final float VERTICES[] = {
-            // positions     // texture coords
+            // positions     // textureId coords
             0.5f, 0.5f, 0.0f, 1.0f, 1.0f, // top right
             0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // bottom right
             -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left

@@ -31,6 +31,10 @@ void readAssetsFile(AAssetManager *mgr, const char *filename, char *ret);
 
 GLuint loadTextureByMgr(AAssetManager *mgr, const char *filename);
 
+unsigned char *
+loadImageData(AAssetManager *mgr, const char *filename, int width[],
+              int height[], int nrChannels[]);
+
 #endif // ANDROID
 
 

@@ -21,7 +21,7 @@ public class ImageTextureRenderer implements GLSurfaceView.Renderer {
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     private final float[] vertices = {
-            // positions          // colors           // texture coords
+            // positions          // colors           // textureId coords
             0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right
             0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
             -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
@@ -76,7 +76,7 @@ public class ImageTextureRenderer implements GLSurfaceView.Renderer {
         // color attribute
         GLES30.glVertexAttribPointer(1, 3, GL_FLOAT, false, 8 * 4, 3 * 4);
         glEnableVertexAttribArray(1);
-        // texture coord attribute
+        // textureId coord attribute
         GLES30.glVertexAttribPointer(2, 2, GL_FLOAT, false, 8 * 4, 6 * 4);
         glEnableVertexAttribArray(2);
 
