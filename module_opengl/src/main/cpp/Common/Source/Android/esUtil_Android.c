@@ -39,9 +39,11 @@
 //
 #include <android/log.h>
 #include <android_native_app_glue.h>
+#include <android/input.h>
 #include <time.h>
 #include <string.h>
 #include "esUtil.h"
+#include "esConstants.h"
 
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "esUtil", __VA_ARGS__))
 
@@ -55,12 +57,15 @@
 ///
 // GetCurrentTime()
 //
-static float GetCurrentTime()
-{
-   struct timespec clockRealTime;
-   clock_gettime ( CLOCK_MONOTONIC, &clockRealTime );
-   double curTimeInSeconds = clockRealTime.tv_sec + ( double ) clockRealTime.tv_nsec / 1e9;
-   return ( float ) curTimeInSeconds;
+static float GetCurrentTime() {
+    struct timespec clockRealTime;
+    clock_gettime(CLOCK_MONOTONIC, &clockRealTime);
+    double curTimeInSeconds = clockRealTime.tv_sec + (double) clockRealTime.tv_nsec / 1e9;
+    return (float) curTimeInSeconds;
+}
+
+static void esKeyEvent(ESContext *esContext, unsigned char key, int i1, int i2) {
+
 }
 
 ///
@@ -68,53 +73,48 @@ static float GetCurrentTime()
 //
 //    Android callback for onAppCmd
 //
-static void HandleCommand ( struct android_app *pApp, int32_t cmd )
-{
-   ESContext *esContext = ( ESContext * ) pApp->userData;
+static void HandleCommand(struct android_app *pApp, int32_t cmd) {
+    ESContext *esContext = (ESContext *) pApp->userData;
 
-   switch ( cmd )
-   {
-      case APP_CMD_SAVE_STATE:
-         // the OS asked us to save the state of the app
-         break;
+    switch (cmd) {
+        case APP_CMD_SAVE_STATE:
+            // the OS asked us to save the state of the app
+            break;
 
-      case APP_CMD_INIT_WINDOW:
+        case APP_CMD_INIT_WINDOW:
 
-         esContext->eglNativeDisplay = EGL_DEFAULT_DISPLAY;
-         esContext->eglNativeWindow = pApp->window;
+            esContext->eglNativeDisplay = EGL_DEFAULT_DISPLAY;
+            esContext->eglNativeWindow = pApp->window;
 
-         // Call the main entrypoint for the app
-         if ( esMain ( esContext ) != GL_TRUE )
-         {
-            exit ( 0 ); //@TEMP better way to exit?
-         }
+            // Call the main entrypoint for the app
+            if (esMain(esContext) != GL_TRUE) {
+                exit(0); //@TEMP better way to exit?
+            }
 
-         break;
+            break;
 
-      case APP_CMD_TERM_WINDOW:
+        case APP_CMD_TERM_WINDOW:
 
-         // Cleanup on shutdown
-         if ( esContext->shutdownFunc != NULL )
-         {
-            esContext->shutdownFunc ( esContext );
-         }
+            // Cleanup on shutdown
+            if (esContext->shutdownFunc != NULL) {
+                esContext->shutdownFunc(esContext);
+            }
 
-         if ( esContext->userData != NULL )
-         {
-            free ( esContext->userData );
-         }
+            if (esContext->userData != NULL) {
+                free(esContext->userData);
+            }
 
-         memset ( esContext, 0, sizeof ( ESContext ) );
-         break;
+            memset(esContext, 0, sizeof(ESContext));
+            break;
 
-      case APP_CMD_LOST_FOCUS:
-         // if the app lost focus, avoid unnecessary processing (like monitoring the accelerometer)
-         break;
+        case APP_CMD_LOST_FOCUS:
+            // if the app lost focus, avoid unnecessary processing (like monitoring the accelerometer)
+            break;
 
-      case APP_CMD_GAINED_FOCUS:
-         // bring back a certain functionality, like monitoring the accelerometer
-         break;
-   }
+        case APP_CMD_GAINED_FOCUS:
+            // bring back a certain functionality, like monitoring the accelerometer
+            break;
+    }
 }
 
 ///
@@ -128,6 +128,18 @@ static void HandleCommand ( struct android_app *pApp, int32_t cmd )
 //  Public Functions
 //
 //
+static int32_t android_key_event(struct android_app *app, AInputEvent *event) {
+    if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_KEY) {
+        int32_t key_val = AKeyEvent_getKeyCode(event);
+        LOGI("Received key event: %d\n", key_val);
+        if ((key_val >= AKEYCODE_A && key_val <= AKEYCODE_Z)) {
+            ESContext *esContext = (ESContext *) app->userData;
+            esContext->keyFunc(esContext, (int) key_val, 0, 0);
+            return ANDROID_KEY_EVENT_HANDLED;
+        }
+    }
+    return ANDROID_KEY_EVENT_DEFAULT;
+}
 
 ///
 //  android_main()
@@ -148,6 +160,7 @@ void android_main(struct android_app *pApp) {
 
     pApp->onAppCmd = HandleCommand;
     pApp->userData = &esContext;
+    pApp->onInputEvent = android_key_event;
 
     lastTime = GetCurrentTime();
 
@@ -168,26 +181,23 @@ void android_main(struct android_app *pApp) {
 
         }
 
-      if ( esContext.eglNativeWindow == NULL )
-      {
-         continue;
-      }
+        if (esContext.eglNativeWindow == NULL) {
+            continue;
+        }
 
-      // Call app update function
-      if ( esContext.updateFunc != NULL )
-      {
-         float curTime = GetCurrentTime();
-         float deltaTime =  ( curTime - lastTime );
-         lastTime = curTime;
-         esContext.updateFunc ( &esContext, deltaTime );
-      }
+        // Call app update function
+        if (esContext.updateFunc != NULL) {
+            float curTime = GetCurrentTime();
+            float deltaTime = (curTime - lastTime);
+            lastTime = curTime;
+            esContext.updateFunc(&esContext, deltaTime);
+        }
 
-      if ( esContext.drawFunc != NULL )
-      {
-         esContext.drawFunc ( &esContext );
-         eglSwapBuffers ( esContext.eglDisplay, esContext.eglSurface );
-      }
-   }
+        if (esContext.drawFunc != NULL) {
+            esContext.drawFunc(&esContext);
+            eglSwapBuffers(esContext.eglDisplay, esContext.eglSurface);
+        }
+    }
 }
 
 
@@ -196,9 +206,8 @@ void android_main(struct android_app *pApp) {
 //
 //      Create Win32 instance and window
 //
-GLboolean WinCreate ( ESContext *esContext, const char *title )
-{
-   // On Android, this does not need to do anything.  Everything happens from
-   // android_main()
-   return GL_TRUE;
+GLboolean WinCreate(ESContext *esContext, const char *title) {
+    // On Android, this does not need to do anything.  Everything happens from
+    // android_main()
+    return GL_TRUE;
 }
