@@ -52,6 +52,7 @@ add_library(
         SHARED
         LinkUtil.c
         OtherUtil.c
+        Noise3D.c
         DrawMain.cpp)
 
 find_library(
