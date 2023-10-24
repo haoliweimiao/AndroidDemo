@@ -1,6 +1,6 @@
 ext {
     android = [
-            codeVersion      : "1.0.74",
+            codeVersion      : "1.0.75",
             uiVersion        : "0.1.0",
             usbVersion       : "0.0.1",
             openglCodeVersion: "0.1.0",

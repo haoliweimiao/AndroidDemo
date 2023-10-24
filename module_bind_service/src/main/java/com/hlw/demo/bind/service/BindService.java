@@ -17,7 +17,7 @@ public class BindService extends Service {
     private static IAidlBind.Stub binder = new IAidlBind.Stub() {
         @Override
         public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat, double aDouble, String aString) throws RemoteException {
-
+            Log.i("!!!!!!", "Service execute basicTypes");
         }
     };
 
