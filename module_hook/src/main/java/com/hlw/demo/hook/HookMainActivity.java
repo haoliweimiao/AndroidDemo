@@ -46,10 +46,21 @@ public class HookMainActivity extends AppCompatActivity {
                 hookAMS();
 
                 hookApkMethod();
+
+                hookResource();
             }
         });
 
         requestSDCardPermission();
+    }
+
+    private void hookResource() {
+        DexClassLoader dexClassLoader = createDexClassLoader();
+        // 修改test_hook_string文本内容，打包推送至APK_PATH，再修改test_hook_string文本内容，运行APK，得到的是第一次打包的文本
+        // 说明resource已经被重定向了
+        ChangeApkContextWrapper contextWrapper = new ChangeApkContextWrapper(this, APK_PATH, dexClassLoader);
+        String msg = contextWrapper.getResources().getString(R.string.test_hook_string);
+        Log.i("!!!!!!", msg);
     }
 
     private void hookAMS() {
@@ -93,16 +104,7 @@ public class HookMainActivity extends AppCompatActivity {
     private static final String WHITE_LIST_FIELD_NAME = "mHookStrings";
 
     private void hookApkMethod() {
-        File root = new File(getApplication().getFilesDir(), "ManagerImplLoader");
-        File odexDir = new File(root, "10086");
-        odexDir.mkdirs();
-        // 需要把 module_hook 打包，并推送到 /sdcard/hook.apk
-        DexClassLoader dexClassLoader = new DexClassLoader(
-                "/sdcard/hook.apk",
-                odexDir.getAbsolutePath(),
-                null,
-                getClass().getClassLoader()
-        );
+        DexClassLoader dexClassLoader = createDexClassLoader();
 
         String[] mHookStrings = null;
         try {
@@ -119,5 +121,21 @@ public class HookMainActivity extends AppCompatActivity {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static final String APK_PATH = "/sdcard/hook.apk";
+
+    private DexClassLoader createDexClassLoader() {
+        File root = new File(getApplication().getFilesDir(), "ManagerImplLoader");
+        File odexDir = new File(root, "10086");
+        odexDir.mkdirs();
+        // 需要把 module_hook 打包，并推送到 /sdcard/hook.apk
+        DexClassLoader dexClassLoader = new DexClassLoader(
+                APK_PATH,
+                odexDir.getAbsolutePath(),
+                null,
+                getClass().getClassLoader()
+        );
+        return dexClassLoader;
     }
 }
