@@ -1,13 +1,13 @@
 ext {
     android = [
-            codeVersion      : "1.0.77",
+            codeVersion      : "1.0.78",
             uiVersion        : "0.1.0",
             usbVersion       : "0.0.1",
             openglCodeVersion: "0.1.0",
-            compileSdkVersion: 30,
-            buildToolsVersion: "30.0.2",
+            compileSdkVersion: 33,
+            buildToolsVersion: "33.0.2",
             minSdkVersion    : 22,
-            targetSdkVersion : 30,
+            targetSdkVersion : 33,
             javaVersion      : JavaVersion.VERSION_1_8,
     ]
 

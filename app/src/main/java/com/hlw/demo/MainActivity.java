@@ -7,10 +7,12 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.hlw.demo.activity.ViewListActivity;
+import com.hlw.demo.bluetooth.BleClientActivity;
+import com.hlw.demo.bluetooth.BleServerService;
 import com.hlw.demo.databinding.ActivityMainBinding;
 import com.hlw.demo.hook.HookMainActivity;
-import com.hlw.demo.util.LogUtils;
 import com.hlw.demo.ui.BaseActivity;
+import com.hlw.demo.util.LogUtils;
 
 import java.net.NetworkInterface;
 import java.util.Collections;
@@ -71,6 +73,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     protected void initListener() {
         getBinding().btnView.setOnClickListener(this);
         getBinding().btnHookDemo.setOnClickListener(this);
+        getBinding().btnBleServer.setOnClickListener(this);
+        getBinding().btnBleClient.setOnClickListener(this);
     }
 
     @Override
@@ -81,6 +85,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 break;
             case R.id.btn_hook_demo:
                 HookMainActivity.start(this);
+                break;
+            case R.id.btn_ble_server:
+                BleServerService.start(this);
+                break;
+            case R.id.btn_ble_client:
+                BleClientActivity.start(this);
                 break;
             default:
                 break;

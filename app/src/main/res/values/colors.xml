@@ -3,6 +3,18 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="background">#F5F7FA</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="divider">#E0E0E0</color>
+
+    <color name="primary">#3F51B5</color>
+    <color name="connect_button">#4CAF50</color>
+    <color name="disconnect_button">#F44336</color>
+
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+
+    <color name="white">#FFFFFF</color>
 
     <color name="hlw_ui_theme_bg_color">#F2F2F2</color>
     <color name="hlw_ui_color_bg_title">#ffffff</color>

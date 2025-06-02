@@ -8,6 +8,14 @@
         android:orientation="vertical"
         tools:context=".MainActivity">
 
+
+        <TextView
+            android:id="@+id/tv_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/digitalregular"
+            android:text="09:234" />
+
         <Button
             android:id="@+id/btn_view"
             android:layout_width="wrap_content"
@@ -20,12 +28,24 @@
             android:layout_height="wrap_content"
             android:text="hook demo" />
 
-        <TextView
-            android:id="@+id/tv_test"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/digitalregular"
-            android:text="09:234" />
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_ble_server"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BLE Server" />
+
+            <Button
+                android:id="@+id/btn_ble_client"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BLE Client" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </layout>
