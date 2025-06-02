@@ -1,14 +1,16 @@
 package com.hlw.demo;
 
 
-import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.view.View;
 import android.widget.Toast;
 
 import com.hlw.demo.activity.ViewListActivity;
 import com.hlw.demo.databinding.ActivityMainBinding;
+import com.hlw.demo.hook.HookMainActivity;
 import com.hlw.demo.util.LogUtils;
-import com.hlw.library.ui.BaseActivity;
+import com.hlw.demo.ui.BaseActivity;
 
 import java.net.NetworkInterface;
 import java.util.Collections;
@@ -33,10 +35,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
     @Override
     protected void initView() {
-//        AssetManager assetManager = getAssets();
-//        Typeface typeface = Typeface.createFromAsset(assetManager, "fonts/DIGITAL-Regular.ttf");
-//        getBinding().tvTest.setTypeface(typeface);
-//        Toast.makeText(MainActivity.this, NDKTest.hello(),Toast.LENGTH_SHORT).show();
+        AssetManager assetManager = getAssets();
+        Typeface typeface = Typeface.createFromAsset(assetManager, "fonts/DIGITAL-Regular.ttf");
+        getBinding().tvTest.setTypeface(typeface);
         Toast.makeText(MainActivity.this, getMacAddress("eth0"), Toast.LENGTH_SHORT).show();
     }
 
@@ -69,7 +70,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     @Override
     protected void initListener() {
         getBinding().btnView.setOnClickListener(this);
-        getBinding().btnOpenGlDemo.setOnClickListener(this);
+        getBinding().btnHookDemo.setOnClickListener(this);
     }
 
     @Override
@@ -78,11 +79,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             case R.id.btn_view:
                 ViewListActivity.start(this);
                 break;
-            case R.id.btn_open_gl_demo: {
-                Intent intent = new Intent("com.hlw.opengl.demo.intent");
-                startActivity(intent);
-            }
-            break;
+            case R.id.btn_hook_demo:
+                HookMainActivity.start(this);
+                break;
             default:
                 break;
         }
@@ -91,7 +90,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-//        long startActivityTime = PreferenceUtils.getLong(SPFiles.FILE_COMMON, SPKeys.COMMON_APP_START_TIME_LONG);
         long startActivityTime = ((DemoApplication) getApplication()).getStartApplicationTime();
         LogUtils.i(String.format("start application total time: %s ms", startActivityTime));
     }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AndroidDemo</string>
+    <string name="test_hook_string">test hook string</string>
 </resources>

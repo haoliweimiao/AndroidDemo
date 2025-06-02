@@ -9,7 +9,7 @@ import com.hlw.demo.databinding.ActivityLoadingDialogBinding;
 import com.hlw.demo.dialog.DownloadAskDialog;
 import com.hlw.demo.dialog.DownloadProcessDialog;
 import com.hlw.demo.dialog.LoadingDialogFragment;
-import com.hlw.library.ui.BaseActivity;
+import com.hlw.demo.ui.BaseActivity;
 
 /**
  * LoadingDialogShowActivity

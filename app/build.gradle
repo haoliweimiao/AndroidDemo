@@ -26,8 +26,9 @@ android {
         }
     }
 
-    dataBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding true
+        dataBinding true
     }
 
     compileOptions {
@@ -53,11 +54,6 @@ dependencies {
     // LeakCanary 检测内存泄漏
     // debugImplementation because LeakCanary should only run in debug builds.
     debugImplementation rootProject.ext.dependencies.leakcanary_android
-
     // 仅在debug包启用BlockCanary进行卡顿监控和提示的话，可以这么用
     debugImplementation rootProject.ext.dependencies.blockcanaryVersion
-
-    implementation project(':lib_loading')
-    implementation project(':lib_ui')
-    implementation project(':lib_usb')
 }

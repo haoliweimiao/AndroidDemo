@@ -6,7 +6,7 @@ import android.widget.ArrayAdapter;
 
 import com.hlw.demo.R;
 import com.hlw.demo.databinding.ActivityHorizontalDemoBinding;
-import com.hlw.library.ui.BaseActivity;
+import com.hlw.demo.ui.BaseActivity;
 
 /**
  * HorizontalDemoActivity

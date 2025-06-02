@@ -1,8 +1,2 @@
-include ':module_bind_service'
-include ':module_hook'
-include ':lib_usb'
-include ':lib_ui'
-include ':module_opengl'
-include ':lib_loading'
 include ':app'
 rootProject.name = 'AndroidDemo'

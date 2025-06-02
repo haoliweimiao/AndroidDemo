@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 
 import com.hlw.demo.R;
 import com.hlw.demo.databinding.DialogDownloadProcessBinding;
-import com.hlw.library.ui.BaseDialog;
+import com.hlw.demo.ui.BaseDialog;
 
 public class DownloadProcessDialog extends BaseDialog<DialogDownloadProcessBinding> {
 

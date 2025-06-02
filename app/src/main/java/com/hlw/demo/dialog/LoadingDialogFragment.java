@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.hlw.demo.R;
 import com.hlw.demo.databinding.DialogLoadingBinding;
-import com.hlw.library.ui.BaseDialogFragment;
+import com.hlw.demo.ui.BaseDialogFragment;
 
 public class LoadingDialogFragment extends BaseDialogFragment<DialogLoadingBinding> {
 

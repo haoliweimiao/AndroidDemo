@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.hlw.demo.R;
 import com.hlw.demo.databinding.ActivityViewListBinding;
-import com.hlw.library.ui.BaseActivity;
+import com.hlw.demo.ui.BaseActivity;
 
 /**
  * ViewListActivity

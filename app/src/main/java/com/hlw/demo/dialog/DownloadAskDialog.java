@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.hlw.demo.R;
-import com.hlw.library.ui.BaseDialog;
+import com.hlw.demo.ui.BaseDialog;
 
 public class DownloadAskDialog extends BaseDialog {
 

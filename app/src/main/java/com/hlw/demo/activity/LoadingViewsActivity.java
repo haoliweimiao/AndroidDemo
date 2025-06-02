@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hlw.demo.R;
 import com.hlw.demo.databinding.ActivityLoadingViewsBinding;
-import com.hlw.library.ui.BaseActivity;
-import com.hlw.loading.LoadingIndicatorView;
+import com.hlw.demo.ui.BaseActivity;
+import com.hlw.demo.ui.LoadingIndicatorView;
 
 /**
  * LoadingViewsActivity
