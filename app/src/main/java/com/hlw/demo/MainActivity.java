@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.hlw.demo.activity.ViewListActivity;
 import com.hlw.demo.bluetooth.BleClientActivity;
-import com.hlw.demo.bluetooth.BleServerService;
+import com.hlw.demo.bluetooth.BleServerActivity;
 import com.hlw.demo.databinding.ActivityMainBinding;
 import com.hlw.demo.hook.HookMainActivity;
 import com.hlw.demo.ui.BaseActivity;
@@ -87,7 +87,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 HookMainActivity.start(this);
                 break;
             case R.id.btn_ble_server:
-                BleServerService.start(this);
+//                BleServerService.start(this);
+                BleServerActivity.start(this);
                 break;
             case R.id.btn_ble_client:
                 BleClientActivity.start(this);

@@ -22,6 +22,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ParcelUuid;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.hlw.demo.R;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -212,6 +214,8 @@ public class BleClientActivity extends AppCompatActivity {
                 updateStatus("服务已发现");
                 // 设置通知
                 setupCharacteristicNotification();
+                checkGattPermission(gatt);
+//                checkGattPermissionWithReflection(gatt);
                 // 读取特征值
                 readCharacteristic();
             } else {
@@ -253,6 +257,61 @@ public class BleClientActivity extends AppCompatActivity {
                 }
             }
         }
+
+        private void checkGattPermission(BluetoothGatt gatt) {
+            Log.i(TAG, "start checkGattPermission");
+            // 遍历所有服务和特征，检查其权限
+            List<BluetoothGattService> services = gatt.getServices();
+            for (BluetoothGattService service : services) {
+                List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
+                for (BluetoothGattCharacteristic characteristic : characteristics) {
+                    int properties = characteristic.getProperties();
+                    int permissions = characteristic.getPermissions();
+                    Log.i(TAG, "Characteristic " + characteristic.getUuid() + " permissions:" + permissions);
+                    // 检查特征是否需要ENCRYPTED_MITM权限
+                    if ((permissions & BluetoothGattCharacteristic.PERMISSION_READ_ENCRYPTED_MITM) != 0 ||
+                        (permissions & BluetoothGattCharacteristic.PERMISSION_WRITE_ENCRYPTED_MITM) != 0) {
+                        Log.i(TAG, "Characteristic " + characteristic.getUuid() + " requires ENCRYPTED_MITM");
+                        // 此时可以判断服务端具有ENCRYPTED_MITM权限
+                        // 你可以在这里决定是否需要发起配对
+                    }
+                }
+            }
+        }
+
+
+//        private void checkGattPermissionWithReflection(BluetoothGatt gatt) {
+//            Log.i(TAG, "start checkGattPermissionWithReflection");
+//            List<BluetoothGattService> services = gatt.getServices();
+//            for (BluetoothGattService service : services) {
+//                List<BluetoothGattCharacteristic> characteristics = service.getCharacteristics();
+//                for (BluetoothGattCharacteristic characteristic : characteristics) {
+//                    int properties = characteristic.getProperties();
+//                    int permissions = characteristic.getPermissions();
+//
+//                    Log.i(TAG, "Characteristic " + characteristic.getUuid() +
+//                        " standard permissions:" + permissions);
+//
+//                    // 尝试使用反射获取更多信息
+//                    try {
+//                        Field field = characteristic.getClass().getDeclaredField("mDescriptorPermissions");
+//                        field.setAccessible(true);
+//                        int descriptorPermissions = (int) field.get(characteristic);
+//
+//                        Log.i(TAG, "Characteristic " + characteristic.getUuid() +
+//                            " descriptor permissions:" + descriptorPermissions);
+//                    } catch (Exception e) {
+//                        Log.e(TAG, "Failed to get descriptor permissions via reflection", e);
+//                    }
+//
+//                    // 检查标准权限
+//                    if ((permissions & BluetoothGattCharacteristic.PERMISSION_READ_ENCRYPTED_MITM) != 0 ||
+//                        (permissions & BluetoothGattCharacteristic.PERMISSION_WRITE_ENCRYPTED_MITM) != 0) {
+//                        Log.i(TAG, "Characteristic " + characteristic.getUuid() + " requires ENCRYPTED_MITM");
+//                    }
+//                }
+//            }
+//        }
     };
 
     // 设置特征通知
@@ -340,10 +399,12 @@ public class BleClientActivity extends AppCompatActivity {
 
     // UI更新方法
     private void updateStatus(String message) {
+        Log.i(TAG, message);
         runOnUiThread(() -> tvStatus.setText(message));
     }
 
     private void addMessage(String message) {
+        Log.i(TAG, message);
         runOnUiThread(() -> tvMessages.append(message + "\n"));
     }
 }

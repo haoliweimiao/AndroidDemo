@@ -24,7 +24,6 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class BleServerService extends Service {
 
@@ -40,18 +39,6 @@ public class BleServerService extends Service {
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothGattServer mGattServer;
-
-    // 自定义服务UUID
-    public static final UUID SERVICE_UUID = UUID.fromString("0000ABCD-0000-1000-8000-00805F9B34FB");
-
-    // 可读写特征（需要配对）
-    public static final UUID RW_CHARACTERISTIC_UUID = UUID.fromString("0000BEEF-0000-1000-8000-00805F9B34FB");
-
-    // 通知特征
-    public static final UUID NOTIFY_CHARACTERISTIC_UUID = UUID.fromString("0000DEAD-0000-1000-8000-00805F9B34FB");
-
-    // CCCD描述符UUID
-    private static final UUID CCCD_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
 
     @Override
     public void onCreate() {
@@ -84,26 +71,26 @@ public class BleServerService extends Service {
     private void setupGattService() {
         // 创建主服务
         BluetoothGattService service = new BluetoothGattService(
-            SERVICE_UUID,
+            BleConfig.SERVICE_UUID,
             BluetoothGattService.SERVICE_TYPE_PRIMARY);
 
         // 创建可读写特征（需要MITM配对）
         BluetoothGattCharacteristic rwChar = new BluetoothGattCharacteristic(
-            RW_CHARACTERISTIC_UUID,
+            BleConfig.RW_CHARACTERISTIC_UUID,
             BluetoothGattCharacteristic.PROPERTY_READ | BluetoothGattCharacteristic.PROPERTY_WRITE,
             BluetoothGattCharacteristic.PERMISSION_READ_ENCRYPTED_MITM |
                 BluetoothGattCharacteristic.PERMISSION_WRITE_ENCRYPTED_MITM);
 
         // 创建通知特征
         BluetoothGattCharacteristic notifyChar = new BluetoothGattCharacteristic(
-            NOTIFY_CHARACTERISTIC_UUID,
+            BleConfig.NOTIFY_CHARACTERISTIC_UUID,
             BluetoothGattCharacteristic.PROPERTY_READ |
                 BluetoothGattCharacteristic.PROPERTY_NOTIFY,
             BluetoothGattCharacteristic.PERMISSION_READ);
 
         // 添加CCCD描述符到通知特征
         BluetoothGattDescriptor cccd = new BluetoothGattDescriptor(
-            CCCD_UUID,
+            BleConfig.CCCD_UUID,
             BluetoothGattDescriptor.PERMISSION_READ | BluetoothGattDescriptor.PERMISSION_WRITE);
         notifyChar.addDescriptor(cccd);
 
@@ -133,21 +120,23 @@ public class BleServerService extends Service {
 
         AdvertiseData data = new AdvertiseData.Builder()
             .setIncludeDeviceName(true)
-            .addServiceUuid(new ParcelUuid(SERVICE_UUID))
+            .addServiceUuid(new ParcelUuid(BleConfig.SERVICE_UUID))
             .build();
 
-        advertiser.startAdvertising(settings, data, new AdvertiseCallback() {
-            @Override
-            public void onStartSuccess(AdvertiseSettings settingsInEffect) {
-                Log.i(TAG, "BLE广播已启动");
-            }
-
-            @Override
-            public void onStartFailure(int errorCode) {
-                Log.e(TAG, "启动广播失败，错误码: " + errorCode);
-            }
-        });
+        advertiser.startAdvertising(settings, data, mAdvertiseCallback);
     }
+
+    private final AdvertiseCallback mAdvertiseCallback = new AdvertiseCallback() {
+        @Override
+        public void onStartSuccess(AdvertiseSettings settingsInEffect) {
+            Log.i(TAG, "BLE广播已启动");
+        }
+
+        @Override
+        public void onStartFailure(int errorCode) {
+            Log.e(TAG, "启动广播失败，错误码: " + errorCode);
+        }
+    };
 
     // GATT服务器回调
     private final BluetoothGattServerCallback mGattServerCallback = new BluetoothGattServerCallback() {
@@ -169,7 +158,7 @@ public class BleServerService extends Service {
             super.onCharacteristicReadRequest(device, requestId, offset, characteristic);
 
             // 处理特征读取请求
-            if (characteristic.getUuid().equals(RW_CHARACTERISTIC_UUID)) {
+            if (characteristic.getUuid().equals(BleConfig.RW_CHARACTERISTIC_UUID)) {
                 // 返回当前时间作为示例数据
                 String value = "Time: " + new Date().toString();
                 characteristic.setValue(value.getBytes());
@@ -187,7 +176,7 @@ public class BleServerService extends Service {
                 preparedWrite, responseNeeded, offset, value);
 
             // 处理特征写入请求
-            if (characteristic.getUuid().equals(RW_CHARACTERISTIC_UUID)) {
+            if (characteristic.getUuid().equals(BleConfig.RW_CHARACTERISTIC_UUID)) {
                 String received = new String(value);
                 Log.i(TAG, "收到客户端数据: " + received);
 
@@ -209,7 +198,7 @@ public class BleServerService extends Service {
                 preparedWrite, responseNeeded, offset, value);
 
             // 处理CCCD写入（通知启用/禁用）
-            if (descriptor.getUuid().equals(CCCD_UUID)) {
+            if (descriptor.getUuid().equals(BleConfig.CCCD_UUID)) {
                 if (value.length == 2) {
                     int flag = (value[0] & 0xFF) | ((value[1] & 0xFF) << 8);
                     boolean enableNotify = (flag & 0x0001) != 0;
@@ -228,11 +217,11 @@ public class BleServerService extends Service {
 
     // 向客户端发送通知
     private void sendNotificationToClient(BluetoothDevice device, String message) {
-        BluetoothGattService service = mGattServer.getService(SERVICE_UUID);
+        BluetoothGattService service = mGattServer.getService(BleConfig.SERVICE_UUID);
         if (service == null) return;
 
         BluetoothGattCharacteristic notifyChar =
-            service.getCharacteristic(NOTIFY_CHARACTERISTIC_UUID);
+            service.getCharacteristic(BleConfig.NOTIFY_CHARACTERISTIC_UUID);
         if (notifyChar == null) return;
 
         notifyChar.setValue(message.getBytes());
@@ -260,9 +249,8 @@ public class BleServerService extends Service {
 
         if (mBluetoothAdapter != null) {
             BluetoothLeAdvertiser advertiser = mBluetoothAdapter.getBluetoothLeAdvertiser();
-            if (advertiser != null) {
-                advertiser.stopAdvertising(new AdvertiseCallback() {
-                });
+            if (advertiser != null && mAdvertiseCallback != null) {
+                advertiser.stopAdvertising(mAdvertiseCallback);
             }
         }
         Log.i(TAG, "BLE服务已停止");

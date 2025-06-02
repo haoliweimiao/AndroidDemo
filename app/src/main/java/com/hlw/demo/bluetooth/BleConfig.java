@@ -1,0 +1,11 @@
+package com.hlw.demo.bluetooth;
+
+import java.util.UUID;
+
+public interface BleConfig {
+    // 服务和特征 UUID（与之前的服务端一致）
+    UUID SERVICE_UUID = UUID.fromString("0000ABCD-0000-1000-8000-00805F9B34FB");
+    UUID RW_CHARACTERISTIC_UUID = UUID.fromString("0000BEEF-0000-1000-8000-00805F9B34FB");
+    UUID NOTIFY_CHARACTERISTIC_UUID = UUID.fromString("0000DEAD-0000-1000-8000-00805F9B34FB");
+    UUID CCCD_UUID = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
+}
